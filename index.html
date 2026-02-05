@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Rules Trainer</title>
-    <!-- KaTeX for static math rendering -->
+    <title>MYP Maths Trainer</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    <!-- MathLive for Desmos-style math input -->
     <script type="module">import 'https://unpkg.com/mathlive?module';</script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -30,23 +28,57 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            padding: 20px;
+            background: var(--bg); color: var(--text);
+            min-height: 100vh; padding: 20px;
         }
+        #app { max-width: 680px; margin: 0 auto; }
+        .view { display: none; }
+        .view.active { display: block; }
 
-        #app {
-            max-width: 640px;
-            margin: 0 auto;
+        /* ---- Hub ---- */
+        .hub-header { text-align: center; margin-bottom: 32px; }
+        .hub-header h1 { font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+        .hub-header p { color: var(--text-light); font-size: 0.95rem; }
+
+        .topic-grid {
+            display: grid; grid-template-columns: 1fr; gap: 16px;
         }
+        .topic-card {
+            background: var(--card); border-radius: var(--radius);
+            box-shadow: var(--shadow); padding: 28px 24px;
+            cursor: pointer; transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        .topic-card:hover {
+            border-color: var(--primary); transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(67,97,238,0.15);
+        }
+        .topic-card h2 {
+            font-size: 1.2rem; font-weight: 700; color: var(--primary);
+            margin-bottom: 6px;
+        }
+        .topic-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+        .topic-tag {
+            display: inline-block; font-size: 0.72rem; font-weight: 600;
+            padding: 3px 10px; border-radius: 12px; margin-top: 10px;
+        }
+        .topic-tag.log { background: #e8daef; color: #6c3483; }
 
-        /* ---- Header ---- */
+        /* ---- Shared trainer styles ---- */
         header { text-align: center; margin-bottom: 24px; }
         header h1 { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
         header p  { color: var(--text-light); font-size: 0.95rem; }
 
-        /* ---- Score Bar ---- */
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: none; border: none; color: var(--primary);
+            font-size: 0.9rem; font-weight: 600; cursor: pointer;
+            padding: 8px 0; margin-bottom: 12px; font-family: inherit;
+            transition: opacity 0.2s;
+        }
+        .back-btn:hover { opacity: 0.7; }
+        .back-btn::before { content: '\2190'; font-size: 1.1rem; }
+
         .score-bar {
             display: flex; justify-content: center; gap: 16px;
             margin-bottom: 24px; flex-wrap: wrap;
@@ -63,26 +95,26 @@
         .score-item .value.primary { color: var(--primary); }
         .score-item .value.success { color: var(--success); }
 
-        /* ---- Question Card ---- */
         .question-card {
             background: var(--card); border-radius: var(--radius);
             box-shadow: var(--shadow); padding: 32px; margin-bottom: 20px;
             text-align: center;
         }
-        .rule-tag {
-            display: inline-block; background: var(--primary-light); color: var(--primary);
-            font-size: 0.78rem; font-weight: 600; padding: 4px 14px;
-            border-radius: 20px; margin-bottom: 14px;
+        .rule-tag, .difficulty-tag {
+            display: inline-block; font-size: 0.78rem; font-weight: 600;
+            padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
         }
-        .question-text { font-size: 1.15rem; margin-bottom: 4px; line-height: 1.5; }
-        .question-prompt {
-            font-size: 1.55rem; font-weight: 600; margin: 14px 0 4px; line-height: 2;
-        }
-        .question-hint {
-            font-size: 0.9rem; color: var(--text-light); margin-bottom: 4px;
-        }
+        .rule-tag { background: var(--primary-light); color: var(--primary); }
+        .difficulty-tag.easy   { background: var(--success-light); color: #047857; }
+        .difficulty-tag.medium { background: #fff3cd; color: #856404; }
+        .difficulty-tag.hard   { background: var(--error-light); color: #be123c; }
 
-        /* ---- MC Options ---- */
+        .question-text { font-size: 1.15rem; margin-bottom: 4px; line-height: 1.5; }
+        .question-prompt { font-size: 1.55rem; font-weight: 600; margin: 14px 0 4px; line-height: 2; }
+        .question-hint { font-size: 0.9rem; color: var(--text-light); margin-bottom: 4px; }
+        .equation-system { font-size: 1.35rem; line-height: 2.6; margin: 16px 0; }
+
+        /* MC */
         .options-grid {
             display: grid; grid-template-columns: 1fr 1fr;
             gap: 12px; margin-top: 20px;
@@ -100,15 +132,14 @@
         .option-btn.incorrect { border-color: var(--error); background: var(--error-light); }
         .option-btn:disabled { cursor: default; opacity: 0.7; }
 
-        /* ---- Free Input ---- */
+        /* Input */
         .input-area {
             margin-top: 20px; display: flex; flex-direction: column;
             align-items: center; gap: 14px;
         }
         math-field {
-            font-size: 1.5rem; width: 100%; max-width: 280px;
-            border-radius: 12px; border: 2px solid #e0e0e0;
-            padding: 10px 16px;
+            font-size: 1.4rem; border-radius: 12px; border: 2px solid #e0e0e0;
+            padding: 8px 14px;
             --caret-color: var(--primary);
             --selection-background-color: rgba(67,97,238,0.18);
         }
@@ -116,6 +147,9 @@
             border-color: var(--primary); outline: none;
             box-shadow: 0 0 0 3px rgba(67,97,238,0.15);
         }
+        .lr-math-field { width: 100%; max-width: 280px; font-size: 1.5rem; padding: 10px 16px; }
+        .se-math-field { width: 140px; }
+
         .btn {
             border: none; border-radius: 12px; padding: 12px 32px;
             font-size: 1rem; font-weight: 600; cursor: pointer;
@@ -125,10 +159,10 @@
         .btn-primary:hover { background: #3651d4; transform: translateY(-2px); }
         .btn:disabled { background: #ccc; cursor: default; transform: none; }
 
-        /* ---- Feedback ---- */
+        /* Feedback */
         .feedback {
             border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px;
-            display: none; text-align: center; animation: slideIn 0.3s ease;
+            display: none; animation: slideIn 0.3s ease;
         }
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(-10px); }
@@ -137,16 +171,63 @@
         .feedback.show { display: block; }
         .feedback.correct  { background: var(--success-light); border: 2px solid var(--success); color: #047857; }
         .feedback.incorrect { background: var(--error-light); border: 2px solid var(--error); color: #be123c; }
-        .feedback-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
+        .feedback-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; text-align: center; }
         .feedback-explanation { font-size: 0.95rem; line-height: 1.8; }
+        .solution-step { margin: 4px 0; }
 
-        /* ---- Next Button ---- */
-        #next-btn {
-            display: none; margin: 0 auto 24px;
+        .next-btn { display: none; margin: 0 auto 24px; }
+        .next-btn.show { display: block; }
+
+        /* Level selector */
+        .level-select {
+            display: flex; justify-content: center; gap: 8px;
+            margin-bottom: 20px; flex-wrap: wrap;
         }
-        #next-btn.show { display: block; }
+        .level-btn {
+            background: var(--card); color: var(--text); border: 2px solid #e0e0e0;
+            border-radius: 20px; padding: 6px 18px; font-size: 0.85rem;
+            font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .level-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+        .level-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-        /* ---- Rules Reference ---- */
+        /* Workout space */
+        .workout-section {
+            background: var(--card); border-radius: var(--radius);
+            box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px;
+        }
+        .workout-section h3 {
+            font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 12px;
+        }
+        .workout-textarea {
+            width: 100%; min-height: 180px; padding: 16px;
+            border: 2px solid #e0e0e0; border-radius: 12px;
+            font-family: 'Cascadia Code','Fira Code','SF Mono','Consolas',monospace;
+            font-size: 1rem; line-height: 1.8; color: var(--text);
+            resize: vertical; background: #fafbfc; transition: border-color 0.2s;
+        }
+        .workout-textarea:focus {
+            border-color: var(--primary); outline: none;
+            box-shadow: 0 0 0 3px rgba(67,97,238,0.15);
+        }
+        .workout-textarea::placeholder { color: #b0b8c4; }
+
+        .answer-section {
+            background: var(--card); border-radius: var(--radius);
+            box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px;
+            text-align: center;
+        }
+        .answer-section h3 {
+            font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 16px;
+        }
+        .answer-row {
+            display: flex; justify-content: center; align-items: center;
+            gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+        }
+        .answer-label { font-size: 1.3rem; font-weight: 600; min-width: 30px; text-align: right; }
+        .btn-row { margin-top: 16px; }
+
+        /* Reference */
         .rules-ref {
             background: var(--card); border-radius: var(--radius);
             box-shadow: var(--shadow); margin-top: 8px;
@@ -169,65 +250,133 @@
             margin-bottom: 2px; font-size: 0.82rem;
         }
 
-        /* ---- Responsive ---- */
         @media (max-width: 480px) {
             .options-grid { grid-template-columns: 1fr; }
             .question-prompt { font-size: 1.25rem; }
             .question-card { padding: 24px 16px; }
-            math-field { max-width: 100%; }
+            .equation-system { font-size: 1.1rem; }
+            .se-math-field { width: 120px; font-size: 1.2rem; }
+            .workout-textarea { min-height: 140px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
 <div id="app">
-    <nav style="display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap">
-        <a href="index.html" style="text-decoration:none;font-size:0.85rem;font-weight:600;padding:6px 16px;border-radius:20px;background:#4361ee;color:#fff">Log Rules</a>
-        <a href="simultaneous.html" style="text-decoration:none;font-size:0.85rem;font-weight:600;padding:6px 16px;border-radius:20px;background:#fff;color:#4361ee;box-shadow:0 4px 24px rgba(0,0,0,0.08)">Log Simultaneous Equations</a>
-    </nav>
 
+<!-- ==================== HUB VIEW ==================== -->
+<div id="view-hub" class="view active">
+    <div class="hub-header">
+        <h1>MYP Maths Trainer</h1>
+        <p>Pick a topic to practise</p>
+    </div>
+    <div class="topic-grid">
+        <div class="topic-card" data-topic="log-rules">
+            <h2>Log Rules</h2>
+            <p>Practise product, quotient, power, change of base, and identity rules for logarithms.</p>
+            <span class="topic-tag log">Logarithms</span>
+        </div>
+        <div class="topic-card" data-topic="log-simul">
+            <h2>Log Simultaneous Equations</h2>
+            <p>Solve systems of equations using logarithm rules. Includes a scratchpad for working.</p>
+            <span class="topic-tag log">Logarithms</span>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== LOG RULES VIEW ==================== -->
+<div id="view-log-rules" class="view">
+    <button class="back-btn" data-back>All Topics</button>
     <header>
         <h1>Log Rules Trainer</h1>
         <p>IB MYP Level &mdash; Master the laws of logarithms</p>
     </header>
 
     <div class="score-bar">
-        <div class="score-item">
-            <div class="label">Score</div>
-            <div class="value primary" id="score-display">0 / 0</div>
-        </div>
-        <div class="score-item">
-            <div class="label">Accuracy</div>
-            <div class="value primary" id="pct-display">&mdash;</div>
-        </div>
-        <div class="score-item">
-            <div class="label">Streak</div>
-            <div class="value success" id="streak-display">0</div>
-        </div>
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="lr-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="lr-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="lr-streak">0</div></div>
     </div>
 
-    <div class="question-card" id="question-card">
-        <p style="color:var(--text-light)">Loading&hellip;</p>
+    <div class="question-card" id="lr-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+
+    <div class="feedback" id="lr-fb">
+        <div class="feedback-title" id="lr-fb-title"></div>
+        <div class="feedback-explanation" id="lr-fb-expl"></div>
     </div>
 
-    <div class="feedback" id="feedback">
-        <div class="feedback-title" id="feedback-title"></div>
-        <div class="feedback-explanation" id="feedback-explanation"></div>
-    </div>
-
-    <button class="btn btn-primary show" id="next-btn" style="display:none;">Next Question</button>
+    <button class="btn btn-primary next-btn" id="lr-next">Next Question</button>
 
     <details class="rules-ref">
         <summary>Rules Reference</summary>
-        <div class="rules-content" id="rules-content"></div>
+        <div class="rules-content" id="lr-ref"></div>
     </details>
 </div>
 
+<!-- ==================== SIMULTANEOUS VIEW ==================== -->
+<div id="view-log-simul" class="view">
+    <button class="back-btn" data-back>All Topics</button>
+    <header>
+        <h1>Log Simultaneous Equations</h1>
+        <p>IB MYP Level &mdash; Solve systems using logarithm rules</p>
+    </header>
+
+    <div class="level-select" id="se-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="se-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="se-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="se-streak">0</div></div>
+    </div>
+
+    <div class="question-card" id="se-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+
+    <div class="workout-section">
+        <h3>Your Working</h3>
+        <textarea class="workout-textarea" id="se-workout"
+            placeholder="Show your working here...&#10;&#10;e.g.  Let u = log&#8322;(x), v = log&#8322;(y)&#10;      u + v = 5&#10;      u - v = 1&#10;      Add: 2u = 6, u = 3&#10;      So x = 2&#179; = 8"></textarea>
+    </div>
+
+    <div class="answer-section">
+        <h3>Your Answer</h3>
+        <div class="answer-row">
+            <span class="answer-label">\(x =\)</span>
+            <math-field class="se-math-field" id="se-mf-x" placeholder="?"></math-field>
+        </div>
+        <div class="answer-row">
+            <span class="answer-label">\(y =\)</span>
+            <math-field class="se-math-field" id="se-mf-y" placeholder="?"></math-field>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-primary" id="se-check">Check Answer</button>
+        </div>
+    </div>
+
+    <div class="feedback" id="se-fb">
+        <div class="feedback-title" id="se-fb-title"></div>
+        <div class="feedback-explanation" id="se-fb-expl"></div>
+    </div>
+
+    <button class="btn btn-primary next-btn" id="se-next">Next Question</button>
+
+    <details class="rules-ref">
+        <summary>Reference</summary>
+        <div class="rules-content" id="se-ref"></div>
+    </details>
+</div>
+
+</div><!-- /app -->
+
 <script>
 /* ================================================================
-   LOG RULES TRAINER  –  IB MYP
+   MYP MATHS TRAINER
    ================================================================ */
 
-// ── Utilities ────────────────────────────────────────────────────
+// ── Shared Utilities ─────────────────────────────────────────────
 function randInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 function shuffle(arr) {
@@ -238,13 +387,8 @@ function shuffle(arr) {
     }
     return a;
 }
-function logTex(b, x) { return `\\log_{${b}}\\!\\left(${x}\\right)`; }
+function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
 
-// ── State ────────────────────────────────────────────────────────
-let score = 0, total = 0, streak = 0, currentQ = null, answered = false;
-const BASES = [2, 3, 5, 10];
-
-// ── Render helpers ───────────────────────────────────────────────
 function renderMath() {
     if (typeof renderMathInElement === 'function') {
         renderMathInElement(document.body, {
@@ -257,352 +401,478 @@ function renderMath() {
     }
 }
 
-// ── Question Generators ──────────────────────────────────────────
-
-// 1 – Evaluate  log_b(b^n)  →  n   [FREE]
-function qEvaluate() {
-    const b = pick(BASES), n = randInt(1, 5), v = Math.pow(b, n);
-    if (v > 100000) return qEvaluate();
-    return {
-        type: 'free', rule: 'Evaluate',
-        text: 'Evaluate:', latex: logTex(b, v),
-        answer: n, answerTex: String(n),
-        explain: `Since \\(${b}^{${n}}=${v}\\), we get \\(${logTex(b,v)}=${n}\\).`
-    };
-}
-
-// 2 – Identity  log_b(1) = 0   [FREE]
-function qIdZero() {
-    const b = pick(BASES);
-    return {
-        type: 'free', rule: 'Identity',
-        text: 'Evaluate:', latex: logTex(b, 1),
-        answer: 0, answerTex: '0',
-        explain: `\\(${logTex(b,1)}=0\\) because \\(${b}^{0}=1\\).`
-    };
-}
-
-// 3 – Identity  log_b(b) = 1   [FREE]
-function qIdOne() {
-    const b = pick(BASES);
-    return {
-        type: 'free', rule: 'Identity',
-        text: 'Evaluate:', latex: logTex(b, b),
-        answer: 1, answerTex: '1',
-        explain: `\\(${logTex(b,b)}=1\\) because \\(${b}^{1}=${b}\\).`
-    };
-}
-
-// 4 – Product Rule  log(m)+log(n) → log(mn)   [MC]
-function qProduct() {
-    const b = pick(BASES), m = randInt(2, 9), n = randInt(2, 9);
-    const mn = m * n;
-    const correct = `\\(${logTex(b, mn)}\\)`;
-    return {
-        type: 'mc', rule: 'Product Rule',
-        text: 'Simplify:', latex: `${logTex(b,m)} + ${logTex(b,n)}`,
-        answer: correct,
-        options: shuffle([
-            correct,
-            `\\(${logTex(b, m+n)}\\)`,
-            `\\(${logTex(b,m)} \\cdot ${logTex(b,n)}\\)`,
-            `\\(${logTex(b*b, mn)}\\)`
-        ]),
-        explain: `Product Rule: \\(${logTex(b,m)}+${logTex(b,n)} = ${logTex(b, m+'\\cdot '+n)} = ${logTex(b,mn)}\\).`
-    };
-}
-
-// 5 – Quotient Rule  log(m)-log(n) → log(m/n)   [MC]
-function qQuotient() {
-    const b = pick(BASES), n = randInt(2, 6), k = randInt(2, 5), m = n * k;
-    const correct = `\\(${logTex(b, k)}\\)`;
-    return {
-        type: 'mc', rule: 'Quotient Rule',
-        text: 'Simplify:', latex: `${logTex(b,m)} - ${logTex(b,n)}`,
-        answer: correct,
-        options: shuffle([
-            correct,
-            `\\(${logTex(b, m-n)}\\)`,
-            `\\(\\dfrac{${logTex(b,m)}}{${logTex(b,n)}}\\)`,
-            `\\(${logTex(b, n)}\\)`
-        ]),
-        explain: `Quotient Rule: \\(${logTex(b,m)}-${logTex(b,n)} = ${logTex(b,'\\tfrac{'+m+'}{'+n+'}')} = ${logTex(b,k)}\\).`
-    };
-}
-
-// 6 – Power Rule  k·log(m) → log(m^k)   [MC]
-function qPower() {
-    const b = pick(BASES), m = randInt(2, 7), k = randInt(2, 4);
-    const mk = Math.pow(m, k);
-    const correct = `\\(${logTex(b, mk)}\\)`;
-    return {
-        type: 'mc', rule: 'Power Rule',
-        text: 'Simplify:', latex: `${k}\\cdot ${logTex(b,m)}`,
-        answer: correct,
-        options: shuffle([
-            correct,
-            `\\(${logTex(b, k*m)}\\)`,
-            `\\(${logTex(Math.pow(b,k), m)}\\)`,
-            `\\(${k}+${logTex(b,m)}\\)`
-        ]),
-        explain: `Power Rule: \\(${k}\\cdot ${logTex(b,m)} = ${logTex(b, m+'^{'+k+'}')} = ${logTex(b,mk)}\\).`
-    };
-}
-
-// 7 – Change of Base  log_a(c^n)/log_a(c) → n   [FREE]
-function qChangeOfBase() {
-    const c = pick([2,3,5]), n = randInt(2,4), v = Math.pow(c,n);
-    let a; do { a = pick(BASES); } while (a === c);
-    return {
-        type: 'free', rule: 'Change of Base',
-        text: 'Evaluate:', latex: `\\dfrac{${logTex(a,v)}}{${logTex(a,c)}}`,
-        answer: n, answerTex: String(n),
-        explain: `Change of Base: \\(\\dfrac{${logTex(a,v)}}{${logTex(a,c)}} = ${logTex(c,v)} = ${n}\\) since \\(${c}^{${n}}=${v}\\).`
-    };
-}
-
-// 8 – Change of Base (fraction answer)   [FREE]
-function qChangeOfBaseFrac() {
-    const c = pick([2,3,5]);
-    let p = randInt(2,4), q = randInt(2,4);
-    if (p === q) return qChangeOfBaseFrac();
-    const vp = Math.pow(c,p), vq = Math.pow(c,q);
-    let a; do { a = pick(BASES); } while (a === c);
-    // simplify p/q
-    const g = gcd(p, q), sp = p/g, sq = q/g;
-    const ans = p / q;
-    return {
-        type: 'free', rule: 'Change of Base',
-        text: 'Evaluate:', latex: `\\dfrac{${logTex(a,vp)}}{${logTex(a,vq)}}`,
-        answer: ans,
-        answerTex: Number.isInteger(ans) ? String(ans) : `\\dfrac{${sp}}{${sq}}`,
-        explain: `\\(\\dfrac{${logTex(a,vp)}}{${logTex(a,vq)}} = \\dfrac{${logTex(c,vp)}}{${logTex(c,vq)}} = \\dfrac{${p}}{${q}}` +
-                 (g > 1 ? ` = \\dfrac{${sp}}{${sq}}` : '') + '\\).'
-    };
-}
-
-// 9 – Expand  log(mn) as sum   [MC]
-function qExpandProduct() {
-    const b = pick(BASES), m = randInt(2,9), n = randInt(2,9), mn = m*n;
-    const correct = `\\(${logTex(b,m)} + ${logTex(b,n)}\\)`;
-    return {
-        type: 'mc', rule: 'Product Rule',
-        text: 'Express as a sum of two logs:',
-        latex: logTex(b, mn),
-        hint: `(${mn} = ${m} \\times ${n})`,
-        answer: correct,
-        options: shuffle([
-            correct,
-            `\\(${logTex(b,m)} \\cdot ${logTex(b,n)}\\)`,
-            `\\(${logTex(b,m)} - ${logTex(b,n)}\\)`,
-            `\\(${logTex(b+b, mn)}\\)`
-        ]),
-        explain: `Product Rule in reverse: \\(${logTex(b,mn)} = ${logTex(b,m)}+${logTex(b,n)}\\) since \\(${m}\\times${n}=${mn}\\).`
-    };
-}
-
-// 10 – Rewrite  log(m^k) via Power Rule   [MC]
-function qExpandPower() {
-    const b = pick(BASES), m = randInt(2,7), k = randInt(2,4), mk = Math.pow(m,k);
-    const correct = `\\(${k}\\cdot ${logTex(b,m)}\\)`;
-    return {
-        type: 'mc', rule: 'Power Rule',
-        text: 'Rewrite using the Power Rule:',
-        latex: logTex(b, m+'^{'+k+'}'),
-        answer: correct,
-        options: shuffle([
-            correct,
-            `\\(${logTex(b,m)}^{${k}}\\)`,
-            `\\(${logTex(Math.pow(b,k), m)}\\)`,
-            `\\(${logTex(b, k+'\\cdot'+m)}\\)`
-        ]),
-        explain: `Power Rule: \\(${logTex(b,m+'^{'+k+'}')} = ${k}\\cdot ${logTex(b,m)}\\).`
-    };
-}
-
-function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
-
-// Weighted pool — evaluate & single-rule questions appear more often
-const pool = [
-    qEvaluate, qEvaluate,
-    qIdZero, qIdOne,
-    qProduct, qProduct,
-    qQuotient, qQuotient,
-    qPower, qPower,
-    qChangeOfBase,
-    qChangeOfBaseFrac,
-    qExpandProduct,
-    qExpandPower
-];
-
-function nextQuestion() { return pick(pool)(); }
-
-// ── Answer Parsing ───────────────────────────────────────────────
 function parseLatex(raw) {
     let s = raw.replace(/\\left|\\right|\\,|\\:|\\;|\\!/g, '').replace(/\s+/g, '');
-    // \frac{a}{b}
+    s = s.replace(/^−/, '-');
     const fm = s.match(/\\frac\{(-?[\d.]+)\}\{(-?[\d.]+)\}/);
     if (fm) return parseFloat(fm[1]) / parseFloat(fm[2]);
-    // \dfrac{a}{b}
     const dm = s.match(/\\dfrac\{(-?[\d.]+)\}\{(-?[\d.]+)\}/);
     if (dm) return parseFloat(dm[1]) / parseFloat(dm[2]);
-    // a/b
     const dv = s.match(/^(-?[\d.]+)\/(-?[\d.]+)$/);
     if (dv) return parseFloat(dv[1]) / parseFloat(dv[2]);
     return parseFloat(s);
 }
 
-function checkFree(latex, expected) {
-    const v = parseLatex(latex);
-    if (isNaN(v)) return false;
-    return Math.abs(v - expected) < 0.0001;
-}
+const BASES = [2, 3, 5, 10];
+function logTex(b, x) { return `\\log_{${b}}(${x})`; }
 
-// ── UI Logic ─────────────────────────────────────────────────────
-const $card     = () => document.getElementById('question-card');
-const $feedback = () => document.getElementById('feedback');
-const $fbTitle  = () => document.getElementById('feedback-title');
-const $fbExpl   = () => document.getElementById('feedback-explanation');
-const $next     = () => document.getElementById('next-btn');
-
-function loadQuestion() {
-    answered = false;
-    currentQ = nextQuestion();
-    const q = currentQ;
-
-    // Build card HTML
-    let h = `<div class="rule-tag">${q.rule}</div>`;
-    h += `<div class="question-text">${q.text}</div>`;
-    h += `<div class="question-prompt">\\(${q.latex}\\)</div>`;
-    if (q.hint) h += `<div class="question-hint">\\(${q.hint}\\)</div>`;
-
-    if (q.type === 'mc') {
-        h += '<div class="options-grid">';
-        q.options.forEach((o, i) => {
-            h += `<button class="option-btn" data-i="${i}">${o}</button>`;
-        });
-        h += '</div>';
-    } else {
-        h += `<div class="input-area">
-                <math-field id="mf-input" placeholder="Type your answer"></math-field>
-                <button class="btn btn-primary" id="check-btn">Check</button>
-              </div>`;
-    }
-
-    $card().innerHTML = h;
-
-    // Hide previous feedback / next
-    const fb = $feedback();
-    fb.classList.remove('show', 'correct', 'incorrect');
-    $next().style.display = 'none';
-
+// ── View Navigation ──────────────────────────────────────────────
+function showView(id) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + id).classList.add('active');
     renderMath();
+}
 
-    if (q.type === 'mc') {
-        $card().querySelectorAll('.option-btn').forEach(btn => {
-            btn.addEventListener('click', () => handleMC(parseInt(btn.dataset.i)));
+/* ================================================================
+   LOG RULES TRAINER
+   ================================================================ */
+const LR = {
+    score: 0, total: 0, streak: 0, currentQ: null, answered: false,
+
+    qEvaluate() {
+        const b = pick(BASES), n = randInt(1,5), v = Math.pow(b,n);
+        if (v > 100000) return LR.qEvaluate();
+        return { type:'free', rule:'Evaluate', text:'Evaluate:', latex: logTex(b,v),
+            answer:n, answerTex:String(n),
+            explain:`Since \\(${b}^{${n}}=${v}\\), we get \\(${logTex(b,v)}=${n}\\).` };
+    },
+    qIdZero() {
+        const b = pick(BASES);
+        return { type:'free', rule:'Identity', text:'Evaluate:', latex: logTex(b,1),
+            answer:0, answerTex:'0',
+            explain:`\\(${logTex(b,1)}=0\\) because \\(${b}^{0}=1\\).` };
+    },
+    qIdOne() {
+        const b = pick(BASES);
+        return { type:'free', rule:'Identity', text:'Evaluate:', latex: logTex(b,b),
+            answer:1, answerTex:'1',
+            explain:`\\(${logTex(b,b)}=1\\) because \\(${b}^{1}=${b}\\).` };
+    },
+    qProduct() {
+        const b=pick(BASES), m=randInt(2,9), n=randInt(2,9), mn=m*n;
+        const c = `\\(${logTex(b,mn)}\\)`;
+        return { type:'mc', rule:'Product Rule', text:'Simplify:',
+            latex:`${logTex(b,m)} + ${logTex(b,n)}`, answer:c,
+            options:shuffle([c, `\\(${logTex(b,m+n)}\\)`,
+                `\\(${logTex(b,m)} \\cdot ${logTex(b,n)}\\)`, `\\(${logTex(b*b,mn)}\\)`]),
+            explain:`Product Rule: \\(${logTex(b,m)}+${logTex(b,n)} = ${logTex(b,m+'\\cdot '+n)} = ${logTex(b,mn)}\\).` };
+    },
+    qQuotient() {
+        const b=pick(BASES), n=randInt(2,6), k=randInt(2,5), m=n*k;
+        const c = `\\(${logTex(b,k)}\\)`;
+        return { type:'mc', rule:'Quotient Rule', text:'Simplify:',
+            latex:`${logTex(b,m)} - ${logTex(b,n)}`, answer:c,
+            options:shuffle([c, `\\(${logTex(b,m-n)}\\)`,
+                `\\(\\dfrac{${logTex(b,m)}}{${logTex(b,n)}}\\)`, `\\(${logTex(b,n)}\\)`]),
+            explain:`Quotient Rule: \\(${logTex(b,m)}-${logTex(b,n)} = ${logTex(b,'\\tfrac{'+m+'}{'+n+'}')} = ${logTex(b,k)}\\).` };
+    },
+    qPower() {
+        const b=pick(BASES), m=randInt(2,7), k=randInt(2,4), mk=Math.pow(m,k);
+        const c = `\\(${logTex(b,mk)}\\)`;
+        return { type:'mc', rule:'Power Rule', text:'Simplify:',
+            latex:`${k}\\cdot ${logTex(b,m)}`, answer:c,
+            options:shuffle([c, `\\(${logTex(b,k*m)}\\)`,
+                `\\(${logTex(Math.pow(b,k),m)}\\)`, `\\(${k}+${logTex(b,m)}\\)`]),
+            explain:`Power Rule: \\(${k}\\cdot ${logTex(b,m)} = ${logTex(b,m+'^{'+k+'}')} = ${logTex(b,mk)}\\).` };
+    },
+    qChangeOfBase() {
+        const c=pick([2,3,5]), n=randInt(2,4), v=Math.pow(c,n);
+        let a; do{a=pick(BASES);}while(a===c);
+        return { type:'free', rule:'Change of Base', text:'Evaluate:',
+            latex:`\\dfrac{${logTex(a,v)}}{${logTex(a,c)}}`, answer:n, answerTex:String(n),
+            explain:`Change of Base: \\(\\dfrac{${logTex(a,v)}}{${logTex(a,c)}} = ${logTex(c,v)} = ${n}\\) since \\(${c}^{${n}}=${v}\\).` };
+    },
+    qChangeOfBaseFrac() {
+        const c=pick([2,3,5]); let p=randInt(2,4), q=randInt(2,4);
+        if(p===q) return LR.qChangeOfBaseFrac();
+        const vp=Math.pow(c,p), vq=Math.pow(c,q);
+        let a; do{a=pick(BASES);}while(a===c);
+        const g=gcd(p,q), sp=p/g, sq=q/g, ans=p/q;
+        return { type:'free', rule:'Change of Base', text:'Evaluate:',
+            latex:`\\dfrac{${logTex(a,vp)}}{${logTex(a,vq)}}`, answer:ans,
+            answerTex: Number.isInteger(ans)?String(ans):`\\dfrac{${sp}}{${sq}}`,
+            explain:`\\(\\dfrac{${logTex(a,vp)}}{${logTex(a,vq)}} = \\dfrac{${logTex(c,vp)}}{${logTex(c,vq)}} = \\dfrac{${p}}{${q}}`+(g>1?` = \\dfrac{${sp}}{${sq}}`:'')+'\\).' };
+    },
+    qExpandProduct() {
+        const b=pick(BASES), m=randInt(2,9), n=randInt(2,9), mn=m*n;
+        const c = `\\(${logTex(b,m)} + ${logTex(b,n)}\\)`;
+        return { type:'mc', rule:'Product Rule', text:'Express as a sum of two logs:',
+            latex:logTex(b,mn), hint:`(${mn} = ${m} \\times ${n})`, answer:c,
+            options:shuffle([c, `\\(${logTex(b,m)} \\cdot ${logTex(b,n)}\\)`,
+                `\\(${logTex(b,m)} - ${logTex(b,n)}\\)`, `\\(${logTex(b+b,mn)}\\)`]),
+            explain:`Product Rule: \\(${logTex(b,mn)} = ${logTex(b,m)}+${logTex(b,n)}\\) since \\(${m}\\times${n}=${mn}\\).` };
+    },
+    qExpandPower() {
+        const b=pick(BASES), m=randInt(2,7), k=randInt(2,4);
+        const c = `\\(${k}\\cdot ${logTex(b,m)}\\)`;
+        return { type:'mc', rule:'Power Rule', text:'Rewrite using the Power Rule:',
+            latex:logTex(b,m+'^{'+k+'}'), answer:c,
+            options:shuffle([c, `\\(${logTex(b,m)}^{${k}}\\)`,
+                `\\(${logTex(Math.pow(b,k),m)}\\)`, `\\(${logTex(b,k+'\\cdot'+m)}\\)`]),
+            explain:`Power Rule: \\(${logTex(b,m+'^{'+k+'}')} = ${k}\\cdot ${logTex(b,m)}\\).` };
+    },
+
+    pool: null,
+    init() {
+        this.pool = [
+            this.qEvaluate, this.qEvaluate,
+            this.qIdZero, this.qIdOne,
+            this.qProduct, this.qProduct,
+            this.qQuotient, this.qQuotient,
+            this.qPower, this.qPower,
+            this.qChangeOfBase, this.qChangeOfBaseFrac,
+            this.qExpandProduct, this.qExpandPower
+        ];
+    },
+    next() { return pick(this.pool)(); },
+
+    load() {
+        this.answered = false;
+        this.currentQ = this.next();
+        const q = this.currentQ;
+        let h = `<div class="rule-tag">${q.rule}</div>`;
+        h += `<div class="question-text">${q.text}</div>`;
+        h += `<div class="question-prompt">\\(${q.latex}\\)</div>`;
+        if (q.hint) h += `<div class="question-hint">\\(${q.hint}\\)</div>`;
+
+        if (q.type === 'mc') {
+            h += '<div class="options-grid">';
+            q.options.forEach((o,i) => { h += `<button class="option-btn" data-i="${i}">${o}</button>`; });
+            h += '</div>';
+        } else {
+            h += `<div class="input-area">
+                    <math-field class="lr-math-field" id="lr-mf" placeholder="Type your answer"></math-field>
+                    <button class="btn btn-primary" id="lr-check">Check</button>
+                  </div>`;
+        }
+
+        document.getElementById('lr-card').innerHTML = h;
+        const fb = document.getElementById('lr-fb');
+        fb.classList.remove('show','correct','incorrect');
+        document.getElementById('lr-next').classList.remove('show');
+        renderMath();
+
+        if (q.type === 'mc') {
+            document.getElementById('lr-card').querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', () => LR.handleMC(parseInt(btn.dataset.i)));
+            });
+        } else {
+            setTimeout(() => {
+                const mf = document.getElementById('lr-mf');
+                if (mf) { mf.focus(); mf.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();LR.handleFree();} }); }
+                const cb = document.getElementById('lr-check');
+                if (cb) cb.addEventListener('click', () => LR.handleFree());
+            }, 200);
+        }
+    },
+
+    handleMC(idx) {
+        if (this.answered) return;
+        this.answered = true;
+        const q = this.currentQ, chosen = q.options[idx], ok = chosen === q.answer;
+        document.getElementById('lr-card').querySelectorAll('.option-btn').forEach((btn,i) => {
+            btn.disabled = true;
+            if (q.options[i] === q.answer) btn.classList.add('correct');
+            if (i === idx && !ok) btn.classList.add('incorrect');
         });
-    } else {
-        setTimeout(() => {
-            const mf = document.getElementById('mf-input');
-            if (mf) {
-                mf.focus();
-                mf.addEventListener('keydown', e => {
-                    if (e.key === 'Enter') { e.preventDefault(); handleFree(); }
-                });
-            }
-            const cb = document.getElementById('check-btn');
-            if (cb) cb.addEventListener('click', handleFree);
-        }, 200);
+        this.record(ok);
+        this.showFb(ok, q.explain);
+    },
+
+    handleFree() {
+        if (this.answered) return;
+        const mf = document.getElementById('lr-mf');
+        if (!mf) return;
+        const latex = mf.value;
+        if (!latex || !latex.trim()) return;
+        this.answered = true;
+        const ok = Math.abs(parseLatex(latex) - this.currentQ.answer) < 0.0001;
+        mf.disabled = true;
+        const cb = document.getElementById('lr-check');
+        if (cb) cb.disabled = true;
+        let extra = '';
+        if (!ok) extra = `<br>The correct answer is \\(${this.currentQ.answerTex}\\).`;
+        this.record(ok);
+        this.showFb(ok, this.currentQ.explain + extra);
+    },
+
+    record(ok) {
+        this.total++;
+        if (ok) { this.score++; this.streak++; } else { this.streak = 0; }
+        document.getElementById('lr-score').textContent = `${this.score} / ${this.total}`;
+        document.getElementById('lr-pct').textContent = this.total ? Math.round(this.score/this.total*100)+'%' : '\u2014';
+        document.getElementById('lr-streak').textContent = this.streak;
+    },
+
+    showFb(ok, html) {
+        const fb = document.getElementById('lr-fb');
+        fb.classList.remove('correct','incorrect');
+        fb.classList.add('show', ok ? 'correct' : 'incorrect');
+        fb.style.textAlign = 'center';
+        document.getElementById('lr-fb-title').textContent = ok ? 'Correct!' : 'Not quite\u2026';
+        document.getElementById('lr-fb-expl').innerHTML = html;
+        document.getElementById('lr-next').classList.add('show');
+        renderMath();
+        fb.scrollIntoView({ behavior:'smooth', block:'nearest' });
     }
-}
+};
 
-function handleMC(idx) {
-    if (answered) return;
-    answered = true;
-    const q = currentQ, chosen = q.options[idx], correct = chosen === q.answer;
-    $card().querySelectorAll('.option-btn').forEach((btn, i) => {
-        btn.disabled = true;
-        if (q.options[i] === q.answer) btn.classList.add('correct');
-        if (i === idx && !correct) btn.classList.add('incorrect');
-    });
-    record(correct);
-    showFeedback(correct, q.explain);
-}
+/* ================================================================
+   LOG SIMULTANEOUS EQUATIONS TRAINER
+   ================================================================ */
+const SE = {
+    score: 0, total: 0, streak: 0, currentQ: null, answered: false,
+    level: 'all',
 
-function handleFree() {
-    if (answered) return;
-    const mf = document.getElementById('mf-input');
-    if (!mf) return;
-    const latex = mf.value;
-    if (!latex || !latex.trim()) return;
-    answered = true;
+    qDirect() {
+        const b=pick(BASES), u=randInt(1,4), v=randInt(1,4);
+        if(u===v) return SE.qDirect();
+        const x=Math.pow(b,u), y=Math.pow(b,v);
+        if(x>10000||y>10000) return SE.qDirect();
+        return { difficulty:'easy', x, y,
+            eq1:`${logTex(b,'x')} = ${u}`, eq2:`${logTex(b,'y')} = ${v}`,
+            solution:[
+                `\\text{From Eq1: } ${logTex(b,'x')} = ${u} \\implies x = ${b}^{${u}} = ${x}`,
+                `\\text{From Eq2: } ${logTex(b,'y')} = ${v} \\implies y = ${b}^{${v}} = ${y}`,
+                `\\boxed{x = ${x},\\quad y = ${y}}`
+            ]};
+    },
+    qSumDiff() {
+        const b=pick(BASES), u=randInt(1,4), v=randInt(1,4);
+        if(u===v) return SE.qSumDiff();
+        const x=Math.pow(b,u), y=Math.pow(b,v);
+        if(x>10000||y>10000) return SE.qSumDiff();
+        const p=u+v, q=u-v;
+        return { difficulty:'medium', x, y,
+            eq1:`${logTex(b,'x')} + ${logTex(b,'y')} = ${p}`,
+            eq2:`${logTex(b,'x')} - ${logTex(b,'y')} = ${q}`,
+            solution:[
+                `\\text{Let } u = ${logTex(b,'x')},\\; v = ${logTex(b,'y')}`,
+                `u + v = ${p},\\quad u - v = ${q}`,
+                `\\text{Add: } 2u = ${p+q} \\implies u = ${u}`,
+                `\\text{Substitute: } ${u} + v = ${p} \\implies v = ${v}`,
+                `x = ${b}^{${u}} = ${x},\\quad y = ${b}^{${v}} = ${y}`,
+                `\\boxed{x = ${x},\\quad y = ${y}}`
+            ]};
+    },
+    qProdQuot() {
+        const b=pick(BASES), u=randInt(1,4), v=randInt(1,4);
+        if(u===v) return SE.qProdQuot();
+        const x=Math.pow(b,u), y=Math.pow(b,v);
+        if(x>10000||y>10000) return SE.qProdQuot();
+        const p=u+v, q=u-v;
+        return { difficulty:'medium', x, y,
+            eq1:`${logTex(b,'xy')} = ${p}`,
+            eq2:`${logTex(b,'\\tfrac{x}{y}')} = ${q}`,
+            solution:[
+                `\\text{Product Rule on Eq1: } ${logTex(b,'x')} + ${logTex(b,'y')} = ${p}`,
+                `\\text{Quotient Rule on Eq2: } ${logTex(b,'x')} - ${logTex(b,'y')} = ${q}`,
+                `\\text{Let } u = ${logTex(b,'x')},\\; v = ${logTex(b,'y')}`,
+                `\\text{Add: } 2u = ${p+q} \\implies u = ${u}`,
+                `v = ${p} - ${u} = ${v}`,
+                `x = ${b}^{${u}} = ${x},\\quad y = ${b}^{${v}} = ${y}`,
+                `\\boxed{x = ${x},\\quad y = ${y}}`
+            ]};
+    },
+    qCoefficients() {
+        const b=pick(BASES), u=randInt(1,3), v=randInt(1,3);
+        const x=Math.pow(b,u), y=Math.pow(b,v);
+        if(x>10000||y>10000) return SE.qCoefficients();
+        const a1=randInt(1,3), b1=randInt(1,3), a2=randInt(1,3), b2=randInt(1,3);
+        const det=a1*b2-a2*b1;
+        if(det===0||(a1===a2&&b1===b2)) return SE.qCoefficients();
+        const p=a1*u+b1*v, q=a2*u+b2*v;
 
-    const correct = checkFree(latex, currentQ.answer);
-    mf.disabled = true;
-    const cb = document.getElementById('check-btn');
-    if (cb) cb.disabled = true;
+        function ct(c,vr,f){
+            if(c===1) return f?vr:' + '+vr;
+            if(c>0) return f?c+vr:' + '+c+vr;
+            return ' - '+Math.abs(c)+vr;
+        }
+        const m1=a2, m2=a1;
+        const nb1=b1*m1, nc1=p*m1, nb2=b2*m2, nc2=q*m2;
+        const dB=nb1-nb2, dC=nc1-nc2;
 
-    let extra = '';
-    if (!correct) extra = `<br>The correct answer is \\(${currentQ.answerTex}\\).`;
-    record(correct);
-    showFeedback(correct, currentQ.explain + extra);
-}
+        const steps=[`\\text{Let } u = ${logTex(b,'x')},\\; v = ${logTex(b,'y')}`];
+        steps.push(`\\text{Eq1: }${ct(a1,'u',true)}${ct(b1,'v',false)} = ${p}`);
+        steps.push(`\\text{Eq2: }${ct(a2,'u',true)}${ct(b2,'v',false)} = ${q}`);
+        if(m1!==1) steps.push(`\\text{Eq1}\\times${m1}: ${ct(a1*m1,'u',true)}${ct(nb1,'v',false)} = ${nc1}`);
+        if(m2!==1) steps.push(`\\text{Eq2}\\times${m2}: ${ct(a2*m2,'u',true)}${ct(nb2,'v',false)} = ${nc2}`);
+        steps.push(`\\text{Subtract: }${ct(dB,'v',true)} = ${dC} \\implies v = ${v}`);
+        steps.push(`u = \\frac{${p} - ${b1===1?'':b1+'\\cdot'}${v}}{${a1}} = ${u}`);
+        steps.push(`x = ${b}^{${u}} = ${x},\\quad y = ${b}^{${v}} = ${y}`);
+        steps.push(`\\boxed{x = ${x},\\quad y = ${y}}`);
 
-function record(ok) {
-    total++;
-    if (ok) { score++; streak++; } else { streak = 0; }
-    document.getElementById('score-display').textContent = `${score} / ${total}`;
-    document.getElementById('pct-display').textContent = total ? Math.round(score/total*100) + '%' : '\u2014';
-    document.getElementById('streak-display').textContent = streak;
-}
+        function leq(ca,cb,rhs){
+            let s = ca===1?logTex(b,'x'):ca+'\\,'+logTex(b,'x');
+            if(cb===1) s+=' + '+logTex(b,'y');
+            else if(cb>0) s+=' + '+cb+'\\,'+logTex(b,'y');
+            else s+=' - '+Math.abs(cb)+'\\,'+logTex(b,'y');
+            return s+' = '+rhs;
+        }
+        return { difficulty:'hard', x, y, eq1:leq(a1,b1,p), eq2:leq(a2,b2,q), solution:steps };
+    },
+    qPowerForm() {
+        const b=pick(BASES), u=randInt(1,3), v=randInt(1,3);
+        const x=Math.pow(b,u), y=Math.pow(b,v);
+        if(x>10000||y>10000) return SE.qPowerForm();
+        const a1=randInt(2,3), b1=1, a2=1, b2=randInt(2,3);
+        const det=a1*b2-a2*b1;
+        if(det===0) return SE.qPowerForm();
+        const p=a1*u+b1*v, q=a2*u+b2*v;
+        function ins(ca,cb){let s=ca>1?`x^{${ca}}`:'x'; s+=cb>1?`y^{${cb}}`:'y'; return s;}
+        const vC=a1*b2-b1, vR=a1*q-p;
+        const steps=[
+            `\\text{Apply Product \\& Power Rules:}`,
+            `\\text{Eq1: }${a1>1?a1+'\\,':''}${logTex(b,'x')} + ${b1>1?b1+'\\,':''}${logTex(b,'y')} = ${p}`,
+            `\\text{Eq2: }${a2>1?a2+'\\,':''}${logTex(b,'x')} + ${b2>1?b2+'\\,':''}${logTex(b,'y')} = ${q}`,
+            `\\text{Eq2}\\times${a1}: ${a1}u + ${a1*b2}v = ${a1*q}`,
+            `\\text{Subtract Eq1: }${vC}v = ${vR} \\implies v = ${v}`,
+            `u = ${q} - ${b2>1?b2+'\\cdot':''}${v} = ${u}`,
+            `x = ${b}^{${u}} = ${x},\\quad y = ${b}^{${v}} = ${y}`,
+            `\\boxed{x = ${x},\\quad y = ${y}}`
+        ];
+        return { difficulty:'hard', x, y,
+            eq1:`${logTex(b,ins(a1,b1))} = ${p}`, eq2:`${logTex(b,ins(a2,b2))} = ${q}`,
+            solution:steps };
+    },
 
-function showFeedback(ok, html) {
-    const fb = $feedback();
-    fb.classList.remove('correct','incorrect');
-    fb.classList.add('show', ok ? 'correct' : 'incorrect');
-    $fbTitle().textContent = ok ? 'Correct!' : 'Not quite\u2026';
-    $fbExpl().innerHTML = html;
-    $next().style.display = 'block';
-    renderMath();
-    fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
+    pools: null, allPool: null,
+    init() {
+        this.pools = { easy:[this.qDirect], medium:[this.qSumDiff,this.qProdQuot], hard:[this.qCoefficients,this.qPowerForm] };
+        this.allPool = [this.qDirect,this.qDirect,this.qSumDiff,this.qSumDiff,this.qSumDiff,this.qProdQuot,this.qProdQuot,this.qCoefficients,this.qPowerForm];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
 
-// ── Init ─────────────────────────────────────────────────────────
+    load() {
+        this.answered = false;
+        this.currentQ = this.next();
+        const q = this.currentQ;
+        const dl = {easy:'Easy',medium:'Medium',hard:'Challenging'};
+        document.getElementById('se-card').innerHTML = `
+            <div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div>
+            <div style="font-size:1.1rem;margin-bottom:8px;">Find \\(x\\) and \\(y\\):</div>
+            <div class="equation-system">\\(${q.eq1}\\)<br>\\(${q.eq2}\\)</div>`;
+        document.getElementById('se-workout').value = '';
+        const mx=document.getElementById('se-mf-x'), my=document.getElementById('se-mf-y');
+        if(mx){mx.value='';mx.disabled=false;} if(my){my.value='';my.disabled=false;}
+        document.getElementById('se-check').disabled = false;
+        const fb=document.getElementById('se-fb');
+        fb.classList.remove('show','correct','incorrect');
+        document.getElementById('se-next').classList.remove('show');
+        renderMath();
+    },
+
+    check() {
+        if(this.answered) return;
+        const mx=document.getElementById('se-mf-x'), my=document.getElementById('se-mf-y');
+        if(!mx||!my) return;
+        const lx=mx.value, ly=my.value;
+        if((!lx||!lx.trim())&&(!ly||!ly.trim())) return;
+        this.answered = true;
+        mx.disabled=true; my.disabled=true;
+        document.getElementById('se-check').disabled=true;
+        const q=this.currentQ;
+        const ux=parseLatex(lx), uy=parseLatex(ly);
+        const ok = !isNaN(ux)&&!isNaN(uy)&&Math.abs(ux-q.x)<0.001&&Math.abs(uy-q.y)<0.001;
+        this.record(ok);
+        let html='';
+        if(!ok) html+=`<p style="margin-bottom:12px;text-align:center;">The correct answer is \\(x = ${q.x}\\), \\(y = ${q.y}\\).</p>`;
+        html+='<strong>Worked solution:</strong><br>';
+        q.solution.forEach(s=>{html+=`<div class="solution-step">\\(${s}\\)</div>`;});
+        this.showFb(ok, html);
+    },
+
+    record(ok) {
+        this.total++;
+        if(ok){this.score++;this.streak++;}else{this.streak=0;}
+        document.getElementById('se-score').textContent=`${this.score} / ${this.total}`;
+        document.getElementById('se-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014';
+        document.getElementById('se-streak').textContent=this.streak;
+    },
+
+    showFb(ok, html) {
+        const fb=document.getElementById('se-fb');
+        fb.classList.remove('correct','incorrect');
+        fb.classList.add('show', ok?'correct':'incorrect');
+        document.getElementById('se-fb-title').textContent=ok?'Correct!':'Not quite\u2026';
+        document.getElementById('se-fb-expl').innerHTML=html;
+        document.getElementById('se-next').classList.add('show');
+        renderMath();
+        fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+    },
+
+    resetScore() {
+        this.score=0; this.total=0; this.streak=0;
+        document.getElementById('se-score').textContent='0 / 0';
+        document.getElementById('se-pct').textContent='\u2014';
+        document.getElementById('se-streak').textContent='0';
+    }
+};
+
+/* ================================================================
+   INIT
+   ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
-    // Populate rules reference
-    document.getElementById('rules-content').innerHTML = `
-        <div class="rule-item">
-            <span class="rule-name">Product Rule</span>
-            \\(\\log_a(m \\cdot n) = \\log_a(m) + \\log_a(n)\\)
-        </div>
-        <div class="rule-item">
-            <span class="rule-name">Quotient Rule</span>
-            \\(\\log_a\\!\\left(\\dfrac{m}{n}\\right) = \\log_a(m) - \\log_a(n)\\)
-        </div>
-        <div class="rule-item">
-            <span class="rule-name">Power Rule</span>
-            \\(\\log_a(m^k) = k \\cdot \\log_a(m)\\)
-        </div>
-        <div class="rule-item">
-            <span class="rule-name">Change of Base</span>
-            \\(\\log_a(b) = \\dfrac{\\log_c(b)}{\\log_c(a)}\\)
-        </div>
-        <div class="rule-item">
-            <span class="rule-name">Identity Rules</span>
-            \\(\\log_a(1) = 0\\) &nbsp;&nbsp;and&nbsp;&nbsp; \\(\\log_a(a) = 1\\)
-        </div>
-        <div class="rule-item">
-            <span class="rule-name">Definition</span>
-            \\(\\log_a(x) = n \\iff a^n = x\\)
-        </div>`;
+    LR.init(); SE.init();
+
+    // Hub topic cards
+    document.querySelectorAll('.topic-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const topic = card.dataset.topic;
+            if (topic === 'log-rules') { showView('log-rules'); LR.load(); }
+            else if (topic === 'log-simul') { showView('log-simul'); SE.load(); }
+        });
+    });
+
+    // Back buttons
+    document.querySelectorAll('[data-back]').forEach(btn => {
+        btn.addEventListener('click', () => showView('hub'));
+    });
+
+    // Log Rules next
+    document.getElementById('lr-next').addEventListener('click', () => LR.load());
+
+    // Log Rules reference
+    document.getElementById('lr-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Product Rule</span>\\(\\log_a(m \\cdot n) = \\log_a(m) + \\log_a(n)\\)</div>
+        <div class="rule-item"><span class="rule-name">Quotient Rule</span>\\(\\log_a\\!\\left(\\dfrac{m}{n}\\right) = \\log_a(m) - \\log_a(n)\\)</div>
+        <div class="rule-item"><span class="rule-name">Power Rule</span>\\(\\log_a(m^k) = k \\cdot \\log_a(m)\\)</div>
+        <div class="rule-item"><span class="rule-name">Change of Base</span>\\(\\log_a(b) = \\dfrac{\\log_c(b)}{\\log_c(a)}\\)</div>
+        <div class="rule-item"><span class="rule-name">Identity Rules</span>\\(\\log_a(1) = 0\\) &nbsp;and&nbsp; \\(\\log_a(a) = 1\\)</div>
+        <div class="rule-item"><span class="rule-name">Definition</span>\\(\\log_a(x) = n \\iff a^n = x\\)</div>`;
+
+    // Simultaneous next + check
+    document.getElementById('se-next').addEventListener('click', () => SE.load());
+    document.getElementById('se-check').addEventListener('click', () => SE.check());
+
+    // Simultaneous level selector
+    document.querySelectorAll('#se-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#se-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            SE.level = btn.dataset.level;
+            SE.resetScore();
+            SE.load();
+        });
+    });
+
+    // Enter on SE math fields
+    setTimeout(() => {
+        ['se-mf-x','se-mf-y'].forEach(id => {
+            const el=document.getElementById(id);
+            if(el) el.addEventListener('keydown', e=>{if(e.key==='Enter'){e.preventDefault();SE.check();}});
+        });
+    }, 300);
+
+    // Simultaneous reference
+    document.getElementById('se-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Product Rule</span>\\(\\log_a(mn) = \\log_a(m) + \\log_a(n)\\)</div>
+        <div class="rule-item"><span class="rule-name">Quotient Rule</span>\\(\\log_a\\!\\left(\\frac{m}{n}\\right) = \\log_a(m) - \\log_a(n)\\)</div>
+        <div class="rule-item"><span class="rule-name">Power Rule</span>\\(\\log_a(m^k) = k \\cdot \\log_a(m)\\)</div>
+        <div class="rule-item"><span class="rule-name">Definition</span>\\(\\log_a(x) = n \\iff a^n = x\\)</div>
+        <div class="rule-item"><span class="rule-name">Strategy</span>Let \\(u = \\log_b(x)\\), \\(v = \\log_b(y)\\), rewrite as a linear system, solve, then \\(x = b^u,\\; y = b^v\\).</div>`;
 
     renderMath();
-
-    $next().addEventListener('click', loadQuestion);
-
-    // Small delay to let KaTeX finish loading
-    setTimeout(loadQuestion, 150);
 });
 </script>
 </body>
