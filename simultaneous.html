@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simultaneous Equations Trainer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script type="module">import 'https://unpkg.com/mathlive?module';</script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef0ff;
+            --success: #06d6a0;
+            --success-light: #e6faf4;
+            --error: #ef476f;
+            --error-light: #fde8ed;
+            --bg: #f0f2f5;
+            --card: #ffffff;
+            --text: #2b2d42;
+            --text-light: #6c757d;
+            --radius: 16px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        #app { max-width: 680px; margin: 0 auto; }
+
+        /* ---- Nav ---- */
+        .nav {
+            display: flex; justify-content: center; gap: 8px;
+            margin-bottom: 20px; flex-wrap: wrap;
+        }
+        .nav a {
+            text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            padding: 6px 16px; border-radius: 20px; transition: all 0.2s;
+        }
+        .nav a.active {
+            background: var(--primary); color: #fff;
+        }
+        .nav a:not(.active) {
+            background: var(--card); color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        .nav a:not(.active):hover {
+            background: var(--primary-light);
+        }
+
+        /* ---- Header ---- */
+        header { text-align: center; margin-bottom: 24px; }
+        header h1 { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+        header p  { color: var(--text-light); font-size: 0.95rem; }
+
+        /* ---- Score Bar ---- */
+        .score-bar {
+            display: flex; justify-content: center; gap: 16px;
+            margin-bottom: 24px; flex-wrap: wrap;
+        }
+        .score-item {
+            background: var(--card); padding: 10px 20px; border-radius: 12px;
+            box-shadow: var(--shadow); text-align: center; min-width: 90px;
+        }
+        .score-item .label {
+            font-size: 0.7rem; text-transform: uppercase;
+            letter-spacing: 0.05em; color: var(--text-light); margin-bottom: 2px;
+        }
+        .score-item .value { font-size: 1.3rem; font-weight: 700; }
+        .score-item .value.primary { color: var(--primary); }
+        .score-item .value.success { color: var(--success); }
+
+        /* ---- Question Card ---- */
+        .question-card {
+            background: var(--card); border-radius: var(--radius);
+            box-shadow: var(--shadow); padding: 32px; margin-bottom: 20px;
+            text-align: center;
+        }
+        .difficulty-tag {
+            display: inline-block; font-size: 0.78rem; font-weight: 600;
+            padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
+        }
+        .difficulty-tag.easy   { background: var(--success-light); color: #047857; }
+        .difficulty-tag.medium { background: #fff3cd; color: #856404; }
+        .difficulty-tag.hard   { background: var(--error-light); color: #be123c; }
+
+        .equation-system {
+            font-size: 1.45rem; line-height: 2.4; margin: 16px 0;
+        }
+
+        /* ---- Workout Space ---- */
+        .workout-section {
+            background: var(--card); border-radius: var(--radius);
+            box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px;
+        }
+        .workout-section h3 {
+            font-size: 0.9rem; font-weight: 600; color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .workout-textarea {
+            width: 100%; min-height: 180px; padding: 16px;
+            border: 2px solid #e0e0e0; border-radius: 12px;
+            font-family: 'Cascadia Code', 'Fira Code', 'SF Mono', 'Consolas', monospace;
+            font-size: 1rem; line-height: 1.8; color: var(--text);
+            resize: vertical; background: #fafbfc;
+            transition: border-color 0.2s;
+        }
+        .workout-textarea:focus {
+            border-color: var(--primary); outline: none;
+            box-shadow: 0 0 0 3px rgba(67,97,238,0.15);
+        }
+        .workout-textarea::placeholder { color: #b0b8c4; }
+
+        /* ---- Answer Inputs ---- */
+        .answer-section {
+            background: var(--card); border-radius: var(--radius);
+            box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px;
+            text-align: center;
+        }
+        .answer-section h3 {
+            font-size: 0.9rem; font-weight: 600; color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .answer-row {
+            display: flex; justify-content: center; align-items: center;
+            gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+        }
+        .answer-label {
+            font-size: 1.3rem; font-weight: 600; min-width: 30px;
+            text-align: right;
+        }
+        math-field {
+            font-size: 1.4rem; width: 140px;
+            border-radius: 12px; border: 2px solid #e0e0e0;
+            padding: 8px 14px;
+            --caret-color: var(--primary);
+            --selection-background-color: rgba(67,97,238,0.18);
+        }
+        math-field:focus-within {
+            border-color: var(--primary); outline: none;
+            box-shadow: 0 0 0 3px rgba(67,97,238,0.15);
+        }
+
+        .btn {
+            border: none; border-radius: 12px; padding: 12px 32px;
+            font-size: 1rem; font-weight: 600; cursor: pointer;
+            transition: all 0.2s ease; font-family: inherit;
+        }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: #3651d4; transform: translateY(-2px); }
+        .btn:disabled { background: #ccc; cursor: default; transform: none; }
+        .btn-row { margin-top: 16px; }
+
+        /* ---- Feedback ---- */
+        .feedback {
+            border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px;
+            display: none; text-align: left; animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .feedback.show { display: block; }
+        .feedback.correct  { background: var(--success-light); border: 2px solid var(--success); color: #047857; }
+        .feedback.incorrect { background: var(--error-light); border: 2px solid var(--error); color: #be123c; }
+        .feedback-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 10px; text-align: center; }
+        .feedback-explanation { font-size: 0.95rem; line-height: 2; }
+        .solution-step { margin: 4px 0; }
+
+        /* ---- Next Button ---- */
+        #next-btn { display: none; margin: 0 auto 24px; }
+
+        /* ---- Method Reference ---- */
+        .rules-ref {
+            background: var(--card); border-radius: var(--radius);
+            box-shadow: var(--shadow); margin-top: 8px;
+        }
+        .rules-ref summary {
+            padding: 16px 24px; cursor: pointer; font-weight: 600;
+            color: var(--primary); user-select: none; list-style: none;
+        }
+        .rules-ref summary::-webkit-details-marker { display: none; }
+        .rules-ref summary::before { content: '+ '; font-weight: 700; }
+        .rules-ref[open] summary::before { content: '- '; }
+        .rules-content { padding: 0 24px 20px; }
+        .rule-item {
+            padding: 10px 0; border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem; line-height: 2;
+        }
+        .rule-item:last-child { border-bottom: none; }
+        .rule-name {
+            font-weight: 600; color: var(--primary); display: block;
+            margin-bottom: 2px; font-size: 0.82rem;
+        }
+
+        @media (max-width: 480px) {
+            .question-card { padding: 24px 16px; }
+            .equation-system { font-size: 1.2rem; }
+            math-field { width: 120px; font-size: 1.2rem; }
+            .workout-textarea { min-height: 140px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <nav class="nav">
+        <a href="index.html">Log Rules</a>
+        <a href="simultaneous.html" class="active">Simultaneous Equations</a>
+    </nav>
+
+    <header>
+        <h1>Simultaneous Equations</h1>
+        <p>IB MYP Level &mdash; Solve systems of linear equations</p>
+    </header>
+
+    <div class="score-bar">
+        <div class="score-item">
+            <div class="label">Score</div>
+            <div class="value primary" id="score-display">0 / 0</div>
+        </div>
+        <div class="score-item">
+            <div class="label">Accuracy</div>
+            <div class="value primary" id="pct-display">&mdash;</div>
+        </div>
+        <div class="score-item">
+            <div class="label">Streak</div>
+            <div class="value success" id="streak-display">0</div>
+        </div>
+    </div>
+
+    <div class="question-card" id="question-card">
+        <p style="color:var(--text-light)">Loading&hellip;</p>
+    </div>
+
+    <div class="workout-section">
+        <h3>Your Working</h3>
+        <textarea class="workout-textarea" id="workout"
+            placeholder="Show your working here...&#10;&#10;e.g.  Multiply eq1 by 2:&#10;      4x + 6y = 14&#10;      Subtract eq2:&#10;      ..."></textarea>
+    </div>
+
+    <div class="answer-section">
+        <h3>Your Answer</h3>
+        <div class="answer-row">
+            <span class="answer-label">\(x =\)</span>
+            <math-field id="mf-x" placeholder="?"></math-field>
+        </div>
+        <div class="answer-row">
+            <span class="answer-label">\(y =\)</span>
+            <math-field id="mf-y" placeholder="?"></math-field>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-primary" id="check-btn">Check Answer</button>
+        </div>
+    </div>
+
+    <div class="feedback" id="feedback">
+        <div class="feedback-title" id="feedback-title"></div>
+        <div class="feedback-explanation" id="feedback-explanation"></div>
+    </div>
+
+    <button class="btn btn-primary" id="next-btn">Next Question</button>
+
+    <details class="rules-ref">
+        <summary>Methods Reference</summary>
+        <div class="rules-content" id="rules-content"></div>
+    </details>
+</div>
+
+<script>
+/* ================================================================
+   SIMULTANEOUS EQUATIONS TRAINER  –  IB MYP
+   ================================================================ */
+
+function randInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function renderMath() {
+    if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: '\\(', right: '\\)', display: false },
+                { left: '$$',  right: '$$',  display: true  }
+            ],
+            throwOnError: false
+        });
+    }
+}
+
+// ── State ────────────────────────────────────────────────────────
+let score = 0, total = 0, streak = 0, currentQ = null, answered = false;
+
+// ── Equation Display Helpers ─────────────────────────────────────
+function termTex(coeff, variable, isFirst) {
+    if (coeff === 0) return '';
+    let s = '';
+    if (isFirst) {
+        if (coeff === -1) s = '-';
+        else if (coeff === 1) s = '';
+        else s = String(coeff);
+    } else {
+        if (coeff === 1) s = ' + ';
+        else if (coeff === -1) s = ' - ';
+        else if (coeff > 0) s = ' + ' + coeff;
+        else s = ' - ' + Math.abs(coeff);
+    }
+    return s + variable;
+}
+
+function eqTex(a, b, c) {
+    // ax + by = c
+    let lhs = '';
+    if (a !== 0 && b !== 0) {
+        lhs = termTex(a, 'x', true) + termTex(b, 'y', false);
+    } else if (a !== 0) {
+        lhs = termTex(a, 'x', true);
+    } else {
+        lhs = termTex(b, 'y', true);
+    }
+    return lhs + ' = ' + c;
+}
+
+// ── Question Generation ──────────────────────────────────────────
+function generateQuestion() {
+    // Pick integer solutions
+    const x = randInt(-8, 8);
+    const y = randInt(-8, 8);
+
+    // Pick difficulty
+    const diff = pick(['easy', 'easy', 'medium', 'medium', 'hard']);
+    let a1, b1, a2, b2;
+
+    if (diff === 'easy') {
+        // One coefficient is 1 or -1 (easy substitution)
+        a1 = pick([1, -1]);
+        b1 = randInt(-5, 5) || 1;
+        a2 = randInt(2, 5) * pick([1, -1]);
+        b2 = randInt(-5, 5) || 1;
+    } else if (diff === 'medium') {
+        a1 = randInt(1, 4) * pick([1, -1]);
+        b1 = randInt(1, 4) * pick([1, -1]);
+        a2 = randInt(1, 4) * pick([1, -1]);
+        b2 = randInt(1, 4) * pick([1, -1]);
+    } else {
+        a1 = randInt(2, 6) * pick([1, -1]);
+        b1 = randInt(2, 6) * pick([1, -1]);
+        a2 = randInt(2, 6) * pick([1, -1]);
+        b2 = randInt(2, 6) * pick([1, -1]);
+    }
+
+    // Make sure the system has a unique solution (det != 0)
+    const det = a1 * b2 - a2 * b1;
+    if (det === 0) return generateQuestion();
+
+    // Also avoid identical or trivially proportional equations
+    if (a1 === a2 && b1 === b2) return generateQuestion();
+
+    const c1 = a1 * x + b1 * y;
+    const c2 = a2 * x + b2 * y;
+
+    // Keep constants reasonable
+    if (Math.abs(c1) > 50 || Math.abs(c2) > 50) return generateQuestion();
+
+    // Build worked solution
+    const solution = buildSolution(a1, b1, c1, a2, b2, c2, x, y);
+
+    return {
+        difficulty: diff,
+        a1, b1, c1, a2, b2, c2,
+        x, y,
+        solution
+    };
+}
+
+function buildSolution(a1, b1, c1, a2, b2, c2, x, y) {
+    const steps = [];
+
+    // Label equations
+    steps.push(`\\text{Equation 1: } ${eqTex(a1, b1, c1)}`);
+    steps.push(`\\text{Equation 2: } ${eqTex(a2, b2, c2)}`);
+
+    // Elimination: eliminate x
+    // Multiply eq1 by |a2|, eq2 by |a1| so x-coefficients match magnitude
+    const m1 = Math.abs(a2);
+    const m2 = Math.abs(a1);
+
+    const na1 = a1 * m1, nb1 = b1 * m1, nc1 = c1 * m1;
+    const na2 = a2 * m2, nb2 = b2 * m2, nc2 = c2 * m2;
+
+    if (m1 !== 1) {
+        steps.push(`\\text{Multiply Eq1 by } ${m1}: \\quad ${eqTex(na1, nb1, nc1)}`);
+    }
+    if (m2 !== 1) {
+        steps.push(`\\text{Multiply Eq2 by } ${m2}: \\quad ${eqTex(na2, nb2, nc2)}`);
+    }
+
+    // Decide add or subtract
+    let resultB, resultC, op;
+    if (na1 === na2) {
+        // Subtract
+        resultB = nb1 - nb2;
+        resultC = nc1 - nc2;
+        op = 'Subtract';
+    } else {
+        // They should have opposite signs after multiply, so add
+        resultB = nb1 + nb2;
+        resultC = nc1 + nc2;
+        op = 'Add';
+    }
+
+    steps.push(`\\text{${op} the equations: } ${termTex(resultB, 'y', true)} = ${resultC}`);
+
+    if (resultB !== 0) {
+        steps.push(`y = \\frac{${resultC}}{${resultB}} = ${y}`);
+    }
+
+    // Back-substitute into eq1
+    steps.push(`\\text{Substitute } y = ${y} \\text{ into Eq1:}`);
+    const sub = `${a1 === 1 ? '' : a1 === -1 ? '-' : a1}x + ${b1}(${y}) = ${c1}`;
+    const rhs = c1 - b1 * y;
+    steps.push(`${a1 === 1 ? '' : a1 === -1 ? '-' : a1}x = ${c1} - ${b1 * y < 0 ? '(' + (b1*y) + ')' : b1*y} = ${rhs}`);
+    if (a1 !== 1 && a1 !== -1) {
+        steps.push(`x = \\frac{${rhs}}{${a1}} = ${x}`);
+    } else if (a1 === -1) {
+        steps.push(`x = ${-rhs} \\div (-1) = ${x}`);
+    } else {
+        steps.push(`x = ${x}`);
+    }
+
+    steps.push(`\\boxed{x = ${x}, \\quad y = ${y}}`);
+
+    return steps;
+}
+
+// ── Answer Checking ──────────────────────────────────────────────
+function parseLatex(raw) {
+    let s = raw.replace(/\\left|\\right|\\,|\\:|\\;|\\!/g, '').replace(/\s+/g, '');
+    const fm = s.match(/\\frac\{(-?[\d.]+)\}\{(-?[\d.]+)\}/);
+    if (fm) return parseFloat(fm[1]) / parseFloat(fm[2]);
+    const dm = s.match(/\\dfrac\{(-?[\d.]+)\}\{(-?[\d.]+)\}/);
+    if (dm) return parseFloat(dm[1]) / parseFloat(dm[2]);
+    // Handle - sign that MathLive may produce
+    s = s.replace(/^−/, '-'); // unicode minus
+    const dv = s.match(/^(-?[\d.]+)\/(-?[\d.]+)$/);
+    if (dv) return parseFloat(dv[1]) / parseFloat(dv[2]);
+    return parseFloat(s);
+}
+
+function checkAnswer(latexX, latexY, expectedX, expectedY) {
+    const ux = parseLatex(latexX);
+    const uy = parseLatex(latexY);
+    if (isNaN(ux) || isNaN(uy)) return false;
+    return Math.abs(ux - expectedX) < 0.001 && Math.abs(uy - expectedY) < 0.001;
+}
+
+// ── UI ───────────────────────────────────────────────────────────
+function loadQuestion() {
+    answered = false;
+    currentQ = generateQuestion();
+    const q = currentQ;
+
+    const diffLabel = { easy: 'Easy', medium: 'Medium', hard: 'Challenging' };
+    const card = document.getElementById('question-card');
+    card.innerHTML = `
+        <div class="difficulty-tag ${q.difficulty}">${diffLabel[q.difficulty]}</div>
+        <div style="font-size:1.1rem;margin-bottom:8px;">Solve the simultaneous equations:</div>
+        <div class="equation-system">
+            \\(${eqTex(q.a1, q.b1, q.c1)}\\)<br>
+            \\(${eqTex(q.a2, q.b2, q.c2)}\\)
+        </div>`;
+
+    // Clear workspace and inputs
+    document.getElementById('workout').value = '';
+    const mfx = document.getElementById('mf-x');
+    const mfy = document.getElementById('mf-y');
+    if (mfx) { mfx.value = ''; mfx.disabled = false; }
+    if (mfy) { mfy.value = ''; mfy.disabled = false; }
+
+    const checkBtn = document.getElementById('check-btn');
+    checkBtn.disabled = false;
+
+    // Hide feedback / next
+    const fb = document.getElementById('feedback');
+    fb.classList.remove('show', 'correct', 'incorrect');
+    document.getElementById('next-btn').style.display = 'none';
+
+    renderMath();
+}
+
+function handleCheck() {
+    if (answered) return;
+    const mfx = document.getElementById('mf-x');
+    const mfy = document.getElementById('mf-y');
+    if (!mfx || !mfy) return;
+
+    const lx = mfx.value, ly = mfy.value;
+    if ((!lx || !lx.trim()) && (!ly || !ly.trim())) return;
+
+    answered = true;
+    mfx.disabled = true;
+    mfy.disabled = true;
+    document.getElementById('check-btn').disabled = true;
+
+    const q = currentQ;
+    const correct = checkAnswer(lx, ly, q.x, q.y);
+
+    record(correct);
+
+    // Build feedback
+    let html = '';
+    if (!correct) {
+        html += `<p style="margin-bottom:12px;text-align:center;">The correct answer is \\(x = ${q.x}\\), \\(y = ${q.y}\\).</p>`;
+    }
+    html += '<strong>Worked solution:</strong><br>';
+    q.solution.forEach(step => {
+        html += `<div class="solution-step">\\(${step}\\)</div>`;
+    });
+
+    showFeedback(correct, html);
+}
+
+function record(ok) {
+    total++;
+    if (ok) { score++; streak++; } else { streak = 0; }
+    document.getElementById('score-display').textContent = `${score} / ${total}`;
+    document.getElementById('pct-display').textContent = total ? Math.round(score/total*100) + '%' : '\u2014';
+    document.getElementById('streak-display').textContent = streak;
+}
+
+function showFeedback(ok, html) {
+    const fb = document.getElementById('feedback');
+    fb.classList.remove('correct', 'incorrect');
+    fb.classList.add('show', ok ? 'correct' : 'incorrect');
+    document.getElementById('feedback-title').textContent = ok ? 'Correct!' : 'Not quite\u2026';
+    document.getElementById('feedback-explanation').innerHTML = html;
+    document.getElementById('next-btn').style.display = 'block';
+    renderMath();
+    fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ── Init ─────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    // Methods reference
+    document.getElementById('rules-content').innerHTML = `
+        <div class="rule-item">
+            <span class="rule-name">Elimination Method</span>
+            Multiply one or both equations so that a variable has the same (or opposite)
+            coefficient in each equation. Then add or subtract the equations to eliminate
+            that variable and solve for the other.
+        </div>
+        <div class="rule-item">
+            <span class="rule-name">Substitution Method</span>
+            Rearrange one equation to express a variable in terms of the other
+            (e.g. \\(x = ...\\)), then substitute into the second equation and solve.
+        </div>
+        <div class="rule-item">
+            <span class="rule-name">Check Your Solution</span>
+            Always substitute your values of \\(x\\) and \\(y\\) back into
+            <em>both</em> original equations to verify they are correct.
+        </div>`;
+
+    renderMath();
+
+    document.getElementById('check-btn').addEventListener('click', handleCheck);
+    document.getElementById('next-btn').addEventListener('click', loadQuestion);
+
+    // Enter key on math fields triggers check
+    setTimeout(() => {
+        ['mf-x', 'mf-y'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('keydown', e => {
+                if (e.key === 'Enter') { e.preventDefault(); handleCheck(); }
+            });
+        });
+    }, 300);
+
+    setTimeout(loadQuestion, 150);
+});
+</script>
+</body>
+</html>
