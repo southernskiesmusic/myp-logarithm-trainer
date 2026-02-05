@@ -178,6 +178,21 @@
             margin-bottom: 2px; font-size: 0.82rem;
         }
 
+        .level-select {
+            display: flex; justify-content: center; gap: 8px;
+            margin-bottom: 20px; flex-wrap: wrap;
+        }
+        .level-btn {
+            background: var(--card); color: var(--text); border: 2px solid #e0e0e0;
+            border-radius: 20px; padding: 6px 18px; font-size: 0.85rem;
+            font-weight: 600; cursor: pointer; transition: all 0.2s;
+            font-family: inherit;
+        }
+        .level-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+        .level-btn.active {
+            background: var(--primary); color: #fff; border-color: var(--primary);
+        }
+
         @media (max-width: 480px) {
             .question-card { padding: 24px 16px; }
             .equation-system { font-size: 1.1rem; }
@@ -197,6 +212,13 @@
         <h1>Log Simultaneous Equations</h1>
         <p>IB MYP Level &mdash; Solve systems using logarithm rules</p>
     </header>
+
+    <div class="level-select">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
 
     <div class="score-bar">
         <div class="score-item">
@@ -272,6 +294,7 @@ function renderMath() {
 }
 
 let score = 0, total = 0, streak = 0, currentQ = null, answered = false;
+let selectedLevel = 'all';
 const BASES = [2, 3, 5, 10];
 
 function logTex(b, arg) { return `\\log_{${b}}(${arg})`; }
@@ -478,8 +501,13 @@ function qPowerForm() {
     };
 }
 
-// Weighted pool
-const pool = [
+// Pools by difficulty
+const pools = {
+    easy:   [qDirect],
+    medium: [qSumDiff, qProdQuot],
+    hard:   [qCoefficients, qPowerForm]
+};
+const allPool = [
     qDirect, qDirect,
     qSumDiff, qSumDiff, qSumDiff,
     qProdQuot, qProdQuot,
@@ -487,7 +515,10 @@ const pool = [
     qPowerForm
 ];
 
-function nextQuestion() { return pick(pool)(); }
+function nextQuestion() {
+    const p = selectedLevel === 'all' ? allPool : pools[selectedLevel];
+    return pick(p)();
+}
 
 // ── Answer Parsing ───────────────────────────────────────────────
 function parseLatex(raw) {
@@ -612,6 +643,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('check-btn').addEventListener('click', handleCheck);
     document.getElementById('next-btn').addEventListener('click', loadQuestion);
+
+    // Level selector
+    document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedLevel = btn.dataset.level;
+            score = 0; total = 0; streak = 0;
+            document.getElementById('score-display').textContent = '0 / 0';
+            document.getElementById('pct-display').textContent = '\u2014';
+            document.getElementById('streak-display').textContent = '0';
+            loadQuestion();
+        });
+    });
 
     setTimeout(() => {
         ['mf-x', 'mf-y'].forEach(id => {
