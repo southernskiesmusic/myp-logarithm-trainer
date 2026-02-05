@@ -504,6 +504,45 @@ function parseLatex(raw) {
     return parseFloat(s);
 }
 
+// ── Progressive Hint System ─────────────────────────────────────
+function handleHint(trainer, boxId, btnId) {
+    const box = document.getElementById(boxId);
+    const btn = document.getElementById(btnId);
+    const q = trainer.currentQ;
+    if (!q) return;
+    let hints = q.hintTex;
+    if (!hints) return;
+    if (typeof hints === 'string') hints = [hints];
+
+    if (trainer.hintIdx >= hints.length) {
+        box.classList.toggle('show');
+        return;
+    }
+
+    if (trainer.hintIdx === 0) box.innerHTML = '';
+    const div = document.createElement('div');
+    div.style.margin = '6px 0';
+    div.innerHTML = hints.length > 1
+        ? `<strong>Hint ${trainer.hintIdx + 1}:</strong> ${hints[trainer.hintIdx]}`
+        : hints[trainer.hintIdx];
+    box.appendChild(div);
+    box.classList.add('show');
+    trainer.hintIdx++;
+
+    if (trainer.hintIdx < hints.length) {
+        btn.textContent = `Next Hint (${trainer.hintIdx}/${hints.length})`;
+    } else {
+        btn.textContent = hints.length > 1 ? 'All Hints Shown' : 'Hint';
+    }
+    renderMath();
+}
+
+function resetHint(boxId, btnId) {
+    document.getElementById(boxId).classList.remove('show');
+    document.getElementById(boxId).innerHTML = '';
+    document.getElementById(btnId).textContent = 'Hint';
+}
+
 const BASES = [2, 3, 5, 10];
 function logTex(b, x) { return `\\log_{${b}}(${x})`; }
 
@@ -518,28 +557,28 @@ function showView(id) {
    LOG RULES TRAINER
    ================================================================ */
 const LR = {
-    score: 0, total: 0, streak: 0, currentQ: null, answered: false,
+    score: 0, total: 0, streak: 0, currentQ: null, answered: false, hintIdx: 0,
 
     qEvaluate() {
         const b = pick(BASES), n = randInt(1,5), v = Math.pow(b,n);
         if (v > 100000) return LR.qEvaluate();
         return { type:'free', rule:'Evaluate', text:'Evaluate:', latex: logTex(b,v),
             answer:n, answerTex:String(n),
-            hintTex:`Think: ${b} to the power of what gives ${v}?`,
+            hintTex:[`Use the definition: \\(${logTex(b,'x')} = n\\) means \\(${b}^n = x\\).`,`Think: \\(${b}\\) to the power of what gives \\(${v}\\)?`],
             explain:`Since \\(${b}^{${n}}=${v}\\), we get \\(${logTex(b,v)}=${n}\\).` };
     },
     qIdZero() {
         const b = pick(BASES);
         return { type:'free', rule:'Identity', text:'Evaluate:', latex: logTex(b,1),
             answer:0, answerTex:'0',
-            hintTex:`What power of any base gives 1?`,
+            hintTex:['Any number raised to what power gives 1?','Remember: \\(a^0 = 1\\) for any base \\(a\\).'],
             explain:`\\(${logTex(b,1)}=0\\) because \\(${b}^{0}=1\\).` };
     },
     qIdOne() {
         const b = pick(BASES);
         return { type:'free', rule:'Identity', text:'Evaluate:', latex: logTex(b,b),
             answer:1, answerTex:'1',
-            hintTex:`What power of \\(${b}\\) gives \\(${b}\\)?`,
+            hintTex:[`What power of \\(${b}\\) gives \\(${b}\\)?`,`Remember: \\(a^1 = a\\) for any base.`],
             explain:`\\(${logTex(b,b)}=1\\) because \\(${b}^{1}=${b}\\).` };
     },
     qProduct() {
@@ -547,7 +586,7 @@ const LR = {
         const c = `\\(${logTex(b,mn)}\\)`;
         return { type:'mc', rule:'Product Rule', text:'Simplify:',
             latex:`${logTex(b,m)} + ${logTex(b,n)}`, answer:c,
-            hintTex:`Product Rule: \\(\\log(a) + \\log(b) = \\log(a \\cdot b)\\)`,
+            hintTex:['Adding logs means multiplying the arguments.',`Product Rule: \\(\\log(a) + \\log(b) = \\log(a \\cdot b)\\).`,`Calculate \\(${m} \\times ${n} = ${mn}\\).`],
             options:shuffle([c, `\\(${logTex(b,m+n)}\\)`,
                 `\\(${logTex(b,m)} \\cdot ${logTex(b,n)}\\)`, `\\(${logTex(b*b,mn)}\\)`]),
             explain:`Product Rule: \\(${logTex(b,m)}+${logTex(b,n)} = ${logTex(b,m+'\\cdot '+n)} = ${logTex(b,mn)}\\).` };
@@ -557,7 +596,7 @@ const LR = {
         const c = `\\(${logTex(b,k)}\\)`;
         return { type:'mc', rule:'Quotient Rule', text:'Simplify:',
             latex:`${logTex(b,m)} - ${logTex(b,n)}`, answer:c,
-            hintTex:`Quotient Rule: \\(\\log(a) - \\log(b) = \\log\\!\\left(\\frac{a}{b}\\right)\\)`,
+            hintTex:['Subtracting logs means dividing the arguments.',`Quotient Rule: \\(\\log(a) - \\log(b) = \\log\\!\\left(\\frac{a}{b}\\right)\\).`,`Calculate \\(${m} \\div ${n} = ${k}\\).`],
             options:shuffle([c, `\\(${logTex(b,m-n)}\\)`,
                 `\\(\\dfrac{${logTex(b,m)}}{${logTex(b,n)}}\\)`, `\\(${logTex(b,n)}\\)`]),
             explain:`Quotient Rule: \\(${logTex(b,m)}-${logTex(b,n)} = ${logTex(b,'\\tfrac{'+m+'}{'+n+'}')} = ${logTex(b,k)}\\).` };
@@ -567,7 +606,7 @@ const LR = {
         const c = `\\(${logTex(b,mk)}\\)`;
         return { type:'mc', rule:'Power Rule', text:'Simplify:',
             latex:`${k}\\cdot ${logTex(b,m)}`, answer:c,
-            hintTex:`Power Rule: \\(k \\cdot \\log(m) = \\log(m^k)\\). What is \\(${m}^{${k}}\\)?`,
+            hintTex:['A coefficient in front of a log becomes an exponent inside.',`Power Rule: \\(k \\cdot \\log(m) = \\log(m^k)\\).`,`Calculate \\(${m}^{${k}} = ${mk}\\).`],
             options:shuffle([c, `\\(${logTex(b,k*m)}\\)`,
                 `\\(${logTex(Math.pow(b,k),m)}\\)`, `\\(${k}+${logTex(b,m)}\\)`]),
             explain:`Power Rule: \\(${k}\\cdot ${logTex(b,m)} = ${logTex(b,m+'^{'+k+'}')} = ${logTex(b,mk)}\\).` };
@@ -577,7 +616,7 @@ const LR = {
         let a; do{a=pick(BASES);}while(a===c);
         return { type:'free', rule:'Change of Base', text:'Evaluate:',
             latex:`\\dfrac{${logTex(a,v)}}{${logTex(a,c)}}`, answer:n, answerTex:String(n),
-            hintTex:`\\(\\frac{\\log_a(b)}{\\log_a(c)} = \\log_c(b)\\). So this equals \\(${logTex(c,v)}\\).`,
+            hintTex:[`When you divide two logs with the same base, you can change the base.`,`\\(\\frac{\\log_a(b)}{\\log_a(c)} = \\log_c(b)\\).`,`So this equals \\(${logTex(c,v)}\\). Now evaluate.`],
             explain:`Change of Base: \\(\\dfrac{${logTex(a,v)}}{${logTex(a,c)}} = ${logTex(c,v)} = ${n}\\) since \\(${c}^{${n}}=${v}\\).` };
     },
     qChangeOfBaseFrac() {
@@ -589,7 +628,7 @@ const LR = {
         return { type:'free', rule:'Change of Base', text:'Evaluate:',
             latex:`\\dfrac{${logTex(a,vp)}}{${logTex(a,vq)}}`, answer:ans,
             answerTex: Number.isInteger(ans)?String(ans):`\\dfrac{${sp}}{${sq}}`,
-            hintTex:`Change of base: this equals \\(\\frac{${logTex(c,vp)}}{${logTex(c,vq)}}\\). Evaluate each log separately.`,
+            hintTex:['Use change of base to simplify the fraction.',`This equals \\(\\frac{${logTex(c,vp)}}{${logTex(c,vq)}}\\).`,`Evaluate each: \\(${logTex(c,vp)}=${p}\\) and \\(${logTex(c,vq)}=${q}\\). Now divide.`],
             explain:`\\(\\dfrac{${logTex(a,vp)}}{${logTex(a,vq)}} = \\dfrac{${logTex(c,vp)}}{${logTex(c,vq)}} = \\dfrac{${p}}{${q}}`+(g>1?` = \\dfrac{${sp}}{${sq}}`:'')+'\\).' };
     },
     qExpandProduct() {
@@ -597,7 +636,7 @@ const LR = {
         const c = `\\(${logTex(b,m)} + ${logTex(b,n)}\\)`;
         return { type:'mc', rule:'Product Rule', text:'Express as a sum of two logs:',
             latex:logTex(b,mn), hint:`(${mn} = ${m} \\times ${n})`, answer:c,
-            hintTex:`Product Rule in reverse: \\(\\log(mn) = \\log(m) + \\log(n)\\). Factor ${mn}.`,
+            hintTex:['Use the Product Rule in reverse: \\(\\log(mn) = \\log(m) + \\log(n)\\).',`Factor \\(${mn}\\) into two numbers.`,`\\(${mn} = ${m} \\times ${n}\\).`],
             options:shuffle([c, `\\(${logTex(b,m)} \\cdot ${logTex(b,n)}\\)`,
                 `\\(${logTex(b,m)} - ${logTex(b,n)}\\)`, `\\(${logTex(b+b,mn)}\\)`]),
             explain:`Product Rule: \\(${logTex(b,mn)} = ${logTex(b,m)}+${logTex(b,n)}\\) since \\(${m}\\times${n}=${mn}\\).` };
@@ -607,7 +646,7 @@ const LR = {
         const c = `\\(${k}\\cdot ${logTex(b,m)}\\)`;
         return { type:'mc', rule:'Power Rule', text:'Rewrite using the Power Rule:',
             latex:logTex(b,m+'^{'+k+'}'), answer:c,
-            hintTex:`Power Rule: \\(\\log(m^k) = k \\cdot \\log(m)\\). Bring the exponent down.`,
+            hintTex:['The Power Rule lets you move the exponent.',`\\(\\log(m^k) = k \\cdot \\log(m)\\). Bring the \\(${k}\\) down as a coefficient.`],
             options:shuffle([c, `\\(${logTex(b,m)}^{${k}}\\)`,
                 `\\(${logTex(Math.pow(b,k),m)}\\)`, `\\(${logTex(b,k+'\\cdot'+m)}\\)`]),
             explain:`Power Rule: \\(${logTex(b,m+'^{'+k+'}')} = ${k}\\cdot ${logTex(b,m)}\\).` };
@@ -651,8 +690,8 @@ const LR = {
         const fb = document.getElementById('lr-fb');
         fb.classList.remove('show','correct','incorrect');
         document.getElementById('lr-next').classList.remove('show');
-        document.getElementById('lr-hint').classList.remove('show');
-        document.getElementById('lr-hint').innerHTML = '';
+        this.hintIdx = 0;
+        resetHint('lr-hint', 'lr-hint-btn');
         renderMath();
 
         if (q.type === 'mc') {
@@ -724,7 +763,7 @@ const LR = {
    LOG SIMULTANEOUS EQUATIONS TRAINER
    ================================================================ */
 const SE = {
-    score: 0, total: 0, streak: 0, currentQ: null, answered: false,
+    score: 0, total: 0, streak: 0, currentQ: null, answered: false, hintIdx: 0,
     level: 'all',
 
     qDirect() {
@@ -734,7 +773,7 @@ const SE = {
         if(x>10000||y>10000) return SE.qDirect();
         return { difficulty:'easy', x, y,
             eq1:`${logTex(b,'x')} = ${u}`, eq2:`${logTex(b,'y')} = ${v}`,
-            hintTex:`Use the definition: if \\(${logTex(b,'x')} = n\\), then \\(x = ${b}^n\\).`,
+            hintTex:[`Use the definition of logarithms: \\(${logTex(b,'x')} = n\\) means \\(x = ${b}^n\\).`,`For Eq1: \\(x = ${b}^{${u}}\\). For Eq2: \\(y = ${b}^{${v}}\\). Now compute.`],
             solution:[
                 `\\text{From Eq1: } ${logTex(b,'x')} = ${u} \\implies x = ${b}^{${u}} = ${x}`,
                 `\\text{From Eq2: } ${logTex(b,'y')} = ${v} \\implies y = ${b}^{${v}} = ${y}`,
@@ -750,7 +789,7 @@ const SE = {
         return { difficulty:'medium', x, y,
             eq1:`${logTex(b,'x')} + ${logTex(b,'y')} = ${p}`,
             eq2:`${logTex(b,'x')} - ${logTex(b,'y')} = ${q}`,
-            hintTex:`Let \\(u = ${logTex(b,'x')}\\) and \\(v = ${logTex(b,'y')}\\). Add the two equations to eliminate \\(v\\).`,
+            hintTex:[`Let \\(u = ${logTex(b,'x')}\\) and \\(v = ${logTex(b,'y')}\\) to get a linear system.`,`Add the two equations to eliminate \\(v\\): \\(2u = ${p+q}\\).`,`So \\(u = ${u}\\), then back-substitute to find \\(v = ${v}\\). Convert with \\(x = ${b}^u\\).`],
             solution:[
                 `\\text{Let } u = ${logTex(b,'x')},\\; v = ${logTex(b,'y')}`,
                 `u + v = ${p},\\quad u - v = ${q}`,
@@ -769,7 +808,7 @@ const SE = {
         return { difficulty:'medium', x, y,
             eq1:`${logTex(b,'xy')} = ${p}`,
             eq2:`${logTex(b,'\\tfrac{x}{y}')} = ${q}`,
-            hintTex:`Use Product Rule on Eq1 and Quotient Rule on Eq2 to split into separate logs, then solve the linear system.`,
+            hintTex:['Use log rules to split each equation into separate logs.',`Product Rule on Eq1: \\(${logTex(b,'x')} + ${logTex(b,'y')} = ${p}\\). Quotient Rule on Eq2: \\(${logTex(b,'x')} - ${logTex(b,'y')} = ${q}\\).`,`Now add the equations: \\(2u = ${p+q}\\), so \\(u = ${u}\\).`],
             solution:[
                 `\\text{Product Rule on Eq1: } ${logTex(b,'x')} + ${logTex(b,'y')} = ${p}`,
                 `\\text{Quotient Rule on Eq2: } ${logTex(b,'x')} - ${logTex(b,'y')} = ${q}`,
@@ -816,7 +855,7 @@ const SE = {
             return s+' = '+rhs;
         }
         return { difficulty:'hard', x, y, eq1:leq(a1,b1,p), eq2:leq(a2,b2,q),
-            hintTex:`Let \\(u = ${logTex(b,'x')}\\), \\(v = ${logTex(b,'y')}\\). You get a linear system — use elimination (multiply and subtract).`,
+            hintTex:[`Let \\(u = ${logTex(b,'x')}\\) and \\(v = ${logTex(b,'y')}\\) to get a linear system.`,`Use elimination: multiply equations to match one variable's coefficient, then subtract.`,`Once you find \\(u\\) and \\(v\\), convert back: \\(x = ${b}^u\\), \\(y = ${b}^v\\).`],
             solution:steps };
     },
     qPowerForm() {
@@ -841,7 +880,7 @@ const SE = {
         ];
         return { difficulty:'hard', x, y,
             eq1:`${logTex(b,ins(a1,b1))} = ${p}`, eq2:`${logTex(b,ins(a2,b2))} = ${q}`,
-            hintTex:`Use the Power Rule to bring exponents down as coefficients, then solve the resulting linear system.`,
+            hintTex:['Use the Product Rule to split, then the Power Rule to bring exponents down.',`You get a system like \\(au + bv = \\text{value}\\) where \\(u = ${logTex(b,'x')}\\), \\(v = ${logTex(b,'y')}\\).`,'Solve the linear system using elimination, then convert back with \\(x = b^u\\), \\(y = b^v\\).'],
             solution:steps };
     },
 
@@ -868,8 +907,8 @@ const SE = {
         const fb=document.getElementById('se-fb');
         fb.classList.remove('show','correct','incorrect');
         document.getElementById('se-next').classList.remove('show');
-        document.getElementById('se-hint').classList.remove('show');
-        document.getElementById('se-hint').innerHTML = '';
+        this.hintIdx = 0;
+        resetHint('se-hint', 'se-hint-btn');
         renderMath();
     },
 
@@ -939,7 +978,7 @@ function binTex(a, b) {
 }
 
 const QA = {
-    score:0, total:0, streak:0, currentQ:null, answered:false,
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0,
 
     // Easy MC: expand (x+a)(x+b)
     qExpandRect() {
@@ -955,7 +994,7 @@ const QA = {
         while(opts.length<4) opts.push(`\\(${quadTex(1,sum+1,prod-1)}\\)`);
         return { type:'mc', rule:'Expanding', text:`A rectangle has sides \\((${binTex(1,a)})\\) and \\((${binTex(1,b)})\\). Find its area:`,
             latex:expr, answer:c, options:shuffle(opts),
-            hintTex:'Use FOIL: multiply First, Outer, Inner, Last terms, then collect like terms.',
+            hintTex:['Use FOIL: multiply First, Outer, Inner, Last terms.',`First: \\(x \\cdot x = x^2\\). Last: \\(${a} \\times ${b<0?'('+b+')':b} = ${a*b}\\).`,`Middle: \\(${a}x + ${b}x = ${a+b}x\\). Combine all three parts.`],
             explain:`\\(${expr} = ${quadTex(1,sum,prod)}\\)` };
     },
 
@@ -972,7 +1011,7 @@ const QA = {
         while(opts.length<4) opts.push(`\\(${quadTex(1,a2,-aa)}\\)`);
         return { type:'mc', rule:'Perfect Square', text:`A square has side \\((${binTex(1,a)})\\). Find its area:`,
             latex:expr, answer:c, options:shuffle(opts),
-            hintTex:`Remember: \\((x+a)^2 = x^2 + 2ax + a^2\\), not \\(x^2 + a^2\\).`,
+            hintTex:[`\\((x+a)^2\\) means \\((x+a)(x+a)\\), not \\(x^2 + a^2\\).`,`Double the constant for the middle term: \\(2 \\times ${a<0?'('+a+')':a} = ${2*a}\\).`,`Square the constant for the last term: \\(${a<0?'('+a+')':a}^2 = ${a*a}\\).`],
             explain:`\\(${expr} = (${binTex(1,a)})(${binTex(1,a)}) = ${quadTex(1,a2,aa)}\\)` };
     },
 
@@ -984,7 +1023,7 @@ const QA = {
         const expr=`(${binTex(1,a)})(${binTex(1,b)})`;
         return { type:'free', rule:'Expanding', text:'What is the constant term when you expand:',
             latex:expr, answer:prod, answerTex:String(prod),
-            hintTex:'The constant term comes from multiplying the two number terms together.',
+            hintTex:['The constant term comes from multiplying the two number terms.',`Multiply: \\(${a} \\times ${b<0?'('+b+')':b}\\).`],
             explain:`\\(${expr} = ${quadTex(1,a+b,prod)}\\). The constant term is \\(${prod}\\).` };
     },
 
@@ -996,7 +1035,7 @@ const QA = {
         const expr=`(${binTex(1,a)})(${binTex(1,b)})`;
         return { type:'free', rule:'Expanding', text:'What is the coefficient of \\(x\\) when you expand:',
             latex:expr, answer:sum, answerTex:String(sum),
-            hintTex:'The coefficient of \\(x\\) comes from adding the two constant terms: the outer + inner products.',
+            hintTex:['The \\(x\\) coefficient comes from the outer + inner products in FOIL.',`Add the two constants: \\(${a} + ${b<0?'('+b+')':b}\\).`],
             explain:`\\(${expr} = ${quadTex(1,sum,a*b)}\\). The coefficient of \\(x\\) is \\(${sum}\\).` };
     },
 
@@ -1015,7 +1054,7 @@ const QA = {
         while(opts.length<4) opts.push(`\\(${quadTex(ac,mid+2,bd)}\\)`);
         return { type:'mc', rule:'Expanding', text:`A rectangle has sides \\((${binTex(a,b)})\\) and \\((${binTex(c2,d)})\\). Find its area:`,
             latex:expr, answer:c, options:shuffle(opts),
-            hintTex:'Multiply each term in the first bracket by each term in the second, then collect like terms.',
+            hintTex:['Multiply each term in the first bracket by each term in the second.',`Leading term: \\(${a}x \\cdot ${c2}x = ${ac}x^2\\). Constant: \\(${b<0?'('+b+')':b} \\times ${d<0?'('+d+')':d} = ${bd}\\).`,`Middle: \\(${a} \\cdot ${d<0?'('+d+')':d} + ${b<0?'('+b+')':b} \\cdot ${c2} = ${mid}\\).`],
             explain:`\\(${expr} = ${quadTex(ac,mid,bd)}\\)` };
     },
 
@@ -1033,7 +1072,7 @@ const QA = {
         while(opts.length<4) opts.push(`\\((${binTex(1,p+1)})(${binTex(1,q-1)})\\)`);
         return { type:'mc', rule:'Factorising', text:`A rectangle has area \\(${quad}\\). Factorise to find its sides:`,
             latex:quad, answer:c, options:shuffle(opts),
-            hintTex:`Find two numbers that multiply to \\(${prod}\\) and add to \\(${sum}\\).`,
+            hintTex:['Find two numbers that multiply to the constant and add to the coefficient of \\(x\\).',`The numbers must multiply to \\(${prod}\\).`,`They must also add to \\(${sum}\\).`],
             explain:`\\(${quad} = (${binTex(1,p)})(${binTex(1,q)})\\) since \\(${p}+${q===p?q:('('+q+')')}=${sum}\\) and \\(${p}\\times${q<0?'('+q+')':q}=${prod}\\).` };
     },
 
@@ -1052,7 +1091,7 @@ const QA = {
         while(opts.length<4) opts.push(`\\(${binTex(1,q+2)}\\)`);
         return { type:'mc', rule:'Factorising', text:`A rectangle has area \\(${quad}\\) and one side is \\((${given})\\). Find the other side:`,
             latex:`\\dfrac{${quad}}{${given}}`, answer:c, options:shuffle(opts),
-            hintTex:`Factorise \\(${quad}\\) into two brackets. One of them is \\((${given})\\).`,
+            hintTex:['Start by factorising the quadratic into two brackets.',`One bracket is \\((${given})\\). What goes in the other?`,`Find what multiplies with \\(${p}\\) to give \\(${prod}\\).`],
             explain:`\\(${quad} = (${given})(${other})\\), so the other side is \\(${other}\\).` };
     },
 
@@ -1069,7 +1108,7 @@ const QA = {
         while(opts.length<4) opts.push(`\\((${binTex(1,a+1)})(${binTex(1,-a+1)})\\)`);
         return { type:'mc', rule:'Difference of Squares', text:`Factorise:`,
             latex:quad, answer:c, options:shuffle(opts),
-            hintTex:`This is \\(x^2 - ${a}^2\\). Use the pattern \\(a^2 - b^2 = (a+b)(a-b)\\).`,
+            hintTex:['This is a difference of two squares.',`Rewrite as \\(x^2 - ${a}^2\\). What squared gives \\(${aa}\\)?`,`Use \\(a^2 - b^2 = (a+b)(a-b)\\) with \\(b = ${a}\\).`],
             explain:`\\(${quad} = x^2 - ${a}^2 = (${binTex(1,a)})(${binTex(1,-a)})\\)` };
     },
 
@@ -1110,8 +1149,8 @@ const QA = {
         const fb = document.getElementById('qa-fb');
         fb.classList.remove('show','correct','incorrect');
         document.getElementById('qa-next').classList.remove('show');
-        document.getElementById('qa-hint').classList.remove('show');
-        document.getElementById('qa-hint').innerHTML = '';
+        this.hintIdx = 0;
+        resetHint('qa-hint', 'qa-hint-btn');
         renderMath();
 
         if (q.type === 'mc') {
@@ -1203,15 +1242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Log Rules hint
-    document.getElementById('lr-hint-btn').addEventListener('click', () => {
-        const box = document.getElementById('lr-hint');
-        if (box.classList.contains('show')) { box.classList.remove('show'); return; }
-        if (LR.currentQ && LR.currentQ.hintTex) {
-            box.innerHTML = LR.currentQ.hintTex;
-            box.classList.add('show');
-            renderMath();
-        }
-    });
+    document.getElementById('lr-hint-btn').addEventListener('click', () => handleHint(LR, 'lr-hint', 'lr-hint-btn'));
 
     // Log Rules next
     document.getElementById('lr-next').addEventListener('click', () => LR.load());
@@ -1226,15 +1257,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="rule-item"><span class="rule-name">Definition</span>\\(\\log_a(x) = n \\iff a^n = x\\)</div>`;
 
     // Simultaneous hint
-    document.getElementById('se-hint-btn').addEventListener('click', () => {
-        const box = document.getElementById('se-hint');
-        if (box.classList.contains('show')) { box.classList.remove('show'); return; }
-        if (SE.currentQ && SE.currentQ.hintTex) {
-            box.innerHTML = SE.currentQ.hintTex;
-            box.classList.add('show');
-            renderMath();
-        }
-    });
+    document.getElementById('se-hint-btn').addEventListener('click', () => handleHint(SE, 'se-hint', 'se-hint-btn'));
 
     // Simultaneous next + check
     document.getElementById('se-next').addEventListener('click', () => SE.load());
@@ -1268,15 +1291,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="rule-item"><span class="rule-name">Strategy</span>Let \\(u = \\log_b(x)\\), \\(v = \\log_b(y)\\), rewrite as a linear system, solve, then \\(x = b^u,\\; y = b^v\\).</div>`;
 
     // Quadratic Areas hint
-    document.getElementById('qa-hint-btn').addEventListener('click', () => {
-        const box = document.getElementById('qa-hint');
-        if (box.classList.contains('show')) { box.classList.remove('show'); return; }
-        if (QA.currentQ && QA.currentQ.hintTex) {
-            box.innerHTML = QA.currentQ.hintTex;
-            box.classList.add('show');
-            renderMath();
-        }
-    });
+    document.getElementById('qa-hint-btn').addEventListener('click', () => handleHint(QA, 'qa-hint', 'qa-hint-btn'));
 
     // Quadratic Areas next
     document.getElementById('qa-next').addEventListener('click', () => QA.load());
