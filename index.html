@@ -258,6 +258,14 @@
             font-size: 0.95rem; line-height: 2;
         }
         .rule-item:last-child { border-bottom: none; }
+        .ka-links { padding: 12px 0 0; }
+        .ka-links a {
+            display: inline-block; margin: 4px 6px 4px 0; padding: 5px 14px;
+            background: #e8f5e9; color: #2e7d32; border-radius: 20px;
+            font-size: 0.82rem; font-weight: 600; text-decoration: none;
+            transition: all 0.2s;
+        }
+        .ka-links a:hover { background: #c8e6c9; transform: translateY(-1px); }
         .rule-name {
             font-weight: 600; color: var(--primary); display: block;
             margin-bottom: 2px; font-size: 0.82rem;
@@ -1254,7 +1262,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="rule-item"><span class="rule-name">Power Rule</span>\\(\\log_a(m^k) = k \\cdot \\log_a(m)\\)</div>
         <div class="rule-item"><span class="rule-name">Change of Base</span>\\(\\log_a(b) = \\dfrac{\\log_c(b)}{\\log_c(a)}\\)</div>
         <div class="rule-item"><span class="rule-name">Identity Rules</span>\\(\\log_a(1) = 0\\) &nbsp;and&nbsp; \\(\\log_a(a) = 1\\)</div>
-        <div class="rule-item"><span class="rule-name">Definition</span>\\(\\log_a(x) = n \\iff a^n = x\\)</div>`;
+        <div class="rule-item"><span class="rule-name">Definition</span>\\(\\log_a(x) = n \\iff a^n = x\\)</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:logs/x2ec2f6f830c9fb89:log-intro/v/logarithms" target="_blank">Intro to Logs</a>
+            <a href="https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:logs/x2ec2f6f830c9fb89:log-prop/v/introduction-to-logarithm-properties" target="_blank">Log Properties</a>
+            <a href="https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:logs/x2ec2f6f830c9fb89:change-of-base/v/change-of-base-formula" target="_blank">Change of Base</a>
+        </div>`;
 
     // Simultaneous hint
     document.getElementById('se-hint-btn').addEventListener('click', () => handleHint(SE, 'se-hint', 'se-hint-btn'));
@@ -1288,7 +1301,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="rule-item"><span class="rule-name">Quotient Rule</span>\\(\\log_a\\!\\left(\\frac{m}{n}\\right) = \\log_a(m) - \\log_a(n)\\)</div>
         <div class="rule-item"><span class="rule-name">Power Rule</span>\\(\\log_a(m^k) = k \\cdot \\log_a(m)\\)</div>
         <div class="rule-item"><span class="rule-name">Definition</span>\\(\\log_a(x) = n \\iff a^n = x\\)</div>
-        <div class="rule-item"><span class="rule-name">Strategy</span>Let \\(u = \\log_b(x)\\), \\(v = \\log_b(y)\\), rewrite as a linear system, solve, then \\(x = b^u,\\; y = b^v\\).</div>`;
+        <div class="rule-item"><span class="rule-name">Strategy</span>Let \\(u = \\log_b(x)\\), \\(v = \\log_b(y)\\), rewrite as a linear system, solve, then \\(x = b^u,\\; y = b^v\\).</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:logs/x2ec2f6f830c9fb89:log-prop/v/introduction-to-logarithm-properties" target="_blank">Log Properties</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:systems-of-equations/x2f8bb11595b61c86:solving-systems-elimination/v/simple-elimination-practice" target="_blank">Elimination Method</a>
+        </div>`;
 
     // Quadratic Areas hint
     document.getElementById('qa-hint-btn').addEventListener('click', () => handleHint(QA, 'qa-hint', 'qa-hint-btn'));
@@ -1302,7 +1319,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="rule-item"><span class="rule-name">Perfect Square</span>\\((x+a)^2 = x^2 + 2ax + a^2\\)</div>
         <div class="rule-item"><span class="rule-name">Difference of Squares</span>\\(x^2 - a^2 = (x+a)(x-a)\\)</div>
         <div class="rule-item"><span class="rule-name">Factorising</span>To factorise \\(x^2 + bx + c\\), find two numbers that multiply to \\(c\\) and add to \\(b\\).</div>
-        <div class="rule-item"><span class="rule-name">Area of Rectangle</span>\\(\\text{Area} = \\text{length} \\times \\text{width}\\)</div>`;
+        <div class="rule-item"><span class="rule-name">Area of Rectangle</span>\\(\\text{Area} = \\text{length} \\times \\text{width}\\)</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratics-multiplying-factoring/x2f8bb11595b61c86:multiply-binomial/v/multiplying-binomials" target="_blank">Multiplying Binomials</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratics-multiplying-factoring/x2f8bb11595b61c86:factor-quadratics-intro/v/factoring-quadratic-expressions" target="_blank">Factoring Quadratics</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratics-multiplying-factoring/x2f8bb11595b61c86:factor-difference-squares/v/difference-of-squares-intro" target="_blank">Difference of Squares</a>
+        </div>`;
 
     renderMath();
 });
