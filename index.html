@@ -282,22 +282,36 @@
         <p>Pick a topic to practise</p>
     </div>
     <div class="topic-grid">
+        <div class="topic-card" data-topic="logarithms">
+            <h2>Logarithms</h2>
+            <p>Log rules, identities, change of base, and simultaneous equations using logarithms.</p>
+            <span class="topic-tag log">2 activities</span>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== LOGARITHMS FOLDER VIEW ==================== -->
+<div id="view-logarithms" class="view">
+    <button class="back-btn" data-back="hub">All Topics</button>
+    <header>
+        <h1>Logarithms</h1>
+        <p>Choose an activity</p>
+    </header>
+    <div class="topic-grid">
         <div class="topic-card" data-topic="log-rules">
             <h2>Log Rules</h2>
-            <p>Practise product, quotient, power, change of base, and identity rules for logarithms.</p>
-            <span class="topic-tag log">Logarithms</span>
+            <p>Practise product, quotient, power, change of base, and identity rules.</p>
         </div>
         <div class="topic-card" data-topic="log-simul">
-            <h2>Log Simultaneous Equations</h2>
-            <p>Solve systems of equations using logarithm rules. Includes a scratchpad for working.</p>
-            <span class="topic-tag log">Logarithms</span>
+            <h2>Simultaneous Equations</h2>
+            <p>Solve systems of equations using logarithm rules. Includes a scratchpad.</p>
         </div>
     </div>
 </div>
 
 <!-- ==================== LOG RULES VIEW ==================== -->
 <div id="view-log-rules" class="view">
-    <button class="back-btn" data-back>All Topics</button>
+    <button class="back-btn" data-back="logarithms">Logarithms</button>
     <header>
         <h1>Log Rules Trainer</h1>
         <p>IB MYP Level &mdash; Master the laws of logarithms</p>
@@ -331,7 +345,7 @@
 
 <!-- ==================== SIMULTANEOUS VIEW ==================== -->
 <div id="view-log-simul" class="view">
-    <button class="back-btn" data-back>All Topics</button>
+    <button class="back-btn" data-back="logarithms">Logarithms</button>
     <header>
         <h1>Log Simultaneous Equations</h1>
         <p>IB MYP Level &mdash; Solve systems using logarithm rules</p>
@@ -857,18 +871,19 @@ const SE = {
 document.addEventListener('DOMContentLoaded', () => {
     LR.init(); SE.init();
 
-    // Hub topic cards
+    // Topic cards (hub + folder)
     document.querySelectorAll('.topic-card').forEach(card => {
         card.addEventListener('click', () => {
             const topic = card.dataset.topic;
-            if (topic === 'log-rules') { showView('log-rules'); LR.load(); }
+            if (topic === 'logarithms') { showView('logarithms'); }
+            else if (topic === 'log-rules') { showView('log-rules'); LR.load(); }
             else if (topic === 'log-simul') { showView('log-simul'); SE.load(); }
         });
     });
 
     // Back buttons
     document.querySelectorAll('[data-back]').forEach(btn => {
-        btn.addEventListener('click', () => showView('hub'));
+        btn.addEventListener('click', () => showView(btn.dataset.back || 'hub'));
     });
 
     // Log Rules hint
