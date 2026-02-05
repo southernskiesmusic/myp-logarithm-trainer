@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MYP Maths Trainer</title>
+    <title>MYP Extended Maths Trainer</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
@@ -158,6 +158,18 @@
         .btn-primary { background: var(--primary); color: #fff; }
         .btn-primary:hover { background: #3651d4; transform: translateY(-2px); }
         .btn:disabled { background: #ccc; cursor: default; transform: none; }
+        .btn-hint {
+            background: none; border: 2px solid #e0e0e0; color: var(--text-light);
+            padding: 8px 20px; font-size: 0.88rem;
+        }
+        .btn-hint:hover { border-color: #ffc107; color: #856404; background: #fff8e1; }
+        .hint-box {
+            background: #fff8e1; border: 2px solid #ffc107; border-radius: var(--radius);
+            padding: 16px 20px; margin-bottom: 20px; text-align: center;
+            font-size: 0.95rem; line-height: 1.8; display: none;
+            animation: slideIn 0.3s ease;
+        }
+        .hint-box.show { display: block; }
 
         /* Feedback */
         .feedback {
@@ -266,7 +278,7 @@
 <!-- ==================== HUB VIEW ==================== -->
 <div id="view-hub" class="view active">
     <div class="hub-header">
-        <h1>MYP Maths Trainer</h1>
+        <h1>MYP Extended Maths Trainer</h1>
         <p>Pick a topic to practise</p>
     </div>
     <div class="topic-grid">
@@ -298,6 +310,11 @@
     </div>
 
     <div class="question-card" id="lr-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+
+    <div style="text-align:center;margin-bottom:16px;">
+        <button class="btn btn-hint" id="lr-hint-btn">Hint</button>
+    </div>
+    <div class="hint-box" id="lr-hint"></div>
 
     <div class="feedback" id="lr-fb">
         <div class="feedback-title" id="lr-fb-title"></div>
@@ -334,6 +351,11 @@
     </div>
 
     <div class="question-card" id="se-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+
+    <div style="text-align:center;margin-bottom:16px;">
+        <button class="btn btn-hint" id="se-hint-btn">Hint</button>
+    </div>
+    <div class="hint-box" id="se-hint"></div>
 
     <div class="workout-section">
         <h3>Your Working</h3>
@@ -373,7 +395,7 @@
 
 <script>
 /* ================================================================
-   MYP MATHS TRAINER
+   MYP EXTENDED MATHS TRAINER
    ================================================================ */
 
 // ── Shared Utilities ─────────────────────────────────────────────
@@ -434,18 +456,21 @@ const LR = {
         if (v > 100000) return LR.qEvaluate();
         return { type:'free', rule:'Evaluate', text:'Evaluate:', latex: logTex(b,v),
             answer:n, answerTex:String(n),
+            hintTex:`Think: ${b} to the power of what gives ${v}?`,
             explain:`Since \\(${b}^{${n}}=${v}\\), we get \\(${logTex(b,v)}=${n}\\).` };
     },
     qIdZero() {
         const b = pick(BASES);
         return { type:'free', rule:'Identity', text:'Evaluate:', latex: logTex(b,1),
             answer:0, answerTex:'0',
+            hintTex:`What power of any base gives 1?`,
             explain:`\\(${logTex(b,1)}=0\\) because \\(${b}^{0}=1\\).` };
     },
     qIdOne() {
         const b = pick(BASES);
         return { type:'free', rule:'Identity', text:'Evaluate:', latex: logTex(b,b),
             answer:1, answerTex:'1',
+            hintTex:`What power of \\(${b}\\) gives \\(${b}\\)?`,
             explain:`\\(${logTex(b,b)}=1\\) because \\(${b}^{1}=${b}\\).` };
     },
     qProduct() {
@@ -453,6 +478,7 @@ const LR = {
         const c = `\\(${logTex(b,mn)}\\)`;
         return { type:'mc', rule:'Product Rule', text:'Simplify:',
             latex:`${logTex(b,m)} + ${logTex(b,n)}`, answer:c,
+            hintTex:`Product Rule: \\(\\log(a) + \\log(b) = \\log(a \\cdot b)\\)`,
             options:shuffle([c, `\\(${logTex(b,m+n)}\\)`,
                 `\\(${logTex(b,m)} \\cdot ${logTex(b,n)}\\)`, `\\(${logTex(b*b,mn)}\\)`]),
             explain:`Product Rule: \\(${logTex(b,m)}+${logTex(b,n)} = ${logTex(b,m+'\\cdot '+n)} = ${logTex(b,mn)}\\).` };
@@ -462,6 +488,7 @@ const LR = {
         const c = `\\(${logTex(b,k)}\\)`;
         return { type:'mc', rule:'Quotient Rule', text:'Simplify:',
             latex:`${logTex(b,m)} - ${logTex(b,n)}`, answer:c,
+            hintTex:`Quotient Rule: \\(\\log(a) - \\log(b) = \\log\\!\\left(\\frac{a}{b}\\right)\\)`,
             options:shuffle([c, `\\(${logTex(b,m-n)}\\)`,
                 `\\(\\dfrac{${logTex(b,m)}}{${logTex(b,n)}}\\)`, `\\(${logTex(b,n)}\\)`]),
             explain:`Quotient Rule: \\(${logTex(b,m)}-${logTex(b,n)} = ${logTex(b,'\\tfrac{'+m+'}{'+n+'}')} = ${logTex(b,k)}\\).` };
@@ -471,6 +498,7 @@ const LR = {
         const c = `\\(${logTex(b,mk)}\\)`;
         return { type:'mc', rule:'Power Rule', text:'Simplify:',
             latex:`${k}\\cdot ${logTex(b,m)}`, answer:c,
+            hintTex:`Power Rule: \\(k \\cdot \\log(m) = \\log(m^k)\\). What is \\(${m}^{${k}}\\)?`,
             options:shuffle([c, `\\(${logTex(b,k*m)}\\)`,
                 `\\(${logTex(Math.pow(b,k),m)}\\)`, `\\(${k}+${logTex(b,m)}\\)`]),
             explain:`Power Rule: \\(${k}\\cdot ${logTex(b,m)} = ${logTex(b,m+'^{'+k+'}')} = ${logTex(b,mk)}\\).` };
@@ -480,6 +508,7 @@ const LR = {
         let a; do{a=pick(BASES);}while(a===c);
         return { type:'free', rule:'Change of Base', text:'Evaluate:',
             latex:`\\dfrac{${logTex(a,v)}}{${logTex(a,c)}}`, answer:n, answerTex:String(n),
+            hintTex:`\\(\\frac{\\log_a(b)}{\\log_a(c)} = \\log_c(b)\\). So this equals \\(${logTex(c,v)}\\).`,
             explain:`Change of Base: \\(\\dfrac{${logTex(a,v)}}{${logTex(a,c)}} = ${logTex(c,v)} = ${n}\\) since \\(${c}^{${n}}=${v}\\).` };
     },
     qChangeOfBaseFrac() {
@@ -491,6 +520,7 @@ const LR = {
         return { type:'free', rule:'Change of Base', text:'Evaluate:',
             latex:`\\dfrac{${logTex(a,vp)}}{${logTex(a,vq)}}`, answer:ans,
             answerTex: Number.isInteger(ans)?String(ans):`\\dfrac{${sp}}{${sq}}`,
+            hintTex:`Change of base: this equals \\(\\frac{${logTex(c,vp)}}{${logTex(c,vq)}}\\). Evaluate each log separately.`,
             explain:`\\(\\dfrac{${logTex(a,vp)}}{${logTex(a,vq)}} = \\dfrac{${logTex(c,vp)}}{${logTex(c,vq)}} = \\dfrac{${p}}{${q}}`+(g>1?` = \\dfrac{${sp}}{${sq}}`:'')+'\\).' };
     },
     qExpandProduct() {
@@ -498,6 +528,7 @@ const LR = {
         const c = `\\(${logTex(b,m)} + ${logTex(b,n)}\\)`;
         return { type:'mc', rule:'Product Rule', text:'Express as a sum of two logs:',
             latex:logTex(b,mn), hint:`(${mn} = ${m} \\times ${n})`, answer:c,
+            hintTex:`Product Rule in reverse: \\(\\log(mn) = \\log(m) + \\log(n)\\). Factor ${mn}.`,
             options:shuffle([c, `\\(${logTex(b,m)} \\cdot ${logTex(b,n)}\\)`,
                 `\\(${logTex(b,m)} - ${logTex(b,n)}\\)`, `\\(${logTex(b+b,mn)}\\)`]),
             explain:`Product Rule: \\(${logTex(b,mn)} = ${logTex(b,m)}+${logTex(b,n)}\\) since \\(${m}\\times${n}=${mn}\\).` };
@@ -507,6 +538,7 @@ const LR = {
         const c = `\\(${k}\\cdot ${logTex(b,m)}\\)`;
         return { type:'mc', rule:'Power Rule', text:'Rewrite using the Power Rule:',
             latex:logTex(b,m+'^{'+k+'}'), answer:c,
+            hintTex:`Power Rule: \\(\\log(m^k) = k \\cdot \\log(m)\\). Bring the exponent down.`,
             options:shuffle([c, `\\(${logTex(b,m)}^{${k}}\\)`,
                 `\\(${logTex(Math.pow(b,k),m)}\\)`, `\\(${logTex(b,k+'\\cdot'+m)}\\)`]),
             explain:`Power Rule: \\(${logTex(b,m+'^{'+k+'}')} = ${k}\\cdot ${logTex(b,m)}\\).` };
@@ -550,6 +582,8 @@ const LR = {
         const fb = document.getElementById('lr-fb');
         fb.classList.remove('show','correct','incorrect');
         document.getElementById('lr-next').classList.remove('show');
+        document.getElementById('lr-hint').classList.remove('show');
+        document.getElementById('lr-hint').innerHTML = '';
         renderMath();
 
         if (q.type === 'mc') {
@@ -631,6 +665,7 @@ const SE = {
         if(x>10000||y>10000) return SE.qDirect();
         return { difficulty:'easy', x, y,
             eq1:`${logTex(b,'x')} = ${u}`, eq2:`${logTex(b,'y')} = ${v}`,
+            hintTex:`Use the definition: if \\(${logTex(b,'x')} = n\\), then \\(x = ${b}^n\\).`,
             solution:[
                 `\\text{From Eq1: } ${logTex(b,'x')} = ${u} \\implies x = ${b}^{${u}} = ${x}`,
                 `\\text{From Eq2: } ${logTex(b,'y')} = ${v} \\implies y = ${b}^{${v}} = ${y}`,
@@ -646,6 +681,7 @@ const SE = {
         return { difficulty:'medium', x, y,
             eq1:`${logTex(b,'x')} + ${logTex(b,'y')} = ${p}`,
             eq2:`${logTex(b,'x')} - ${logTex(b,'y')} = ${q}`,
+            hintTex:`Let \\(u = ${logTex(b,'x')}\\) and \\(v = ${logTex(b,'y')}\\). Add the two equations to eliminate \\(v\\).`,
             solution:[
                 `\\text{Let } u = ${logTex(b,'x')},\\; v = ${logTex(b,'y')}`,
                 `u + v = ${p},\\quad u - v = ${q}`,
@@ -664,6 +700,7 @@ const SE = {
         return { difficulty:'medium', x, y,
             eq1:`${logTex(b,'xy')} = ${p}`,
             eq2:`${logTex(b,'\\tfrac{x}{y}')} = ${q}`,
+            hintTex:`Use Product Rule on Eq1 and Quotient Rule on Eq2 to split into separate logs, then solve the linear system.`,
             solution:[
                 `\\text{Product Rule on Eq1: } ${logTex(b,'x')} + ${logTex(b,'y')} = ${p}`,
                 `\\text{Quotient Rule on Eq2: } ${logTex(b,'x')} - ${logTex(b,'y')} = ${q}`,
@@ -709,7 +746,9 @@ const SE = {
             else s+=' - '+Math.abs(cb)+'\\,'+logTex(b,'y');
             return s+' = '+rhs;
         }
-        return { difficulty:'hard', x, y, eq1:leq(a1,b1,p), eq2:leq(a2,b2,q), solution:steps };
+        return { difficulty:'hard', x, y, eq1:leq(a1,b1,p), eq2:leq(a2,b2,q),
+            hintTex:`Let \\(u = ${logTex(b,'x')}\\), \\(v = ${logTex(b,'y')}\\). You get a linear system — use elimination (multiply and subtract).`,
+            solution:steps };
     },
     qPowerForm() {
         const b=pick(BASES), u=randInt(1,3), v=randInt(1,3);
@@ -733,6 +772,7 @@ const SE = {
         ];
         return { difficulty:'hard', x, y,
             eq1:`${logTex(b,ins(a1,b1))} = ${p}`, eq2:`${logTex(b,ins(a2,b2))} = ${q}`,
+            hintTex:`Use the Power Rule to bring exponents down as coefficients, then solve the resulting linear system.`,
             solution:steps };
     },
 
@@ -759,6 +799,8 @@ const SE = {
         const fb=document.getElementById('se-fb');
         fb.classList.remove('show','correct','incorrect');
         document.getElementById('se-next').classList.remove('show');
+        document.getElementById('se-hint').classList.remove('show');
+        document.getElementById('se-hint').innerHTML = '';
         renderMath();
     },
 
@@ -829,6 +871,17 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => showView('hub'));
     });
 
+    // Log Rules hint
+    document.getElementById('lr-hint-btn').addEventListener('click', () => {
+        const box = document.getElementById('lr-hint');
+        if (box.classList.contains('show')) { box.classList.remove('show'); return; }
+        if (LR.currentQ && LR.currentQ.hintTex) {
+            box.innerHTML = LR.currentQ.hintTex;
+            box.classList.add('show');
+            renderMath();
+        }
+    });
+
     // Log Rules next
     document.getElementById('lr-next').addEventListener('click', () => LR.load());
 
@@ -840,6 +893,17 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="rule-item"><span class="rule-name">Change of Base</span>\\(\\log_a(b) = \\dfrac{\\log_c(b)}{\\log_c(a)}\\)</div>
         <div class="rule-item"><span class="rule-name">Identity Rules</span>\\(\\log_a(1) = 0\\) &nbsp;and&nbsp; \\(\\log_a(a) = 1\\)</div>
         <div class="rule-item"><span class="rule-name">Definition</span>\\(\\log_a(x) = n \\iff a^n = x\\)</div>`;
+
+    // Simultaneous hint
+    document.getElementById('se-hint-btn').addEventListener('click', () => {
+        const box = document.getElementById('se-hint');
+        if (box.classList.contains('show')) { box.classList.remove('show'); return; }
+        if (SE.currentQ && SE.currentQ.hintTex) {
+            box.innerHTML = SE.currentQ.hintTex;
+            box.classList.add('show');
+            renderMath();
+        }
+    });
 
     // Simultaneous next + check
     document.getElementById('se-next').addEventListener('click', () => SE.load());
