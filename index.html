@@ -985,6 +985,41 @@ function binTex(a, b) {
     return s;
 }
 
+function quadLabel(a, b, c) {
+    let s = '';
+    if(a===1) s='x\u00B2'; else if(a===-1) s='\u2212x\u00B2'; else s=a+'x\u00B2';
+    if(b===1) s+=' + x'; else if(b===-1) s+=' \u2212 x';
+    else if(b>0) s+=' + '+b+'x'; else if(b<0) s+=' \u2212 '+Math.abs(b)+'x';
+    if(c>0) s+=' + '+c; else if(c<0) s+=' \u2212 '+Math.abs(c);
+    return s;
+}
+
+function rectSVG(top, right, center, sq) {
+    const w = sq ? 100 : 140, h = sq ? 100 : 90;
+    const ox = 30, oy = 28;
+    const svgW = ox + w + (right ? Math.max(right.length * 8.5 + 16, 60) : 16);
+    let s = `<svg viewBox="0 0 ${svgW} ${oy+h+8}" style="display:block;margin:10px auto;max-width:280px;">`;
+    s += `<rect x="${ox}" y="${oy}" width="${w}" height="${h}" fill="#eef0ff" stroke="#4361ee" stroke-width="2.5" rx="4"/>`;
+    if (top) {
+        const c = top === '?' ? '#ef476f' : '#2b2d42';
+        s += `<text x="${ox+w/2}" y="${oy-9}" text-anchor="middle" font-size="14" font-weight="600" fill="${c}">${top}</text>`;
+    }
+    if (right) {
+        const c = right === '?' ? '#ef476f' : '#2b2d42';
+        s += `<text x="${ox+w+10}" y="${oy+h/2+5}" text-anchor="start" font-size="14" font-weight="600" fill="${c}">${right}</text>`;
+    }
+    if (center) {
+        s += `<text x="${ox+w/2}" y="${oy+h/2+5}" text-anchor="middle" font-size="11" fill="#6c757d">${center}</text>`;
+    }
+    if (sq) {
+        const mx = ox+w/2, my = oy+h/2;
+        s += `<line x1="${mx-5}" y1="${oy-1}" x2="${mx+5}" y2="${oy+3}" stroke="#4361ee" stroke-width="1.5"/>`;
+        s += `<line x1="${ox+w+1}" y1="${my-5}" x2="${ox+w+5}" y2="${my+5}" stroke="#4361ee" stroke-width="1.5"/>`;
+    }
+    s += '</svg>';
+    return s;
+}
+
 const QA = {
     score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0,
 
@@ -1000,7 +1035,8 @@ const QA = {
         const d3=`\\(${quadTex(1,-sum,prod)}\\)`;
         const opts=[c]; [d1,d2,d3].forEach(d=>{if(!opts.includes(d))opts.push(d);});
         while(opts.length<4) opts.push(`\\(${quadTex(1,sum+1,prod-1)}\\)`);
-        return { type:'mc', rule:'Expanding', text:`A rectangle has sides \\((${binTex(1,a)})\\) and \\((${binTex(1,b)})\\). Find its area:`,
+        return { type:'mc', rule:'Expanding', text:'Find the area of this rectangle:',
+            svg:rectSVG(binTex(1,a),binTex(1,b),'Area = ?'),
             latex:expr, answer:c, options:shuffle(opts),
             hintTex:['Use FOIL: multiply First, Outer, Inner, Last terms.',`First: \\(x \\cdot x = x^2\\). Last: \\(${a} \\times ${b<0?'('+b+')':b} = ${a*b}\\).`,`Middle: \\(${a}x + ${b}x = ${a+b}x\\). Combine all three parts.`],
             explain:`\\(${expr} = ${quadTex(1,sum,prod)}\\)` };
@@ -1017,7 +1053,8 @@ const QA = {
         const d3=`\\(${quadTex(1,a2,Math.abs(a))}\\)`;
         const opts=[c]; [d1,d2,d3].forEach(d=>{if(!opts.includes(d))opts.push(d);});
         while(opts.length<4) opts.push(`\\(${quadTex(1,a2,-aa)}\\)`);
-        return { type:'mc', rule:'Perfect Square', text:`A square has side \\((${binTex(1,a)})\\). Find its area:`,
+        return { type:'mc', rule:'Perfect Square', text:'Find the area of this square:',
+            svg:rectSVG(binTex(1,a),binTex(1,a),'Area = ?',true),
             latex:expr, answer:c, options:shuffle(opts),
             hintTex:[`\\((x+a)^2\\) means \\((x+a)(x+a)\\), not \\(x^2 + a^2\\).`,`Double the constant for the middle term: \\(2 \\times ${a<0?'('+a+')':a} = ${2*a}\\).`,`Square the constant for the last term: \\(${a<0?'('+a+')':a}^2 = ${a*a}\\).`],
             explain:`\\(${expr} = (${binTex(1,a)})(${binTex(1,a)}) = ${quadTex(1,a2,aa)}\\)` };
@@ -1029,7 +1066,8 @@ const QA = {
         if(b===0) b=randInt(1,9);
         const prod=a*b;
         const expr=`(${binTex(1,a)})(${binTex(1,b)})`;
-        return { type:'free', rule:'Expanding', text:'What is the constant term when you expand:',
+        return { type:'free', rule:'Expanding', text:'What is the constant term in the area of this rectangle?',
+            svg:rectSVG(binTex(1,a),binTex(1,b),'Area = ?'),
             latex:expr, answer:prod, answerTex:String(prod),
             hintTex:['The constant term comes from multiplying the two number terms.',`Multiply: \\(${a} \\times ${b<0?'('+b+')':b}\\).`],
             explain:`\\(${expr} = ${quadTex(1,a+b,prod)}\\). The constant term is \\(${prod}\\).` };
@@ -1041,7 +1079,8 @@ const QA = {
         if(b===0) b=randInt(1,9);
         const sum=a+b;
         const expr=`(${binTex(1,a)})(${binTex(1,b)})`;
-        return { type:'free', rule:'Expanding', text:'What is the coefficient of \\(x\\) when you expand:',
+        return { type:'free', rule:'Expanding', text:'What is the coefficient of \\(x\\) in the area of this rectangle?',
+            svg:rectSVG(binTex(1,a),binTex(1,b),'Area = ?'),
             latex:expr, answer:sum, answerTex:String(sum),
             hintTex:['The \\(x\\) coefficient comes from the outer + inner products in FOIL.',`Add the two constants: \\(${a} + ${b<0?'('+b+')':b}\\).`],
             explain:`\\(${expr} = ${quadTex(1,sum,a*b)}\\). The coefficient of \\(x\\) is \\(${sum}\\).` };
@@ -1060,7 +1099,8 @@ const QA = {
         const d3=`\\(${quadTex(ac,mid,b+d)}\\)`;
         const opts=[c]; [d1,d2,d3].forEach(dd=>{if(!opts.includes(dd))opts.push(dd);});
         while(opts.length<4) opts.push(`\\(${quadTex(ac,mid+2,bd)}\\)`);
-        return { type:'mc', rule:'Expanding', text:`A rectangle has sides \\((${binTex(a,b)})\\) and \\((${binTex(c2,d)})\\). Find its area:`,
+        return { type:'mc', rule:'Expanding', text:'Find the area of this rectangle:',
+            svg:rectSVG(binTex(a,b),binTex(c2,d),'Area = ?'),
             latex:expr, answer:c, options:shuffle(opts),
             hintTex:['Multiply each term in the first bracket by each term in the second.',`Leading term: \\(${a}x \\cdot ${c2}x = ${ac}x^2\\). Constant: \\(${b<0?'('+b+')':b} \\times ${d<0?'('+d+')':d} = ${bd}\\).`,`Middle: \\(${a} \\cdot ${d<0?'('+d+')':d} + ${b<0?'('+b+')':b} \\cdot ${c2} = ${mid}\\).`],
             explain:`\\(${expr} = ${quadTex(ac,mid,bd)}\\)` };
@@ -1078,7 +1118,8 @@ const QA = {
         const d3=`\\((${binTex(1,-p)})(${binTex(1,-q)})\\)`;
         const opts=[c]; [d1,d2,d3].forEach(d=>{if(!opts.includes(d))opts.push(d);});
         while(opts.length<4) opts.push(`\\((${binTex(1,p+1)})(${binTex(1,q-1)})\\)`);
-        return { type:'mc', rule:'Factorising', text:`A rectangle has area \\(${quad}\\). Factorise to find its sides:`,
+        return { type:'mc', rule:'Factorising', text:'Factorise to find the sides of this rectangle:',
+            svg:rectSVG('?','?',quadLabel(1,sum,prod)),
             latex:quad, answer:c, options:shuffle(opts),
             hintTex:['Find two numbers that multiply to the constant and add to the coefficient of \\(x\\).',`The numbers must multiply to \\(${prod}\\).`,`They must also add to \\(${sum}\\).`],
             explain:`\\(${quad} = (${binTex(1,p)})(${binTex(1,q)})\\) since \\(${p}+${q===p?q:('('+q+')')}=${sum}\\) and \\(${p}\\times${q<0?'('+q+')':q}=${prod}\\).` };
@@ -1097,7 +1138,8 @@ const QA = {
         const d3=`\\(${binTex(1,sum)}\\)`;
         const opts=[c]; [d1,d2,d3].forEach(d=>{if(!opts.includes(d))opts.push(d);});
         while(opts.length<4) opts.push(`\\(${binTex(1,q+2)}\\)`);
-        return { type:'mc', rule:'Factorising', text:`A rectangle has area \\(${quad}\\) and one side is \\((${given})\\). Find the other side:`,
+        return { type:'mc', rule:'Factorising', text:'Find the missing side of this rectangle:',
+            svg:rectSVG(given,'?',quadLabel(1,sum,prod)),
             latex:`\\dfrac{${quad}}{${given}}`, answer:c, options:shuffle(opts),
             hintTex:['Start by factorising the quadratic into two brackets.',`One bracket is \\((${given})\\). What goes in the other?`,`Find what multiplies with \\(${p}\\) to give \\(${prod}\\).`],
             explain:`\\(${quad} = (${given})(${other})\\), so the other side is \\(${other}\\).` };
@@ -1114,7 +1156,8 @@ const QA = {
         const d3=`\\((${binTex(1,-aa)})(${binTex(1,1)})\\)`;
         const opts=[c]; [d1,d2,d3].forEach(d=>{if(!opts.includes(d))opts.push(d);});
         while(opts.length<4) opts.push(`\\((${binTex(1,a+1)})(${binTex(1,-a+1)})\\)`);
-        return { type:'mc', rule:'Difference of Squares', text:`Factorise:`,
+        return { type:'mc', rule:'Difference of Squares', text:'Factorise to find the sides of this rectangle:',
+            svg:rectSVG('?','?',quadLabel(1,0,-aa)),
             latex:quad, answer:c, options:shuffle(opts),
             hintTex:['This is a difference of two squares.',`Rewrite as \\(x^2 - ${a}^2\\). What squared gives \\(${aa}\\)?`,`Use \\(a^2 - b^2 = (a+b)(a-b)\\) with \\(b = ${a}\\).`],
             explain:`\\(${quad} = x^2 - ${a}^2 = (${binTex(1,a)})(${binTex(1,-a)})\\)` };
@@ -1140,6 +1183,7 @@ const QA = {
         const q = this.currentQ;
         let h = `<div class="rule-tag">${q.rule}</div>`;
         h += `<div class="question-text">${q.text}</div>`;
+        if (q.svg) h += q.svg;
         h += `<div class="question-prompt">\\(${q.latex}\\)</div>`;
 
         if (q.type === 'mc') {
