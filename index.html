@@ -237,21 +237,15 @@
             box-shadow: 0 0 0 3px rgba(67,97,238,0.15);
         }
         .workout-textarea::placeholder { color: #b0b8c4; }
-        .paste-calc-row {
-            display: flex; gap: 8px; margin: 12px 16px 0; align-items: center;
+        .copy-calc-btn {
+            display: block; margin: 12px 16px; padding: 10px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 8px; cursor: pointer;
+            font-size: 0.85rem; font-weight: 600; width: calc(100% - 32px);
         }
-        .paste-calc-row input {
-            flex: 1; padding: 8px 12px; border: 2px solid #e0e0e0; border-radius: 8px;
-            font-family: 'Cascadia Code',monospace; font-size: 0.9rem;
-        }
-        .paste-calc-row input:focus { border-color: var(--primary); outline: none; }
-        .paste-calc-row button {
-            padding: 8px 14px; background: var(--secondary); color: white;
-            border: none; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
-            white-space: nowrap;
-        }
-        .paste-calc-row button:hover { background: #e85d75; }
-        details.workout-section .paste-calc-row { margin-bottom: 12px; }
+        .copy-calc-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .copy-calc-btn:active { transform: translateY(0); }
+        details.workout-section .copy-calc-btn { margin-bottom: 8px; }
 
         .answer-section {
             background: var(--card); border-radius: var(--radius);
@@ -321,27 +315,16 @@
         .calc-btn.active { background: var(--error); }
         .calc-modal {
             display: none; position: fixed; bottom: 90px; right: 24px; z-index: 999;
-            width: 340px; height: 520px; background: var(--card);
+            width: 380px; height: 500px; background: var(--card);
             border-radius: var(--radius); box-shadow: 0 8px 32px rgba(0,0,0,0.2);
             overflow: hidden; animation: slideUp 0.2s ease;
-            flex-direction: column;
         }
-        .calc-modal.show { display: flex; }
+        .calc-modal.show { display: block; }
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .calc-modal .calc-container { flex: 1; width: 100%; }
-        .calc-modal .calc-copy-bar {
-            padding: 8px; background: #f5f5f5; border-top: 1px solid #e0e0e0;
-            display: flex; gap: 8px;
-        }
-        .calc-modal .calc-copy-bar button {
-            flex: 1; padding: 10px; background: var(--primary); color: white;
-            border: none; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .calc-modal .calc-copy-bar button:hover { background: #3651d4; }
+        .calc-modal .calc-container { width: 100%; height: 100%; }
         @media (max-width: 480px) {
             .calc-modal { width: calc(100vw - 32px); right: 16px; bottom: 80px; height: 440px; }
             .calc-btn { bottom: 16px; right: 16px; width: 50px; height: 50px; font-size: 1.3rem; }
@@ -413,10 +396,7 @@
 
     <details class="workout-section">
         <summary>Working Out</summary>
-        <div class="paste-calc-row">
-            <input type="text" id="lr-calc-input" placeholder="Paste calculator result...">
-            <button onclick="pasteToWorkout('lr')">Add to Workings</button>
-        </div>
+        <button class="copy-calc-btn" onclick="copyCalcToWorkout('lr-workout')">📋 Copy Calculator to Workings</button>
         <textarea class="workout-textarea" id="lr-workout" placeholder="Show your working here..."></textarea>
     </details>
 
@@ -468,10 +448,7 @@
 
     <div class="workout-section">
         <h3>Your Working</h3>
-        <div class="paste-calc-row" style="margin:0 0 12px;">
-            <input type="text" id="se-calc-input" placeholder="Paste calculator result...">
-            <button onclick="pasteToWorkout('se')">Add to Workings</button>
-        </div>
+        <button class="copy-calc-btn" style="margin:0 0 12px;width:100%;" onclick="copyCalcToWorkout('se-workout')">📋 Copy Calculator to Workings</button>
         <textarea class="workout-textarea" id="se-workout"
             placeholder="Show your working here...&#10;&#10;e.g.  Let u = log&#8322;(x), v = log&#8322;(y)&#10;      u + v = 5&#10;      u - v = 1&#10;      Add: 2u = 6, u = 3&#10;      So x = 2&#179; = 8"></textarea>
     </div>
@@ -544,10 +521,7 @@
 
     <details class="workout-section">
         <summary>Working Out</summary>
-        <div class="paste-calc-row">
-            <input type="text" id="qa-calc-input" placeholder="Paste calculator result...">
-            <button onclick="pasteToWorkout('qa')">Add to Workings</button>
-        </div>
+        <button class="copy-calc-btn" onclick="copyCalcToWorkout('qa-workout')">📋 Copy Calculator to Workings</button>
         <textarea class="workout-textarea" id="qa-workout" placeholder="Show your working here..."></textarea>
     </details>
 
@@ -623,7 +597,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="fdp-streak">0</div></div>
     </div>
     <div class="question-card" id="fdp-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><div class="paste-calc-row"><input type="text" id="fdp-calc-input" placeholder="Paste calculator result..."><button onclick="pasteToWorkout('fdp')">Add to Workings</button></div><textarea class="workout-textarea" id="fdp-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('fdp-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="fdp-workout" placeholder="Show your working here..."></textarea></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="fdp-hint-btn">Hint</button></div>
     <div class="hint-box" id="fdp-hint"></div>
     <div class="feedback" id="fdp-fb"><div class="feedback-title" id="fdp-fb-title"></div><div class="feedback-explanation" id="fdp-fb-expl"></div></div>
@@ -650,7 +624,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="hcflcm-streak">0</div></div>
     </div>
     <div class="question-card" id="hcflcm-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><div class="paste-calc-row"><input type="text" id="hcflcm-calc-input" placeholder="Paste calculator result..."><button onclick="pasteToWorkout('hcflcm')">Add to Workings</button></div><textarea class="workout-textarea" id="hcflcm-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('hcflcm-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="hcflcm-workout" placeholder="Show your working here..."></textarea></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="hcflcm-hint-btn">Hint</button></div>
     <div class="hint-box" id="hcflcm-hint"></div>
     <div class="feedback" id="hcflcm-fb"><div class="feedback-title" id="hcflcm-fb-title"></div><div class="feedback-explanation" id="hcflcm-fb-expl"></div></div>
@@ -677,7 +651,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="idx-streak">0</div></div>
     </div>
     <div class="question-card" id="idx-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><div class="paste-calc-row"><input type="text" id="idx-calc-input" placeholder="Paste calculator result..."><button onclick="pasteToWorkout('idx')">Add to Workings</button></div><textarea class="workout-textarea" id="idx-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('idx-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="idx-workout" placeholder="Show your working here..."></textarea></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="idx-hint-btn">Hint</button></div>
     <div class="hint-box" id="idx-hint"></div>
     <div class="feedback" id="idx-fb"><div class="feedback-title" id="idx-fb-title"></div><div class="feedback-explanation" id="idx-fb-expl"></div></div>
@@ -704,7 +678,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="sf-streak">0</div></div>
     </div>
     <div class="question-card" id="sf-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><div class="paste-calc-row"><input type="text" id="sf-calc-input" placeholder="Paste calculator result..."><button onclick="pasteToWorkout('sf')">Add to Workings</button></div><textarea class="workout-textarea" id="sf-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('sf-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="sf-workout" placeholder="Show your working here..."></textarea></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="sf-hint-btn">Hint</button></div>
     <div class="hint-box" id="sf-hint"></div>
     <div class="feedback" id="sf-fb"><div class="feedback-title" id="sf-fb-title"></div><div class="feedback-explanation" id="sf-fb-expl"></div></div>
@@ -731,7 +705,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="surd-streak">0</div></div>
     </div>
     <div class="question-card" id="surd-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><div class="paste-calc-row"><input type="text" id="surd-calc-input" placeholder="Paste calculator result..."><button onclick="pasteToWorkout('surd')">Add to Workings</button></div><textarea class="workout-textarea" id="surd-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('surd-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="surd-workout" placeholder="Show your working here..."></textarea></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="surd-hint-btn">Hint</button></div>
     <div class="hint-box" id="surd-hint"></div>
     <div class="feedback" id="surd-fb"><div class="feedback-title" id="surd-fb-title"></div><div class="feedback-explanation" id="surd-fb-expl"></div></div>
@@ -758,7 +732,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="ratio-streak">0</div></div>
     </div>
     <div class="question-card" id="ratio-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><div class="paste-calc-row"><input type="text" id="ratio-calc-input" placeholder="Paste calculator result..."><button onclick="pasteToWorkout('ratio')">Add to Workings</button></div><textarea class="workout-textarea" id="ratio-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('ratio-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="ratio-workout" placeholder="Show your working here..."></textarea></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="ratio-hint-btn">Hint</button></div>
     <div class="hint-box" id="ratio-hint"></div>
     <div class="feedback" id="ratio-fb"><div class="feedback-title" id="ratio-fb-title"></div><div class="feedback-explanation" id="ratio-fb-expl"></div></div>
@@ -770,9 +744,6 @@
 <button class="calc-btn" id="calc-btn" title="Calculator">🧮</button>
 <div class="calc-modal" id="calc-modal">
     <div class="calc-container" id="calc-container"></div>
-    <div class="calc-copy-bar">
-        <button id="calc-copy-btn">Copy to Workings</button>
-    </div>
 </div>
 <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
 
@@ -821,15 +792,18 @@ function parseLatex(raw) {
 }
 
 // ── Paste Calculator Result to Workings ─────────────────────────
-function pasteToWorkout(prefix) {
-    const input = document.getElementById(prefix + '-calc-input');
-    const textarea = document.getElementById(prefix + '-workout');
-    if (!input || !textarea) return;
-    const val = input.value.trim();
-    if (!val) return;
+function copyCalcToWorkout(textareaId) {
+    if (!window.desmosCalc) { alert('Open the calculator first!'); return; }
+    const textarea = document.getElementById(textareaId);
+    if (!textarea) return;
+    const exprs = window.desmosCalc.getExpressions();
+    const lines = exprs
+        .filter(e => e.latex && e.latex.trim())
+        .map(e => e.latex);
+    if (lines.length === 0) { alert('Calculator is empty'); return; }
+    const text = lines.join('\n');
     const existing = textarea.value;
-    textarea.value = existing + (existing && !existing.endsWith('\n') ? '\n' : '') + val;
-    input.value = '';
+    textarea.value = existing + (existing && !existing.endsWith('\n') ? '\n' : '') + '--- Calculator ---\n' + text;
     textarea.focus();
 }
 
@@ -2590,34 +2564,31 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:direct-inverse-variation/x2f8bb11595b61c86:direct-variation/v/direct-variation-1" target="_blank">Direct Variation</a>
         </div>`;
 
-    // Calculator setup with Desmos API
-    let desmosCalc = null;
+    // Calculator setup with Desmos Graphing Calculator API (supports getExpressions)
+    window.desmosCalc = null;
     document.getElementById('calc-btn').addEventListener('click', () => {
         const modal = document.getElementById('calc-modal');
         const btn = document.getElementById('calc-btn');
         modal.classList.toggle('show');
         btn.classList.toggle('active');
         // Initialize Desmos on first open
-        if (!desmosCalc && modal.classList.contains('show')) {
+        if (!window.desmosCalc && modal.classList.contains('show')) {
             const container = document.getElementById('calc-container');
-            desmosCalc = Desmos.ScientificCalculator(container, { fontSize: 16 });
+            window.desmosCalc = Desmos.GraphingCalculator(container, {
+                keypad: true,
+                expressions: true,
+                settingsMenu: false,
+                zoomButtons: false,
+                expressionsTopbar: false,
+                pointsOfInterest: false,
+                trace: false,
+                border: false,
+                lockViewport: true,
+                xAxisNumbers: false,
+                yAxisNumbers: false,
+                showGrid: false
+            });
         }
-    });
-
-    // Copy calculator expressions to active workout
-    document.getElementById('calc-copy-btn').addEventListener('click', () => {
-        if (!desmosCalc) return;
-        const exprs = desmosCalc.getExpressions();
-        const lines = exprs.filter(e => e.latex).map(e => e.latex.replace(/\\cdot/g,'×').replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g,'($1)/($2)'));
-        if (lines.length === 0) return;
-        // Find active workout textarea
-        const activeView = document.querySelector('.view.active');
-        if (!activeView) return;
-        const textarea = activeView.querySelector('.workout-textarea');
-        if (!textarea) return;
-        const existing = textarea.value;
-        textarea.value = existing + (existing && !existing.endsWith('\n') ? '\n' : '') + '--- Calculator ---\n' + lines.join('\n');
-        textarea.focus();
     });
 
     // Enter key for next question after answering
