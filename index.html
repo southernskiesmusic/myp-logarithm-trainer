@@ -2115,7 +2115,7 @@ const SURD = {
     score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
 
     qSimplify() {
-        const k=randInt(2,6), n=randInt(2,5), val=k*k*n;
+        const k=randInt(2,6), n=pick([2,3,5,6,7,10,11]), val=k*k*n;
         return { type:'free', rule:'Simplify', difficulty:'easy', text:`Simplify \\(\\sqrt{${val}}\\). Give the number outside the root:`,
             latex:`\\sqrt{${val}}`, answer:k, answerTex:`${k}\\sqrt{${n}}`,
             hintTex:[`Find a square factor of ${val}.`,`\\(${val} = ${k*k} \\times ${n} = ${k}^2 \\times ${n}\\)`],
