@@ -2187,9 +2187,9 @@ const SURD = {
     qRationalise() {
         const a=randInt(2,5);
         return { type:'free', rule:'Rationalise', difficulty:'hard', text:`Rationalise \\(\\frac{1}{\\sqrt{${a}}}\\). Give the number under the root in your answer:`,
-            latex:`\\frac{1}{\\sqrt{${a}}}`, answer:a, answerTex:`\\frac{\\sqrt{${a}}}{${a}}`,
+            latex:`\\frac{1}{\\sqrt{${a}}}`, answer:a, answerTex:String(a),
             hintTex:['Multiply top and bottom by \\(\\sqrt{'+a+'}\\).',`\\(\\frac{1}{\\sqrt{${a}}} \\times \\frac{\\sqrt{${a}}}{\\sqrt{${a}}}\\)`],
-            explain:`\\(\\frac{1}{\\sqrt{${a}}} = \\frac{\\sqrt{${a}}}{${a}}\\)` };
+            explain:`\\(\\frac{1}{\\sqrt{${a}}} = \\frac{\\sqrt{${a}}}{${a}}\\). The number under the root is \\(${a}\\).` };
     },
     qRationaliseConj() {
         const a=randInt(1,3), b=randInt(2,5);
