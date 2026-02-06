@@ -1921,22 +1921,22 @@ const IDX = {
 
     qMultiply() {
         const b=randInt(2,5), m=randInt(2,5), n=randInt(2,5), ans=m+n;
-        return { type:'free', rule:'Multiply', difficulty:'easy', text:'Simplify:',
-            latex:`${b}^{${m}} \\times ${b}^{${n}}`, answer:ans, answerTex:`${b}^{${ans}}`,
+        return { type:'free', rule:'Multiply', difficulty:'easy', text:`Simplify (give power of ${b}):`,
+            latex:`${b}^{${m}} \\times ${b}^{${n}}`, answer:ans, answerTex:String(ans),
             hintTex:['When multiplying same base, add the powers.',`\\(a^m \\times a^n = a^{m+n}\\)`],
             explain:`\\(${b}^{${m}} \\times ${b}^{${n}} = ${b}^{${m}+${n}} = ${b}^{${ans}}\\)` };
     },
     qDivide() {
         const b=randInt(2,5), m=randInt(4,8), n=randInt(1,m-1), ans=m-n;
-        return { type:'free', rule:'Divide', difficulty:'easy', text:'Simplify:',
-            latex:`${b}^{${m}} \\div ${b}^{${n}}`, answer:ans, answerTex:`${b}^{${ans}}`,
+        return { type:'free', rule:'Divide', difficulty:'easy', text:`Simplify (give power of ${b}):`,
+            latex:`${b}^{${m}} \\div ${b}^{${n}}`, answer:ans, answerTex:String(ans),
             hintTex:['When dividing same base, subtract the powers.',`\\(a^m \\div a^n = a^{m-n}\\)`],
             explain:`\\(${b}^{${m}} \\div ${b}^{${n}} = ${b}^{${m}-${n}} = ${b}^{${ans}}\\)` };
     },
     qPower() {
         const b=randInt(2,4), m=randInt(2,3), n=randInt(2,3), ans=m*n;
-        return { type:'free', rule:'Power of Power', difficulty:'easy', text:'Simplify:',
-            latex:`(${b}^{${m}})^{${n}}`, answer:ans, answerTex:`${b}^{${ans}}`,
+        return { type:'free', rule:'Power of Power', difficulty:'easy', text:`Simplify (give power of ${b}):`,
+            latex:`(${b}^{${m}})^{${n}}`, answer:ans, answerTex:String(ans),
             hintTex:['Power of a power: multiply the exponents.',`\\((a^m)^n = a^{mn}\\)`],
             explain:`\\((${b}^{${m}})^{${n}} = ${b}^{${m} \\times ${n}} = ${b}^{${ans}}\\)` };
     },
@@ -1984,7 +1984,7 @@ const IDX = {
     qCombined() {
         const b=randInt(2,4), m=randInt(2,4), n=randInt(2,3), p=randInt(1,2), ans=m*n-p;
         return { type:'free', rule:'Combined', difficulty:'hard', text:'Simplify (give power of '+b+'):',
-            latex:`\\frac{(${b}^{${m}})^{${n}}}{${b}^{${p}}}`, answer:ans, answerTex:`${b}^{${ans}}`,
+            latex:`\\frac{(${b}^{${m}})^{${n}}}{${b}^{${p}}}`, answer:ans, answerTex:String(ans),
             hintTex:['First simplify the numerator.',`\\((${b}^{${m}})^{${n}} = ${b}^{${m*n}}\\)`,`Then divide: \\(${b}^{${m*n}} \\div ${b}^{${p}} = ${b}^{${ans}}\\)`],
             explain:`\\(\\frac{(${b}^{${m}})^{${n}}}{${b}^{${p}}} = \\frac{${b}^{${m*n}}}{${b}^{${p}}} = ${b}^{${ans}}\\)` };
     },
@@ -2123,8 +2123,8 @@ const SURD = {
     },
     qMultiply() {
         const a=randInt(2,5), b=randInt(2,5), ans=a*b;
-        return { type:'free', rule:'Multiply', difficulty:'easy', text:'Simplify:',
-            latex:`\\sqrt{${a}} \\times \\sqrt{${b}}`, answer:ans, answerTex:`\\sqrt{${ans}}`,
+        return { type:'free', rule:'Multiply', difficulty:'easy', text:'Simplify. Give the number under the root:',
+            latex:`\\sqrt{${a}} \\times \\sqrt{${b}}`, answer:ans, answerTex:String(ans),
             hintTex:['Multiply surds: multiply the numbers under the roots.',`\\(\\sqrt{a} \\times \\sqrt{b} = \\sqrt{ab}\\)`],
             explain:`\\(\\sqrt{${a}} \\times \\sqrt{${b}} = \\sqrt{${a} \\times ${b}} = \\sqrt{${ans}}\\)` };
     },
