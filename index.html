@@ -817,35 +817,34 @@ function copyCalcToWorkout(workoutId) {
     const workout = document.getElementById(workoutId);
     if (!workout) { alert('Workout area not found'); return; }
 
-    // Try to take screenshot
+    // Get expressions and render with KaTeX
     try {
-        window.desmosCalc.screenshot(function(dataUrl) {
-            const img = document.createElement('img');
-            img.src = dataUrl;
-            img.style.cssText = 'max-width:100%;border-radius:8px;margin:8px 0;box-shadow:0 2px 8px rgba(0,0,0,0.15);';
-            img.draggable = false;
+        const state = window.desmosCalc.getState();
+        console.log('Desmos state:', state);
+        const exprs = state.expressions?.list || [];
+        const validExprs = exprs.filter(e => e.latex && e.latex.trim());
 
-            if (workout.contentEditable === 'true') {
-                workout.appendChild(img);
-                workout.appendChild(document.createElement('br'));
-            }
-            workout.focus();
-        });
-    } catch(err) {
-        // Fallback to text if screenshot fails
-        try {
-            const state = window.desmosCalc.getState();
-            const exprs = state.expressions?.list || [];
-            const lines = exprs.filter(e => e.latex && e.latex.trim()).map(e => latexToReadable(e.latex));
-            if (lines.length > 0) {
-                const pre = document.createElement('pre');
-                pre.style.cssText = 'background:#f5f5f5;padding:12px;border-radius:8px;margin:8px 0;font-family:monospace;';
-                pre.textContent = lines.join('\n');
-                workout.appendChild(pre);
-            }
-        } catch(e) {
-            alert('Could not copy calculator: ' + e.message);
+        if (validExprs.length === 0) {
+            alert('No expressions in calculator. Type something first!');
+            return;
         }
+
+        // Create a styled box with KaTeX-rendered expressions
+        const box = document.createElement('div');
+        box.style.cssText = 'background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin:8px 0;';
+
+        validExprs.forEach(e => {
+            const line = document.createElement('div');
+            line.style.cssText = 'margin:6px 0;font-size:1.1em;';
+            line.innerHTML = katex.renderToString(e.latex, { throwOnError: false, displayMode: false });
+            box.appendChild(line);
+        });
+
+        workout.appendChild(box);
+        workout.focus();
+    } catch(err) {
+        console.error('Copy error:', err);
+        alert('Error copying: ' + err.message);
     }
 }
 
