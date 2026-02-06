@@ -844,16 +844,21 @@ function copyCalcToWorkout(workoutId) {
             exprSpan.innerHTML = katex.renderToString(e.latex, { throwOnError: false, displayMode: false });
             line.appendChild(exprSpan);
 
-            // Try to get evaluated value
-            const evalData = analysis[e.id];
-            if (evalData && evalData.evaluation !== undefined && !isNaN(evalData.evaluation)) {
-                const valSpan = document.createElement('span');
-                valSpan.style.cssText = 'color:#666;';
-                const val = evalData.evaluation;
-                const formatted = Number.isInteger(val) ? val : val.toFixed(6).replace(/\.?0+$/, '');
-                valSpan.innerHTML = katex.renderToString('= ' + formatted, { throwOnError: false, displayMode: false });
-                line.appendChild(valSpan);
-            }
+            // Try to get evaluated value using helper expression
+            try {
+                const helper = window.desmosCalc.HelperExpression({ latex: e.latex });
+                helper.observe('numericValue', () => {
+                    const val = helper.numericValue;
+                    if (val !== undefined && !isNaN(val)) {
+                        const valSpan = document.createElement('span');
+                        valSpan.style.cssText = 'color:#666;margin-left:8px;';
+                        const formatted = Number.isInteger(val) ? String(val) : val.toFixed(6).replace(/\.?0+$/, '');
+                        valSpan.innerHTML = katex.renderToString('= ' + formatted, { throwOnError: false });
+                        line.appendChild(valSpan);
+                    }
+                    helper.unobserve('numericValue');
+                });
+            } catch(evalErr) { /* ignore */ }
 
             box.appendChild(line);
         });
