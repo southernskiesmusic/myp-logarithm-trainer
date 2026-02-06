@@ -815,38 +815,32 @@ function latexToReadable(latex) {
 function copyCalcToWorkout(workoutId) {
     if (!window.desmosCalc) { alert('Open the calculator first!'); return; }
     const workout = document.getElementById(workoutId);
-    if (!workout) return;
+    if (!workout) { alert('Workout area not found'); return; }
 
-    // Take screenshot of calculator
-    window.desmosCalc.screenshot({
-        width: 400,
-        height: 300,
-        targetPixelRatio: 2
-    }, function(dataUrl) {
-        // Create image element
-        const img = document.createElement('img');
-        img.src = dataUrl;
-        img.alt = 'Calculator working';
+    try {
+        // Get expressions as text (more reliable than screenshot)
+        const state = window.desmosCalc.getState();
+        const exprs = state.expressions?.list || [];
+        const lines = exprs.filter(e => e.latex && e.latex.trim()).map(e => latexToReadable(e.latex));
 
-        // For contenteditable div
+        if (lines.length === 0) { alert('Calculator is empty'); return; }
+
+        const text = '--- Calculator ---\n' + lines.join('\n');
+
+        // Insert into contenteditable div
         if (workout.contentEditable === 'true') {
-            workout.appendChild(document.createElement('br'));
-            workout.appendChild(img);
-            workout.appendChild(document.createElement('br'));
-        }
-        // For textarea - fall back to text
-        else if (workout.tagName === 'TEXTAREA') {
-            const state = window.desmosCalc.getState();
-            const exprs = state.expressions.list || [];
-            const lines = exprs.filter(e => e.latex && e.latex.trim()).map(e => latexToReadable(e.latex));
-            if (lines.length > 0) {
-                const text = lines.join('\n');
-                const existing = workout.value;
-                workout.value = existing + (existing && !existing.endsWith('\n') ? '\n' : '') + '--- Calculator ---\n' + text;
-            }
+            const pre = document.createElement('pre');
+            pre.style.cssText = 'background:#f5f5f5;padding:12px;border-radius:8px;margin:8px 0;font-family:monospace;white-space:pre-wrap;';
+            pre.textContent = text;
+            workout.appendChild(pre);
+        } else {
+            // Fallback for textarea
+            workout.value = (workout.value || '') + '\n' + text;
         }
         workout.focus();
-    });
+    } catch(err) {
+        alert('Error: ' + err.message);
+    }
 }
 
 // ── Progressive Hint System ─────────────────────────────────────
