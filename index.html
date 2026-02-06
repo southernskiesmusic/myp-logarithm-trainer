@@ -794,7 +794,7 @@ function parseLatex(raw) {
 // ── Copy Calculator to Workings ─────────────────────────────────
 function latexToReadable(latex) {
     return latex
-        .replace(/\\cdot/g, '×')
+        .replace(/\\cdot/g, '·')
         .replace(/\\times/g, '×')
         .replace(/\\div/g, '÷')
         .replace(/\\sqrt\{([^}]+)\}/g, '√($1)')
@@ -808,10 +808,21 @@ function copyCalcToWorkout(textareaId) {
     if (!window.desmosCalc) { alert('Open the calculator first!'); return; }
     const textarea = document.getElementById(textareaId);
     if (!textarea) return;
-    const exprs = window.desmosCalc.getExpressions();
-    const lines = exprs
-        .filter(e => e.latex && e.latex.trim())
-        .map(e => latexToReadable(e.latex));
+    const state = window.desmosCalc.getState();
+    const exprs = state.expressions.list || [];
+    const lines = [];
+    for (const e of exprs) {
+        if (!e.latex || !e.latex.trim()) continue;
+        const expr = latexToReadable(e.latex);
+        lines.push(expr);
+        // Try to get the result if it's a simple expression
+        try {
+            const val = window.desmosCalc.expressionAnalysis[e.id];
+            if (val && val.evaluation !== undefined) {
+                lines.push('    = ' + val.evaluation);
+            }
+        } catch(err) {}
+    }
     if (lines.length === 0) { alert('Calculator is empty'); return; }
     const text = lines.join('\n');
     const existing = textarea.value;
@@ -2165,9 +2176,9 @@ const SURD = {
         const a=randInt(1,3), b=randInt(2,5);
         const denom=a*a-b;
         return { type:'free', rule:'Rationalise', difficulty:'hard', text:`Rationalise \\(\\frac{1}{${a}+\\sqrt{${b}}}\\). Give the denominator of your answer:`,
-            latex:`\\frac{1}{${a}+\\sqrt{${b}}}`, answer:Math.abs(denom), answerTex:`\\frac{${a}-\\sqrt{${b}}}{${denom}}`,
+            latex:`\\frac{1}{${a}+\\sqrt{${b}}}`, answer:Math.abs(denom), answerTex:String(Math.abs(denom)),
             hintTex:['Multiply by conjugate: \\('+a+'-\\sqrt{'+b+'}\\).',`Denominator: \\((${a})^2 - (\\sqrt{${b}})^2 = ${a*a} - ${b} = ${denom}\\)`],
-            explain:`\\(\\frac{1}{${a}+\\sqrt{${b}}} \\times \\frac{${a}-\\sqrt{${b}}}{${a}-\\sqrt{${b}}} = \\frac{${a}-\\sqrt{${b}}}{${denom}}\\)` };
+            explain:`\\(\\frac{1}{${a}+\\sqrt{${b}}} \\times \\frac{${a}-\\sqrt{${b}}}{${a}-\\sqrt{${b}}} = \\frac{${a}-\\sqrt{${b}}}{${denom}}\\). The denominator is \\(${Math.abs(denom)}\\).` };
     },
 
     pools:null, allPool:null,
