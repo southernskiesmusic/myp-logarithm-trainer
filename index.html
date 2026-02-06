@@ -820,7 +820,6 @@ function copyCalcToWorkout(workoutId) {
     // Get expressions and render with KaTeX
     try {
         const state = window.desmosCalc.getState();
-        console.log('Desmos state:', state);
         const exprs = state.expressions?.list || [];
         const validExprs = exprs.filter(e => e.latex && e.latex.trim());
 
@@ -829,14 +828,33 @@ function copyCalcToWorkout(workoutId) {
             return;
         }
 
+        // Get expression analysis for evaluated values
+        const analysis = window.desmosCalc.expressionAnalysis || {};
+
         // Create a styled box with KaTeX-rendered expressions
         const box = document.createElement('div');
         box.style.cssText = 'background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin:8px 0;';
 
         validExprs.forEach(e => {
             const line = document.createElement('div');
-            line.style.cssText = 'margin:6px 0;font-size:1.1em;';
-            line.innerHTML = katex.renderToString(e.latex, { throwOnError: false, displayMode: false });
+            line.style.cssText = 'margin:6px 0;font-size:1.1em;display:flex;align-items:center;gap:8px;flex-wrap:wrap;';
+
+            // Render the expression
+            const exprSpan = document.createElement('span');
+            exprSpan.innerHTML = katex.renderToString(e.latex, { throwOnError: false, displayMode: false });
+            line.appendChild(exprSpan);
+
+            // Try to get evaluated value
+            const evalData = analysis[e.id];
+            if (evalData && evalData.evaluation !== undefined && !isNaN(evalData.evaluation)) {
+                const valSpan = document.createElement('span');
+                valSpan.style.cssText = 'color:#666;';
+                const val = evalData.evaluation;
+                const formatted = Number.isInteger(val) ? val : val.toFixed(6).replace(/\.?0+$/, '');
+                valSpan.innerHTML = katex.renderToString('= ' + formatted, { throwOnError: false, displayMode: false });
+                line.appendChild(valSpan);
+            }
+
             box.appendChild(line);
         });
 
