@@ -291,6 +291,34 @@
             .se-math-field { width: 120px; font-size: 1.2rem; }
             .workout-textarea { min-height: 140px; font-size: 0.9rem; }
         }
+
+        /* Calculator */
+        .calc-btn {
+            position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+            width: 56px; height: 56px; border-radius: 50%;
+            background: var(--primary); color: #fff; border: none;
+            box-shadow: 0 4px 16px rgba(67,97,238,0.4);
+            cursor: pointer; font-size: 1.5rem; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .calc-btn:hover { transform: scale(1.1); background: #3651d4; }
+        .calc-btn.active { background: var(--error); }
+        .calc-modal {
+            display: none; position: fixed; bottom: 90px; right: 24px; z-index: 999;
+            width: 340px; height: 480px; background: var(--card);
+            border-radius: var(--radius); box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            overflow: hidden; animation: slideUp 0.2s ease;
+        }
+        .calc-modal.show { display: block; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .calc-modal iframe { width: 100%; height: 100%; border: none; }
+        @media (max-width: 480px) {
+            .calc-modal { width: calc(100vw - 32px); right: 16px; bottom: 80px; height: 400px; }
+            .calc-btn { bottom: 16px; right: 16px; width: 50px; height: 50px; font-size: 1.3rem; }
+        }
     </style>
 </head>
 <body>
@@ -495,6 +523,12 @@
         <summary>Rules Reference</summary>
         <div class="rules-content" id="qa-ref"></div>
     </details>
+</div>
+
+<!-- Calculator -->
+<button class="calc-btn" id="calc-btn" title="Calculator">🧮</button>
+<div class="calc-modal" id="calc-modal">
+    <iframe src="https://www.desmos.com/scientific" title="Desmos Calculator"></iframe>
 </div>
 
 </div><!-- /app -->
@@ -1512,6 +1546,14 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratics-multiplying-factoring/x2f8bb11595b61c86:factor-difference-squares/v/difference-of-squares-intro" target="_blank">Difference of Squares</a>
             <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratic-functions-equations/x2f8bb11595b61c86:completing-square-vertex-form/v/completing-the-square" target="_blank">Completing the Square</a>
         </div>`;
+
+    // Calculator toggle
+    document.getElementById('calc-btn').addEventListener('click', () => {
+        const modal = document.getElementById('calc-modal');
+        const btn = document.getElementById('calc-btn');
+        modal.classList.toggle('show');
+        btn.classList.toggle('active');
+    });
 
     renderMath();
 });
