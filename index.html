@@ -2573,8 +2573,8 @@ const EXPR = {
     qFactorQuad() {
         const p=randInt(1,6), q=randInt(1,6);
         const b=p+q, c=p*q;
-        return { type:'free', rule:'Factorise', difficulty:'hard', text:'Factorise. Give the smaller number in the brackets:',
-            latex:`x^2 + ${b}x + ${c}`, answer:Math.min(p,q), answerTex:`(x + ${p})(x + ${q})`,
+        return { type:'factor', rule:'Factorise', difficulty:'hard', text:'Factorise:',
+            latex:`x^2 + ${b}x + ${c}`, factors:[p,q], answerTex:`(x + ${p})(x + ${q})`,
             hintTex:['Find two numbers that multiply to '+c+' and add to '+b+'.',`${p} \\times ${q} = ${c} \\text{ and } ${p} + ${q} = ${b}`],
             explain:`\\(x^2 + ${b}x + ${c} = (x + ${p})(x + ${q})\\)` };
     },
@@ -2582,8 +2582,8 @@ const EXPR = {
     // Hard: Factorise difference of squares
     qFactorDiffSq() {
         const a=randInt(2,9);
-        return { type:'free', rule:'Factorise', difficulty:'hard', text:'Factorise. What number goes in the brackets?',
-            latex:`x^2 - ${a*a}`, answer:a, answerTex:`(x + ${a})(x - ${a})`,
+        return { type:'factorDiff', rule:'Factorise', difficulty:'hard', text:'Factorise:',
+            latex:`x^2 - ${a*a}`, factorNum:a, answerTex:`(x + ${a})(x - ${a})`,
             hintTex:['This is a difference of two squares: a² - b² = (a+b)(a-b).',`\\sqrt{${a*a}} = ${a}`],
             explain:`\\(x^2 - ${a*a} = x^2 - ${a}^2 = (x + ${a})(x - ${a})\\)` };
     },
@@ -2606,14 +2606,46 @@ const EXPR = {
         resetHint('expr-hint','expr-hint-btn');
         document.getElementById('expr-workout').innerHTML='';
         renderMath();
-        setTimeout(()=>{const mf=document.getElementById('expr-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();EXPR.check();}});}document.getElementById('expr-check')?.addEventListener('click',()=>EXPR.check());},200);
+        setTimeout(()=>{const mf=document.getElementById('expr-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();EXPR.handleFree();}});}document.getElementById('expr-check')?.addEventListener('click',()=>EXPR.handleFree());},200);
     },
-    check() {
+    handleFree() {
         if(this.answered)return; const mf=document.getElementById('expr-mf'); if(!mf||!mf.value.trim())return;
-        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        this.answered=true;
+        const q=this.currentQ;
+        let ok = false;
+
+        if (q.type === 'factor') {
+            // Parse (x+a)(x+b) - extract the numbers
+            ok = this.checkFactorisation(mf.value, q.factors);
+        } else if (q.type === 'factorDiff') {
+            // Parse (x+a)(x-a) - extract the number
+            ok = this.checkDiffSquares(mf.value, q.factorNum);
+        } else {
+            const ans=parseLatex(mf.value);
+            ok=Math.abs(ans-q.answer)<0.01;
+        }
+
         mf.disabled=true; document.getElementById('expr-check').disabled=true;
-        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.record(ok); let ex=q.explain; if(!ok)ex=`The answer is \\(${q.answerTex}\\).<br>`+ex;
         this.showFb(ok,ex);
+    },
+    checkFactorisation(input, factors) {
+        // Normalize: remove spaces, handle latex
+        let s = input.replace(/\\left|\\right|\\cdot|\\times|\s+/g, '').replace(/−/g, '-');
+        // Match patterns like (x+5)(x+1) or (x+1)(x+5)
+        const match = s.match(/\(x([+-]\d+)\)\(x([+-]\d+)\)/i);
+        if (!match) return false;
+        const n1 = parseInt(match[1]), n2 = parseInt(match[2]);
+        const [p, q] = factors;
+        return (n1===p && n2===q) || (n1===q && n2===p);
+    },
+    checkDiffSquares(input, a) {
+        let s = input.replace(/\\left|\\right|\\cdot|\\times|\s+/g, '').replace(/−/g, '-');
+        // Match (x+a)(x-a) or (x-a)(x+a)
+        const match = s.match(/\(x([+-]\d+)\)\(x([+-]\d+)\)/i);
+        if (!match) return false;
+        const n1 = parseInt(match[1]), n2 = parseInt(match[2]);
+        return (n1===a && n2===-a) || (n1===-a && n2===a);
     },
     record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('expr-score').textContent=`${this.score} / ${this.total}`; document.getElementById('expr-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('expr-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
     showFb(ok,html) { const fb=document.getElementById('expr-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('expr-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('expr-fb-expl').innerHTML=html; document.getElementById('expr-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
