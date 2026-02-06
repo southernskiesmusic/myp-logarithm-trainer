@@ -352,7 +352,7 @@
     <div class="hub-header">
         <h1>MYP Extended Maths Trainer</h1>
         <p>Pick a topic to practise</p>
-        <div class="last-updated">Last updated: 6 Feb 2026, 3:15 PM</div>
+        <div class="last-updated" id="last-updated">Last updated: loading...</div>
     </div>
     <div class="topic-grid">
         <div class="topic-card" data-topic="logarithms">
@@ -4381,6 +4381,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // Track when answers are submitted
     window.markAnswered = () => { lastAnswerTime = Date.now(); };
+
+    // Fetch last commit date from GitHub API
+    fetch('https://api.github.com/repos/southernskiesmusic/myp-extended-maths-trainer/commits?per_page=1')
+        .then(r => r.json())
+        .then(data => {
+            if (data[0]?.commit?.author?.date) {
+                const d = new Date(data[0].commit.author.date);
+                const options = { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+                document.getElementById('last-updated').textContent = 'Last updated: ' + d.toLocaleDateString('en-AU', options);
+            }
+        })
+        .catch(() => {
+            document.getElementById('last-updated').textContent = 'Last updated: recently';
+        });
 
     renderMath();
 });
