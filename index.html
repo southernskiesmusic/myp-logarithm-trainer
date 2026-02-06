@@ -817,29 +817,35 @@ function copyCalcToWorkout(workoutId) {
     const workout = document.getElementById(workoutId);
     if (!workout) { alert('Workout area not found'); return; }
 
+    // Try to take screenshot
     try {
-        // Get expressions as text (more reliable than screenshot)
-        const state = window.desmosCalc.getState();
-        const exprs = state.expressions?.list || [];
-        const lines = exprs.filter(e => e.latex && e.latex.trim()).map(e => latexToReadable(e.latex));
+        window.desmosCalc.screenshot(function(dataUrl) {
+            const img = document.createElement('img');
+            img.src = dataUrl;
+            img.style.cssText = 'max-width:100%;border-radius:8px;margin:8px 0;box-shadow:0 2px 8px rgba(0,0,0,0.15);';
+            img.draggable = false;
 
-        if (lines.length === 0) { alert('Calculator is empty'); return; }
-
-        const text = '--- Calculator ---\n' + lines.join('\n');
-
-        // Insert into contenteditable div
-        if (workout.contentEditable === 'true') {
-            const pre = document.createElement('pre');
-            pre.style.cssText = 'background:#f5f5f5;padding:12px;border-radius:8px;margin:8px 0;font-family:monospace;white-space:pre-wrap;';
-            pre.textContent = text;
-            workout.appendChild(pre);
-        } else {
-            // Fallback for textarea
-            workout.value = (workout.value || '') + '\n' + text;
-        }
-        workout.focus();
+            if (workout.contentEditable === 'true') {
+                workout.appendChild(img);
+                workout.appendChild(document.createElement('br'));
+            }
+            workout.focus();
+        });
     } catch(err) {
-        alert('Error: ' + err.message);
+        // Fallback to text if screenshot fails
+        try {
+            const state = window.desmosCalc.getState();
+            const exprs = state.expressions?.list || [];
+            const lines = exprs.filter(e => e.latex && e.latex.trim()).map(e => latexToReadable(e.latex));
+            if (lines.length > 0) {
+                const pre = document.createElement('pre');
+                pre.style.cssText = 'background:#f5f5f5;padding:12px;border-radius:8px;margin:8px 0;font-family:monospace;';
+                pre.textContent = lines.join('\n');
+                workout.appendChild(pre);
+            }
+        } catch(e) {
+            alert('Could not copy calculator: ' + e.message);
+        }
     }
 }
 
