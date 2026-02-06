@@ -1555,6 +1555,23 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.toggle('active');
     });
 
+    // Enter key for next question after answering
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Enter') return;
+        // Don't trigger if typing in textarea or math-field
+        const tag = document.activeElement?.tagName?.toLowerCase();
+        if (tag === 'textarea' || tag === 'math-field') return;
+
+        // Check which trainer is active and answered
+        if (document.getElementById('view-log-rules').classList.contains('active') && LR.answered) {
+            e.preventDefault(); LR.load();
+        } else if (document.getElementById('view-log-simul').classList.contains('active') && SE.answered) {
+            e.preventDefault(); SE.load();
+        } else if (document.getElementById('view-quad-areas').classList.contains('active') && QA.answered) {
+            e.preventDefault(); QA.load();
+        }
+    });
+
     renderMath();
 });
 </script>
