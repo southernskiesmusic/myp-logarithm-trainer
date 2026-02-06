@@ -816,6 +816,7 @@ const LR = {
         document.getElementById('lr-score').textContent = `${this.score} / ${this.total}`;
         document.getElementById('lr-pct').textContent = this.total ? Math.round(this.score/this.total*100)+'%' : '\u2014';
         document.getElementById('lr-streak').textContent = this.streak;
+        if (window.markAnswered) window.markAnswered();
     },
 
     showFb(ok, html) {
@@ -1010,6 +1011,7 @@ const SE = {
         document.getElementById('se-score').textContent=`${this.score} / ${this.total}`;
         document.getElementById('se-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014';
         document.getElementById('se-streak').textContent=this.streak;
+        if (window.markAnswered) window.markAnswered();
     },
 
     showFb(ok, html) {
@@ -1418,6 +1420,7 @@ const QA = {
         document.getElementById('qa-score').textContent=`${this.score} / ${this.total}`;
         document.getElementById('qa-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014';
         document.getElementById('qa-streak').textContent=this.streak;
+        if (window.markAnswered) window.markAnswered();
     },
 
     showFb(ok, html) {
@@ -1556,11 +1559,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Enter key for next question after answering
+    let lastAnswerTime = 0;
     document.addEventListener('keydown', e => {
         if (e.key !== 'Enter') return;
         // Don't trigger if typing in textarea or math-field
         const tag = document.activeElement?.tagName?.toLowerCase();
         if (tag === 'textarea' || tag === 'math-field') return;
+        // Debounce: ignore if less than 300ms since answer was submitted
+        if (Date.now() - lastAnswerTime < 300) return;
 
         // Check which trainer is active and answered
         if (document.getElementById('view-log-rules').classList.contains('active') && LR.answered) {
@@ -1571,6 +1577,8 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); QA.load();
         }
     });
+    // Track when answers are submitted
+    window.markAnswered = () => { lastAnswerTime = Date.now(); };
 
     renderMath();
 });
