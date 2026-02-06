@@ -2563,8 +2563,8 @@ const EXPR = {
     // Medium: Factorise with common factor
     qFactorCommon() {
         const f=randInt(2,5), a=randInt(1,4), b=randInt(1,4);
-        return { type:'free', rule:'Factorise', difficulty:'medium', text:'Factorise. What is the common factor?',
-            latex:`${f*a}x + ${f*b}`, answer:f, answerTex:`${f}(${a}x + ${b})`,
+        return { type:'factorCommon', rule:'Factorise', difficulty:'medium', text:'Factorise fully:',
+            latex:`${f*a}x + ${f*b}`, commonFactor:f, coeffA:a, coeffB:b, answerTex:`${f}(${a}x + ${b})`,
             hintTex:['Find the highest common factor of the coefficients.',`HCF(${f*a}, ${f*b}) = ${f}`],
             explain:`\\(${f*a}x + ${f*b} = ${f}(${a}x + ${b})\\)` };
     },
@@ -2573,7 +2573,7 @@ const EXPR = {
     qFactorQuad() {
         const p=randInt(1,6), q=randInt(1,6);
         const b=p+q, c=p*q;
-        return { type:'factor', rule:'Factorise', difficulty:'hard', text:'Factorise:',
+        return { type:'factor', rule:'Factorise', difficulty:'hard', text:'Factorise fully:',
             latex:`x^2 + ${b}x + ${c}`, factors:[p,q], answerTex:`(x + ${p})(x + ${q})`,
             hintTex:['Find two numbers that multiply to '+c+' and add to '+b+'.',`${p} \\times ${q} = ${c} \\text{ and } ${p} + ${q} = ${b}`],
             explain:`\\(x^2 + ${b}x + ${c} = (x + ${p})(x + ${q})\\)` };
@@ -2582,7 +2582,7 @@ const EXPR = {
     // Hard: Factorise difference of squares
     qFactorDiffSq() {
         const a=randInt(2,9);
-        return { type:'factorDiff', rule:'Factorise', difficulty:'hard', text:'Factorise:',
+        return { type:'factorDiff', rule:'Factorise', difficulty:'hard', text:'Factorise fully:',
             latex:`x^2 - ${a*a}`, factorNum:a, answerTex:`(x + ${a})(x - ${a})`,
             hintTex:['This is a difference of two squares: a² - b² = (a+b)(a-b).',`\\sqrt{${a*a}} = ${a}`],
             explain:`\\(x^2 - ${a*a} = x^2 - ${a}^2 = (x + ${a})(x - ${a})\\)` };
@@ -2615,11 +2615,11 @@ const EXPR = {
         let ok = false;
 
         if (q.type === 'factor') {
-            // Parse (x+a)(x+b) - extract the numbers
             ok = this.checkFactorisation(mf.value, q.factors);
         } else if (q.type === 'factorDiff') {
-            // Parse (x+a)(x-a) - extract the number
             ok = this.checkDiffSquares(mf.value, q.factorNum);
+        } else if (q.type === 'factorCommon') {
+            ok = this.checkCommonFactor(mf.value, q.commonFactor, q.coeffA, q.coeffB);
         } else {
             const ans=parseLatex(mf.value);
             ok=Math.abs(ans-q.answer)<0.01;
@@ -2630,9 +2630,7 @@ const EXPR = {
         this.showFb(ok,ex);
     },
     checkFactorisation(input, factors) {
-        // Normalize: remove spaces, handle latex
         let s = input.replace(/\\left|\\right|\\cdot|\\times|\s+/g, '').replace(/−/g, '-');
-        // Match patterns like (x+5)(x+1) or (x+1)(x+5)
         const match = s.match(/\(x([+-]\d+)\)\(x([+-]\d+)\)/i);
         if (!match) return false;
         const n1 = parseInt(match[1]), n2 = parseInt(match[2]);
@@ -2641,11 +2639,20 @@ const EXPR = {
     },
     checkDiffSquares(input, a) {
         let s = input.replace(/\\left|\\right|\\cdot|\\times|\s+/g, '').replace(/−/g, '-');
-        // Match (x+a)(x-a) or (x-a)(x+a)
         const match = s.match(/\(x([+-]\d+)\)\(x([+-]\d+)\)/i);
         if (!match) return false;
         const n1 = parseInt(match[1]), n2 = parseInt(match[2]);
         return (n1===a && n2===-a) || (n1===-a && n2===a);
+    },
+    checkCommonFactor(input, f, a, b) {
+        // Match patterns like 3(2x+1) or 3*(2x+1)
+        let s = input.replace(/\\left|\\right|\\cdot|\\times|\s+/g, '').replace(/−/g, '-');
+        const match = s.match(/^(\d+)\((\d*)x([+-]\d+)\)$/i);
+        if (!match) return false;
+        const factor = parseInt(match[1]);
+        const coeffX = match[2] ? parseInt(match[2]) : 1;
+        const constant = parseInt(match[3]);
+        return factor===f && coeffX===a && constant===b;
     },
     record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('expr-score').textContent=`${this.score} / ${this.total}`; document.getElementById('expr-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('expr-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
     showFb(ok,html) { const fb=document.getElementById('expr-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('expr-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('expr-fb-expl').innerHTML=html; document.getElementById('expr-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
