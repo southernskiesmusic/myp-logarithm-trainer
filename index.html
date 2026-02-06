@@ -67,6 +67,7 @@
         .topic-tag.quad { background: #d5f5e3; color: #1e8449; }
         .topic-tag.num { background: #fdebd0; color: #b9770e; }
         .topic-tag.alg { background: #d6eaf8; color: #2471a3; }
+        .topic-tag.func { background: #fdebd0; color: #b9770e; }
 
         /* ---- Shared trainer styles ---- */
         header { text-align: center; margin-bottom: 24px; }
@@ -350,7 +351,7 @@
     <div class="hub-header">
         <h1>MYP Extended Maths Trainer</h1>
         <p>Pick a topic to practise</p>
-        <div class="last-updated">Last updated: 6 Feb 2026, 2:53 PM</div>
+        <div class="last-updated">Last updated: 6 Feb 2026, 3:05 PM</div>
     </div>
     <div class="topic-grid">
         <div class="topic-card" data-topic="logarithms">
@@ -372,6 +373,11 @@
             <h2>Algebra</h2>
             <p>Expressions, linear equations, sequences, and inequalities.</p>
             <span class="topic-tag alg">4 activities</span>
+        </div>
+        <div class="topic-card" data-topic="functions">
+            <h2>Functions & Graphs</h2>
+            <p>Linear functions, quadratics, and graph transformations.</p>
+            <span class="topic-tag func">3 activities</span>
         </div>
     </div>
 </div>
@@ -889,6 +895,110 @@
     <div class="feedback" id="ineq-fb"><div class="feedback-title" id="ineq-fb-title"></div><div class="feedback-explanation" id="ineq-fb-expl"></div></div>
     <button class="btn btn-primary next-btn" id="ineq-next">Next Question</button>
     <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="ineq-ref"></div></details>
+</div>
+
+<!-- ==================== FUNCTIONS FOLDER VIEW ==================== -->
+<div id="view-functions" class="view">
+    <button class="back-btn" data-back="hub">All Topics</button>
+    <header>
+        <h1>Functions & Graphs</h1>
+        <p>Choose an activity</p>
+    </header>
+    <div class="topic-grid">
+        <div class="topic-card" data-topic="func-linear">
+            <h2>Linear Functions</h2>
+            <p>Gradient, y-intercept, equations of lines, parallel and perpendicular.</p>
+        </div>
+        <div class="topic-card" data-topic="func-quadratic">
+            <h2>Quadratic Functions</h2>
+            <p>Vertex, roots, axis of symmetry, sketching parabolas.</p>
+        </div>
+        <div class="topic-card" data-topic="func-transform">
+            <h2>Graph Transformations</h2>
+            <p>Translations, reflections, and stretches of functions.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== LINEAR FUNCTIONS VIEW ==================== -->
+<div id="view-func-linear" class="view">
+    <button class="back-btn" data-back="functions">Functions & Graphs</button>
+    <header>
+        <h1>Linear Functions</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="linf-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="linf-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="linf-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="linf-streak">0</div></div>
+    </div>
+    <div class="question-card" id="linf-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('linf-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="linf-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="linf-hint-btn">Hint</button></div>
+    <div class="hint-box" id="linf-hint"></div>
+    <div class="feedback" id="linf-fb"><div class="feedback-title" id="linf-fb-title"></div><div class="feedback-explanation" id="linf-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="linf-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="linf-ref"></div></details>
+</div>
+
+<!-- ==================== QUADRATIC FUNCTIONS VIEW ==================== -->
+<div id="view-func-quadratic" class="view">
+    <button class="back-btn" data-back="functions">Functions & Graphs</button>
+    <header>
+        <h1>Quadratic Functions</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="quadf-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="quadf-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="quadf-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="quadf-streak">0</div></div>
+    </div>
+    <div class="question-card" id="quadf-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('quadf-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="quadf-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="quadf-hint-btn">Hint</button></div>
+    <div class="hint-box" id="quadf-hint"></div>
+    <div class="feedback" id="quadf-fb"><div class="feedback-title" id="quadf-fb-title"></div><div class="feedback-explanation" id="quadf-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="quadf-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="quadf-ref"></div></details>
+</div>
+
+<!-- ==================== GRAPH TRANSFORMATIONS VIEW ==================== -->
+<div id="view-func-transform" class="view">
+    <button class="back-btn" data-back="functions">Functions & Graphs</button>
+    <header>
+        <h1>Graph Transformations</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="trans-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="trans-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="trans-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="trans-streak">0</div></div>
+    </div>
+    <div class="question-card" id="trans-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('trans-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="trans-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="trans-hint-btn">Hint</button></div>
+    <div class="hint-box" id="trans-hint"></div>
+    <div class="feedback" id="trans-fb"><div class="feedback-title" id="trans-fb-title"></div><div class="feedback-explanation" id="trans-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="trans-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="trans-ref"></div></details>
 </div>
 
 <!-- Calculator -->
@@ -3009,12 +3119,442 @@ const INEQ = {
 };
 
 /* ================================================================
+   LINEAR FUNCTIONS TRAINER
+   ================================================================ */
+const LINF = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    // Easy: Find gradient from y = mx + c
+    qGradientFromEq() {
+        const m = randInt(-5, 5), c = randInt(-10, 10);
+        if (m === 0) return LINF.qGradientFromEq();
+        const cStr = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+        return { type:'free', rule:'Gradient', difficulty:'easy', text:'What is the gradient of this line?',
+            latex:`y = ${m}x ${cStr}`, answer:m, answerTex:String(m),
+            hintTex:['In y = mx + c, the gradient is m.',`Compare with y = mx + c`],
+            explain:`In \\(y = mx + c\\), the gradient is \\(m = ${m}\\)` };
+    },
+
+    // Easy: Find y-intercept from y = mx + c
+    qYIntercept() {
+        const m = randInt(-5, 5), c = randInt(-10, 10);
+        if (m === 0) return LINF.qYIntercept();
+        const cStr = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+        return { type:'free', rule:'Y-intercept', difficulty:'easy', text:'What is the y-intercept of this line?',
+            latex:`y = ${m}x ${cStr}`, answer:c, answerTex:String(c),
+            hintTex:['In y = mx + c, the y-intercept is c.',`The line crosses the y-axis at (0, c)`],
+            explain:`In \\(y = mx + c\\), the y-intercept is \\(c = ${c}\\)` };
+    },
+
+    // Easy: Find gradient from two points
+    qGradientTwoPoints() {
+        const x1 = randInt(0, 5), y1 = randInt(-5, 5);
+        const x2 = x1 + randInt(1, 4), m = randInt(-3, 3);
+        if (m === 0) return LINF.qGradientTwoPoints();
+        const y2 = y1 + m * (x2 - x1);
+        return { type:'free', rule:'Gradient', difficulty:'easy', text:'Find the gradient of the line through these points:',
+            latex:`(${x1}, ${y1}) \\text{ and } (${x2}, ${y2})`, answer:m, answerTex:String(m),
+            hintTex:['Gradient = rise / run = (y₂ - y₁) / (x₂ - x₁)',`m = \\frac{${y2} - ${y1}}{${x2} - ${x1}} = \\frac{${y2-y1}}{${x2-x1}}`],
+            explain:`\\(m = \\frac{${y2} - ${y1}}{${x2} - ${x1}} = \\frac{${y2-y1}}{${x2-x1}} = ${m}\\)` };
+    },
+
+    // Medium: Rearrange to y = mx + c, find gradient
+    qRearrangeGradient() {
+        const m = randInt(1, 4), c = randInt(-8, 8);
+        const a = randInt(2, 4);
+        // ax + by = c form where b divides evenly
+        const rhs = a * c + m * a;
+        return { type:'free', rule:'Rearrange', difficulty:'medium', text:'Rearrange to y = mx + c. What is the gradient?',
+            latex:`${a}x + ${a}y = ${rhs}`, answer:-1, answerTex:'-1',
+            hintTex:['Rearrange to make y the subject.',`${a}y = ${rhs} - ${a}x`],
+            explain:`\\(${a}y = -${a}x + ${rhs}\\), so \\(y = -x + ${rhs/a}\\). Gradient = \\(-1\\)` };
+    },
+
+    // Medium: Find equation given point and gradient
+    qEqFromPointGradient() {
+        const m = randInt(-3, 3), x1 = randInt(1, 5), y1 = randInt(-5, 5);
+        if (m === 0) return LINF.qEqFromPointGradient();
+        const c = y1 - m * x1;
+        return { type:'free', rule:'Equation', difficulty:'medium', text:`Find the y-intercept of a line with gradient ${m} passing through (${x1}, ${y1}):`,
+            latex:`m = ${m}, \\text{ point } (${x1}, ${y1})`, answer:c, answerTex:String(c),
+            hintTex:['Use y = mx + c, substitute the point to find c.',`${y1} = ${m} \\times ${x1} + c`],
+            explain:`\\(${y1} = ${m}(${x1}) + c\\), so \\(c = ${y1} - ${m*x1} = ${c}\\)` };
+    },
+
+    // Medium: Parallel line gradient
+    qParallel() {
+        const m = randInt(-5, 5), c = randInt(-10, 10);
+        if (m === 0) return LINF.qParallel();
+        const cStr = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+        return { type:'free', rule:'Parallel', difficulty:'medium', text:'What is the gradient of a line parallel to this?',
+            latex:`y = ${m}x ${cStr}`, answer:m, answerTex:String(m),
+            hintTex:['Parallel lines have the same gradient.',`If y = mx + c, parallel lines also have gradient m`],
+            explain:`Parallel lines have equal gradients. Gradient = \\(${m}\\)` };
+    },
+
+    // Hard: Perpendicular line gradient
+    qPerpendicular() {
+        const m = pick([2, 3, 4, -2, -3, -4]);
+        const c = randInt(-5, 5);
+        const cStr = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+        const perpM = -1 / m;
+        return { type:'free', rule:'Perpendicular', difficulty:'hard', text:'What is the gradient of a line perpendicular to this? (Give as a fraction if needed)',
+            latex:`y = ${m}x ${cStr}`, answer:perpM, answerTex:`-\\frac{1}{${m}}`,
+            hintTex:['Perpendicular gradients multiply to -1.',`m_1 \\times m_2 = -1`],
+            explain:`Perpendicular gradient = \\(-\\frac{1}{${m}} = ${perpM}\\)` };
+    },
+
+    // Hard: Find equation from two points (give gradient)
+    qEqTwoPoints() {
+        const x1 = randInt(0, 3), y1 = randInt(-3, 3);
+        const m = randInt(-2, 2);
+        if (m === 0) return LINF.qEqTwoPoints();
+        const x2 = x1 + randInt(2, 4), y2 = y1 + m * (x2 - x1);
+        const c = y1 - m * x1;
+        return { type:'free', rule:'Equation', difficulty:'hard', text:'Find the equation of the line through these points. Give the y-intercept:',
+            latex:`(${x1}, ${y1}) \\text{ and } (${x2}, ${y2})`, answer:c, answerTex:String(c),
+            hintTex:['First find gradient, then use y = mx + c with one point.',`m = \\frac{${y2-y1}}{${x2-x1}} = ${m}`],
+            explain:`Gradient = ${m}. Using point (${x1}, ${y1}): \\(${y1} = ${m}(${x1}) + c\\), so \\(c = ${c}\\)` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qGradientFromEq,this.qYIntercept,this.qGradientTwoPoints], medium:[this.qRearrangeGradient,this.qEqFromPointGradient,this.qParallel], hard:[this.qPerpendicular,this.qEqTwoPoints] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('linf-score').textContent='0 / 0'; document.getElementById('linf-pct').textContent='\u2014'; document.getElementById('linf-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="linf-mf" placeholder="?"></math-field><button class="btn btn-primary" id="linf-check">Check</button></div>`;
+        document.getElementById('linf-card').innerHTML=h;
+        document.getElementById('linf-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('linf-next').classList.remove('show');
+        resetHint('linf-hint','linf-hint-btn');
+        document.getElementById('linf-workout').innerHTML='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('linf-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();LINF.check();}});}document.getElementById('linf-check')?.addEventListener('click',()=>LINF.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('linf-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('linf-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('linf-score').textContent=`${this.score} / ${this.total}`; document.getElementById('linf-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('linf-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('linf-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('linf-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('linf-fb-expl').innerHTML=html; document.getElementById('linf-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
+   QUADRATIC FUNCTIONS TRAINER
+   ================================================================ */
+const QUADF = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    // Easy: Find y-intercept of y = ax² + bx + c
+    qYIntercept() {
+        const a = randInt(1, 3), b = randInt(-5, 5), c = randInt(-10, 10);
+        return { type:'free', rule:'Y-intercept', difficulty:'easy', text:'What is the y-intercept of this parabola?',
+            latex:`y = ${a}x^2 ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)}`, answer:c, answerTex:String(c),
+            hintTex:['The y-intercept is where x = 0.',`When x = 0, y = c`],
+            explain:`When \\(x = 0\\), \\(y = ${c}\\). The y-intercept is \\(${c}\\).` };
+    },
+
+    // Easy: Find roots from factored form
+    qRootsFactored() {
+        const p = randInt(-6, 6), q = randInt(-6, 6);
+        if (p === q) return QUADF.qRootsFactored();
+        const smaller = Math.min(-p, -q);
+        return { type:'free', rule:'Roots', difficulty:'easy', text:'Find the smaller root of this quadratic:',
+            latex:`y = (x ${p>=0?'+':'-'} ${Math.abs(p)})(x ${q>=0?'+':'-'} ${Math.abs(q)})`, answer:smaller, answerTex:`x = ${smaller}`,
+            hintTex:['Set each bracket equal to zero.',`x ${p>=0?'+':'-'} ${Math.abs(p)} = 0 \\text{ or } x ${q>=0?'+':'-'} ${Math.abs(q)} = 0`],
+            explain:`Roots are \\(x = ${-p}\\) and \\(x = ${-q}\\). Smaller root = \\(${smaller}\\)` };
+    },
+
+    // Easy: Identify if parabola opens up or down
+    qDirection() {
+        const a = pick([-3, -2, -1, 1, 2, 3]), b = randInt(-5, 5), c = randInt(-5, 5);
+        const opens = a > 0 ? 1 : -1;
+        return { type:'mc', rule:'Shape', difficulty:'easy', text:'Does this parabola open upward or downward?',
+            latex:`y = ${a}x^2 ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)}`,
+            options:['Upward (U-shape)', 'Downward (n-shape)'], answer: a > 0 ? 'Upward (U-shape)' : 'Downward (n-shape)',
+            hintTex:['Look at the coefficient of x².',`If a > 0, opens up. If a < 0, opens down.`],
+            explain:`The coefficient of \\(x^2\\) is \\(${a}\\), which is ${a>0?'positive':'negative'}, so it opens ${a>0?'upward':'downward'}.` };
+    },
+
+    // Medium: Find axis of symmetry
+    qAxisSymmetry() {
+        const a = randInt(1, 2), b = randInt(-6, 6);
+        if (b % (2*a) !== 0) return QUADF.qAxisSymmetry();
+        const c = randInt(-5, 5);
+        const axis = -b / (2 * a);
+        return { type:'free', rule:'Axis of Symmetry', difficulty:'medium', text:'Find the axis of symmetry (x = ?):',
+            latex:`y = ${a}x^2 ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)}`, answer:axis, answerTex:`x = ${axis}`,
+            hintTex:['Axis of symmetry: x = -b/(2a)',`x = \\frac{-${b}}{2 \\times ${a}}`],
+            explain:`\\(x = \\frac{-b}{2a} = \\frac{${-b}}{${2*a}} = ${axis}\\)` };
+    },
+
+    // Medium: Find vertex y-coordinate
+    qVertexY() {
+        const p = randInt(-4, 4), q = randInt(-4, 4);
+        const a = 1, h = -(p + q) / 2, k = -(p - h) * (q - h);
+        // y = (x-p)(x-q) has vertex at x = (p+q)/2
+        const vertexX = ((-p) + (-q)) / 2;
+        const vertexY = (vertexX + p) * (vertexX + q);
+        return { type:'free', rule:'Vertex', difficulty:'medium', text:'Find the y-coordinate of the vertex:',
+            latex:`y = (x ${p>=0?'+':'-'} ${Math.abs(p)})(x ${q>=0?'+':'-'} ${Math.abs(q)})`, answer:vertexY, answerTex:String(vertexY),
+            hintTex:['First find x-coordinate of vertex (midpoint of roots).',`x = \\frac{${-p} + ${-q}}{2} = ${vertexX}`],
+            explain:`Vertex x = \\(\\frac{${-p} + ${-q}}{2} = ${vertexX}\\). Then \\(y = (${vertexX} ${p>=0?'+':'-'} ${Math.abs(p)})(${vertexX} ${q>=0?'+':'-'} ${Math.abs(q)}) = ${vertexY}\\)` };
+    },
+
+    // Medium: Number of roots from discriminant
+    qDiscriminant() {
+        const a = 1, b = randInt(-6, 6), c = randInt(-8, 8);
+        const disc = b*b - 4*a*c;
+        const numRoots = disc > 0 ? 2 : (disc === 0 ? 1 : 0);
+        return { type:'free', rule:'Discriminant', difficulty:'medium', text:'How many real roots does this quadratic have?',
+            latex:`y = x^2 ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)}`, answer:numRoots, answerTex:String(numRoots),
+            hintTex:['Calculate discriminant: Δ = b² - 4ac',`\\Delta = ${b}^2 - 4(1)(${c}) = ${b*b} - ${4*c} = ${disc}`],
+            explain:`\\(\\Delta = ${b}^2 - 4(1)(${c}) = ${disc}\\). Since \\(\\Delta ${disc>0?'>':disc===0?'=':'<'} 0\\), there are \\(${numRoots}\\) real roots.` };
+    },
+
+    // Hard: Find roots using quadratic formula
+    qQuadFormula() {
+        // Generate nice roots
+        const r1 = randInt(-5, 5), r2 = randInt(-5, 5);
+        const a = 1, b = -(r1 + r2), c = r1 * r2;
+        const smaller = Math.min(r1, r2);
+        return { type:'free', rule:'Quadratic Formula', difficulty:'hard', text:'Find the smaller root:',
+            latex:`x^2 ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)} = 0`, answer:smaller, answerTex:`x = ${smaller}`,
+            hintTex:['Use the quadratic formula: x = (-b ± √(b²-4ac)) / 2a',`b^2 - 4ac = ${b*b} - ${4*c} = ${b*b - 4*c}`],
+            explain:`Using quadratic formula: roots are \\(x = ${r1}\\) and \\(x = ${r2}\\). Smaller = \\(${smaller}\\)` };
+    },
+
+    // Hard: Complete the square - find vertex form constant
+    qCompleteSquare() {
+        const h = randInt(-4, 4), k = randInt(-5, 5);
+        // y = (x - h)² + k = x² - 2hx + h² + k
+        const b = -2 * h, c = h * h + k;
+        return { type:'free', rule:'Complete Square', difficulty:'hard', text:'Write in vertex form y = (x - h)² + k. What is k?',
+            latex:`y = x^2 ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)}`, answer:k, answerTex:`k = ${k}`,
+            hintTex:['Complete the square: take half of b, square it.',`\\left(\\frac{${b}}{2}\\right)^2 = ${h*h}`],
+            explain:`\\(y = (x ${-h>=0?'+':'-'} ${Math.abs(h)})^2 + ${k}\\). So \\(k = ${k}\\)` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qYIntercept,this.qRootsFactored,this.qDirection], medium:[this.qAxisSymmetry,this.qVertexY,this.qDiscriminant], hard:[this.qQuadFormula,this.qCompleteSquare] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('quadf-score').textContent='0 / 0'; document.getElementById('quadf-pct').textContent='\u2014'; document.getElementById('quadf-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        if (q.type === 'mc') {
+            h += '<div class="options-grid">';
+            q.options.forEach((o,i) => { h += `<button class="option-btn" data-i="${i}">${o}</button>`; });
+            h += '</div>';
+        } else {
+            h+=`<div class="input-area"><math-field class="lr-math-field" id="quadf-mf" placeholder="?"></math-field><button class="btn btn-primary" id="quadf-check">Check</button></div>`;
+        }
+        document.getElementById('quadf-card').innerHTML=h;
+        document.getElementById('quadf-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('quadf-next').classList.remove('show');
+        resetHint('quadf-hint','quadf-hint-btn');
+        document.getElementById('quadf-workout').innerHTML='';
+        renderMath();
+        if (q.type === 'mc') {
+            document.getElementById('quadf-card').querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', () => QUADF.handleMC(parseInt(btn.dataset.i)));
+            });
+        } else {
+            setTimeout(()=>{const mf=document.getElementById('quadf-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();QUADF.check();}});}document.getElementById('quadf-check')?.addEventListener('click',()=>QUADF.check());},200);
+        }
+    },
+    handleMC(idx) {
+        if(this.answered) return;
+        this.answered=true;
+        const q=this.currentQ, chosen=q.options[idx], ok=chosen===q.answer;
+        document.getElementById('quadf-card').querySelectorAll('.option-btn').forEach((btn,i) => {
+            btn.disabled=true;
+            if(q.options[i]===q.answer) btn.classList.add('correct');
+            if(i===idx&&!ok) btn.classList.add('incorrect');
+        });
+        this.record(ok);
+        this.showFb(ok, q.explain);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('quadf-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('quadf-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('quadf-score').textContent=`${this.score} / ${this.total}`; document.getElementById('quadf-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('quadf-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('quadf-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('quadf-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('quadf-fb-expl').innerHTML=html; document.getElementById('quadf-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
+   GRAPH TRANSFORMATIONS TRAINER
+   ================================================================ */
+const TRANS = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    // Easy: Vertical translation f(x) + a
+    qVerticalShift() {
+        const a = randInt(1, 6) * pick([-1, 1]);
+        const dir = a > 0 ? 'up' : 'down';
+        return { type:'mc', rule:'Translation', difficulty:'easy', text:`The graph of y = f(x) is transformed to y = f(x) ${a>=0?'+':'-'} ${Math.abs(a)}. What happens?`,
+            latex:`y = f(x) ${a>=0?'+':'−'} ${Math.abs(a)}`,
+            options:[`Shifts ${Math.abs(a)} up`, `Shifts ${Math.abs(a)} down`, `Shifts ${Math.abs(a)} left`, `Shifts ${Math.abs(a)} right`],
+            answer:`Shifts ${Math.abs(a)} ${dir}`,
+            hintTex:['f(x) + a shifts vertically.',`Adding to y shifts up, subtracting shifts down`],
+            explain:`\\(f(x) ${a>=0?'+':'-'} ${Math.abs(a)}\\) shifts the graph ${Math.abs(a)} units ${dir}.` };
+    },
+
+    // Easy: Horizontal translation f(x + a)
+    qHorizontalShift() {
+        const a = randInt(1, 6) * pick([-1, 1]);
+        const dir = a > 0 ? 'left' : 'right';
+        return { type:'mc', rule:'Translation', difficulty:'easy', text:`The graph of y = f(x) is transformed to y = f(x ${a>=0?'+':'-'} ${Math.abs(a)}). What happens?`,
+            latex:`y = f(x ${a>=0?'+':'−'} ${Math.abs(a)})`,
+            options:[`Shifts ${Math.abs(a)} up`, `Shifts ${Math.abs(a)} down`, `Shifts ${Math.abs(a)} left`, `Shifts ${Math.abs(a)} right`],
+            answer:`Shifts ${Math.abs(a)} ${dir}`,
+            hintTex:['f(x + a) shifts horizontally (opposite direction!).',`f(x + a) shifts LEFT, f(x - a) shifts RIGHT`],
+            explain:`\\(f(x ${a>=0?'+':'-'} ${Math.abs(a)})\\) shifts the graph ${Math.abs(a)} units ${dir}.` };
+    },
+
+    // Easy: Reflection in x-axis
+    qReflectX() {
+        return { type:'mc', rule:'Reflection', difficulty:'easy', text:'The graph of y = f(x) is transformed to y = -f(x). What happens?',
+            latex:`y = -f(x)`,
+            options:['Reflects in the x-axis', 'Reflects in the y-axis', 'Shifts up', 'Shifts down'],
+            answer:'Reflects in the x-axis',
+            hintTex:['The negative is outside the function.',`-f(x) flips all y-values`],
+            explain:`\\(-f(x)\\) reflects the graph in the x-axis (flips vertically).` };
+    },
+
+    // Medium: Reflection in y-axis
+    qReflectY() {
+        return { type:'mc', rule:'Reflection', difficulty:'medium', text:'The graph of y = f(x) is transformed to y = f(-x). What happens?',
+            latex:`y = f(-x)`,
+            options:['Reflects in the x-axis', 'Reflects in the y-axis', 'Shifts left', 'Shifts right'],
+            answer:'Reflects in the y-axis',
+            hintTex:['The negative is inside the function.',`f(-x) flips all x-values`],
+            explain:`\\(f(-x)\\) reflects the graph in the y-axis (flips horizontally).` };
+    },
+
+    // Medium: Vertical stretch
+    qVerticalStretch() {
+        const a = randInt(2, 4);
+        return { type:'mc', rule:'Stretch', difficulty:'medium', text:`The graph of y = f(x) is transformed to y = ${a}f(x). What happens?`,
+            latex:`y = ${a}f(x)`,
+            options:[`Vertical stretch by factor ${a}`, `Horizontal stretch by factor ${a}`, `Vertical compression by factor ${a}`, `Shifts up by ${a}`],
+            answer:`Vertical stretch by factor ${a}`,
+            hintTex:['Multiplying f(x) by a number affects the y-values.',`af(x) stretches vertically by factor a`],
+            explain:`\\(${a}f(x)\\) stretches the graph vertically by factor ${a}.` };
+    },
+
+    // Medium: Horizontal stretch
+    qHorizontalStretch() {
+        const a = randInt(2, 4);
+        return { type:'mc', rule:'Stretch', difficulty:'medium', text:`The graph of y = f(x) is transformed to y = f(${a}x). What happens?`,
+            latex:`y = f(${a}x)`,
+            options:[`Vertical stretch by factor ${a}`, `Horizontal compression by factor ${a}`, `Horizontal stretch by factor ${a}`, `Shifts right by ${a}`],
+            answer:`Horizontal compression by factor ${a}`,
+            hintTex:['Multiplying x inside the function affects width.',`f(ax) compresses horizontally by factor a`],
+            explain:`\\(f(${a}x)\\) compresses the graph horizontally by factor ${a}.` };
+    },
+
+    // Hard: Combined transformation - describe
+    qCombinedDescribe() {
+        const h = randInt(1, 4) * pick([-1, 1]), k = randInt(1, 4) * pick([-1, 1]);
+        const hDir = h > 0 ? 'left' : 'right', kDir = k > 0 ? 'up' : 'down';
+        return { type:'free', rule:'Combined', difficulty:'hard', text:`y = f(x ${h>=0?'+':'-'} ${Math.abs(h)}) ${k>=0?'+':'-'} ${Math.abs(k)}. How many units does it shift horizontally?`,
+            latex:`y = f(x ${h>=0?'+':'−'} ${Math.abs(h)}) ${k>=0?'+':'−'} ${Math.abs(k)}`, answer:Math.abs(h), answerTex:`${Math.abs(h)} \\text{ units ${hDir}}`,
+            hintTex:['Identify each transformation separately.',`f(x ${h>=0?'+':'-'} ${Math.abs(h)}) shifts ${Math.abs(h)} ${hDir}`],
+            explain:`Horizontal shift: ${Math.abs(h)} units ${hDir}. Vertical shift: ${Math.abs(k)} units ${kDir}.` };
+    },
+
+    // Hard: New coordinates after transformation
+    qNewCoords() {
+        const px = randInt(1, 5), py = randInt(1, 5);
+        const k = randInt(1, 4) * pick([-1, 1]);
+        const newY = py + k;
+        return { type:'free', rule:'Coordinates', difficulty:'hard', text:`Point (${px}, ${py}) is on y = f(x). After transforming to y = f(x) ${k>=0?'+':'-'} ${Math.abs(k)}, what is the new y-coordinate?`,
+            latex:`(${px}, ${py}) \\to (${px}, ?)`, answer:newY, answerTex:String(newY),
+            hintTex:[`f(x) ${k>=0?'+':'-'} ${Math.abs(k)} adds ${k} to every y-value.`,`New y = ${py} ${k>=0?'+':'-'} ${Math.abs(k)}`],
+            explain:`Adding ${k} to y: new point is \\((${px}, ${py + k})\\). New y-coordinate = ${newY}.` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qVerticalShift,this.qHorizontalShift,this.qReflectX], medium:[this.qReflectY,this.qVerticalStretch,this.qHorizontalStretch], hard:[this.qCombinedDescribe,this.qNewCoords] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('trans-score').textContent='0 / 0'; document.getElementById('trans-pct').textContent='\u2014'; document.getElementById('trans-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        if (q.type === 'mc') {
+            h += '<div class="options-grid">';
+            q.options.forEach((o,i) => { h += `<button class="option-btn" data-i="${i}">${o}</button>`; });
+            h += '</div>';
+        } else {
+            h+=`<div class="input-area"><math-field class="lr-math-field" id="trans-mf" placeholder="?"></math-field><button class="btn btn-primary" id="trans-check">Check</button></div>`;
+        }
+        document.getElementById('trans-card').innerHTML=h;
+        document.getElementById('trans-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('trans-next').classList.remove('show');
+        resetHint('trans-hint','trans-hint-btn');
+        document.getElementById('trans-workout').innerHTML='';
+        renderMath();
+        if (q.type === 'mc') {
+            document.getElementById('trans-card').querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', () => TRANS.handleMC(parseInt(btn.dataset.i)));
+            });
+        } else {
+            setTimeout(()=>{const mf=document.getElementById('trans-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();TRANS.check();}});}document.getElementById('trans-check')?.addEventListener('click',()=>TRANS.check());},200);
+        }
+    },
+    handleMC(idx) {
+        if(this.answered) return;
+        this.answered=true;
+        const q=this.currentQ, chosen=q.options[idx], ok=chosen===q.answer;
+        document.getElementById('trans-card').querySelectorAll('.option-btn').forEach((btn,i) => {
+            btn.disabled=true;
+            if(q.options[i]===q.answer) btn.classList.add('correct');
+            if(i===idx&&!ok) btn.classList.add('incorrect');
+        });
+        this.record(ok);
+        this.showFb(ok, q.explain);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('trans-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('trans-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('trans-score').textContent=`${this.score} / ${this.total}`; document.getElementById('trans-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('trans-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('trans-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('trans-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('trans-fb-expl').innerHTML=html; document.getElementById('trans-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
    INIT
    ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
     LR.init(); SE.init(); QA.init();
     FDP.init(); HCFLCM.init(); IDX.init(); SF.init(); SURD.init(); RATIO.init();
     EXPR.init(); LINEAR.init(); SEQ.init(); INEQ.init();
+    LINF.init(); QUADF.init(); TRANS.init();
 
     // Topic cards (hub + folder)
     document.querySelectorAll('.topic-card').forEach(card => {
@@ -3037,6 +3577,10 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'alg-linear') { showView('alg-linear'); LINEAR.load(); }
             else if (topic === 'alg-seq') { showView('alg-seq'); SEQ.load(); }
             else if (topic === 'alg-ineq') { showView('alg-ineq'); INEQ.load(); }
+            else if (topic === 'functions') { showView('functions'); }
+            else if (topic === 'func-linear') { showView('func-linear'); LINF.load(); }
+            else if (topic === 'func-quadratic') { showView('func-quadratic'); QUADF.load(); }
+            else if (topic === 'func-transform') { showView('func-transform'); TRANS.load(); }
         });
     });
 
@@ -3377,6 +3921,79 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:solve-equations-inequalities/x2f8bb11595b61c86:two-step-inequalities/v/two-step-inequalities" target="_blank">Two-Step Inequalities</a>
         </div>`;
 
+    // ==================== FUNCTIONS FOLDER TRAINERS ====================
+
+    // LINF (Linear Functions)
+    document.getElementById('linf-hint-btn').addEventListener('click', () => handleHint(LINF, 'linf-hint', 'linf-hint-btn'));
+    document.getElementById('linf-next').addEventListener('click', () => LINF.load());
+    document.querySelectorAll('#linf-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#linf-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            LINF.level = btn.dataset.level;
+            LINF.resetScore();
+            LINF.load();
+        });
+    });
+    document.getElementById('linf-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Gradient-Intercept Form</span>\\(y = mx + c\\) where \\(m\\) = gradient, \\(c\\) = y-intercept</div>
+        <div class="rule-item"><span class="rule-name">Gradient Formula</span>\\(m = \\frac{y_2 - y_1}{x_2 - x_1} = \\frac{\\text{rise}}{\\text{run}}\\)</div>
+        <div class="rule-item"><span class="rule-name">Parallel Lines</span>Same gradient: \\(m_1 = m_2\\)</div>
+        <div class="rule-item"><span class="rule-name">Perpendicular Lines</span>Gradients multiply to -1: \\(m_1 \\times m_2 = -1\\)</div>
+        <div class="rule-item"><span class="rule-name">Finding Equation</span>Use \\(y - y_1 = m(x - x_1)\\) with a point and gradient</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:linear-equations-graphs/x2f8bb11595b61c86:slope/v/slope-of-a-line" target="_blank">Slope of a Line</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:linear-equations-graphs/x2f8bb11595b61c86:slope-intercept-form/v/slope-intercept-form" target="_blank">Slope-Intercept Form</a>
+        </div>`;
+
+    // QUADF (Quadratic Functions)
+    document.getElementById('quadf-hint-btn').addEventListener('click', () => handleHint(QUADF, 'quadf-hint', 'quadf-hint-btn'));
+    document.getElementById('quadf-next').addEventListener('click', () => QUADF.load());
+    document.querySelectorAll('#quadf-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#quadf-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            QUADF.level = btn.dataset.level;
+            QUADF.resetScore();
+            QUADF.load();
+        });
+    });
+    document.getElementById('quadf-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Standard Form</span>\\(y = ax^2 + bx + c\\). Opens up if \\(a > 0\\), down if \\(a < 0\\)</div>
+        <div class="rule-item"><span class="rule-name">Vertex Form</span>\\(y = a(x - h)^2 + k\\) where \\((h, k)\\) is the vertex</div>
+        <div class="rule-item"><span class="rule-name">Factored Form</span>\\(y = a(x - p)(x - q)\\) where \\(p, q\\) are the roots</div>
+        <div class="rule-item"><span class="rule-name">Axis of Symmetry</span>\\(x = -\\frac{b}{2a}\\) or \\(x = \\frac{p + q}{2}\\)</div>
+        <div class="rule-item"><span class="rule-name">Discriminant</span>\\(\\Delta = b^2 - 4ac\\). If \\(\\Delta > 0\\): 2 roots, \\(\\Delta = 0\\): 1 root, \\(\\Delta < 0\\): no real roots</div>
+        <div class="rule-item"><span class="rule-name">Quadratic Formula</span>\\(x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}\\)</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratic-functions-equations/x2f8bb11595b61c86:quadratic-formula/v/using-the-quadratic-formula" target="_blank">Quadratic Formula</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratic-functions-equations/x2f8bb11595b61c86:vertex-form/v/graphing-a-parabola-in-vertex-form" target="_blank">Vertex Form</a>
+        </div>`;
+
+    // TRANS (Graph Transformations)
+    document.getElementById('trans-hint-btn').addEventListener('click', () => handleHint(TRANS, 'trans-hint', 'trans-hint-btn'));
+    document.getElementById('trans-next').addEventListener('click', () => TRANS.load());
+    document.querySelectorAll('#trans-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#trans-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            TRANS.level = btn.dataset.level;
+            TRANS.resetScore();
+            TRANS.load();
+        });
+    });
+    document.getElementById('trans-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Vertical Translation</span>\\(f(x) + a\\): shifts UP by \\(a\\). \\(f(x) - a\\): shifts DOWN by \\(a\\)</div>
+        <div class="rule-item"><span class="rule-name">Horizontal Translation</span>\\(f(x + a)\\): shifts LEFT by \\(a\\). \\(f(x - a)\\): shifts RIGHT by \\(a\\)</div>
+        <div class="rule-item"><span class="rule-name">Reflection in x-axis</span>\\(-f(x)\\): flips the graph vertically</div>
+        <div class="rule-item"><span class="rule-name">Reflection in y-axis</span>\\(f(-x)\\): flips the graph horizontally</div>
+        <div class="rule-item"><span class="rule-name">Vertical Stretch</span>\\(af(x)\\): stretches vertically by factor \\(a\\)</div>
+        <div class="rule-item"><span class="rule-name">Horizontal Stretch</span>\\(f(ax)\\): compresses horizontally by factor \\(a\\)</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:transformations/x2ec2f6f830c9fb89:trans-func/v/shifting-and-reflecting-functions" target="_blank">Shifting Functions</a>
+            <a href="https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:transformations/x2ec2f6f830c9fb89:trans-func/v/scaling-functions-intro" target="_blank">Scaling Functions</a>
+        </div>`;
+
     // Calculator setup with Desmos Graphing Calculator API (supports getExpressions)
     window.desmosCalc = null;
     document.getElementById('calc-btn').addEventListener('click', () => {
@@ -3441,6 +4058,12 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); SEQ.load();
         } else if (document.getElementById('view-alg-ineq').classList.contains('active') && INEQ.answered) {
             e.preventDefault(); INEQ.load();
+        } else if (document.getElementById('view-func-linear').classList.contains('active') && LINF.answered) {
+            e.preventDefault(); LINF.load();
+        } else if (document.getElementById('view-func-quadratic').classList.contains('active') && QUADF.answered) {
+            e.preventDefault(); QUADF.load();
+        } else if (document.getElementById('view-func-transform').classList.contains('active') && TRANS.answered) {
+            e.preventDefault(); TRANS.load();
         }
     });
     // Track when answers are submitted
