@@ -64,6 +64,7 @@
         }
         .topic-tag.log { background: #e8daef; color: #6c3483; }
         .topic-tag.quad { background: #d5f5e3; color: #1e8449; }
+        .topic-tag.num { background: #fdebd0; color: #b9770e; }
 
         /* ---- Shared trainer styles ---- */
         header { text-align: center; margin-bottom: 24px; }
@@ -341,6 +342,11 @@
             <p>Expand, factorise, and work with quadratic expressions involving areas.</p>
             <span class="topic-tag quad">1 activity</span>
         </div>
+        <div class="topic-card" data-topic="number">
+            <h2>Number</h2>
+            <p>Fractions, decimals, percentages, HCF/LCM, indices, standard form, surds, ratios.</p>
+            <span class="topic-tag num">6 activities</span>
+        </div>
     </div>
 </div>
 
@@ -523,6 +529,203 @@
         <summary>Rules Reference</summary>
         <div class="rules-content" id="qa-ref"></div>
     </details>
+</div>
+
+<!-- ==================== NUMBER FOLDER VIEW ==================== -->
+<div id="view-number" class="view">
+    <button class="back-btn" data-back="hub">All Topics</button>
+    <header>
+        <h1>Number</h1>
+        <p>Choose an activity</p>
+    </header>
+    <div class="topic-grid">
+        <div class="topic-card" data-topic="num-fdp">
+            <h2>Fractions, Decimals &amp; Percentages</h2>
+            <p>Convert between forms, operations, percentage increase/decrease.</p>
+        </div>
+        <div class="topic-card" data-topic="num-hcflcm">
+            <h2>HCF &amp; LCM</h2>
+            <p>Find highest common factor and lowest common multiple.</p>
+        </div>
+        <div class="topic-card" data-topic="num-indices">
+            <h2>Indices</h2>
+            <p>Laws of indices with integer, negative, and fractional powers.</p>
+        </div>
+        <div class="topic-card" data-topic="num-stdform">
+            <h2>Standard Form</h2>
+            <p>Convert to/from standard form, calculations.</p>
+        </div>
+        <div class="topic-card" data-topic="num-surds">
+            <h2>Surds</h2>
+            <p>Simplify, rationalise denominators, operations with surds.</p>
+        </div>
+        <div class="topic-card" data-topic="num-ratio">
+            <h2>Ratios &amp; Proportion</h2>
+            <p>Simplify ratios, share in ratio, direct and inverse proportion.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== FRACTIONS DECIMALS PERCENTAGES VIEW ==================== -->
+<div id="view-num-fdp" class="view">
+    <button class="back-btn" data-back="number">Number</button>
+    <header>
+        <h1>Fractions, Decimals &amp; Percentages</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="fdp-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="fdp-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="fdp-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="fdp-streak">0</div></div>
+    </div>
+    <div class="question-card" id="fdp-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><textarea class="workout-textarea" id="fdp-workout" placeholder="Show your working here..."></textarea></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="fdp-hint-btn">Hint</button></div>
+    <div class="hint-box" id="fdp-hint"></div>
+    <div class="feedback" id="fdp-fb"><div class="feedback-title" id="fdp-fb-title"></div><div class="feedback-explanation" id="fdp-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="fdp-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="fdp-ref"></div></details>
+</div>
+
+<!-- ==================== HCF LCM VIEW ==================== -->
+<div id="view-num-hcflcm" class="view">
+    <button class="back-btn" data-back="number">Number</button>
+    <header>
+        <h1>HCF &amp; LCM</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="hcflcm-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="hcflcm-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="hcflcm-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="hcflcm-streak">0</div></div>
+    </div>
+    <div class="question-card" id="hcflcm-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><textarea class="workout-textarea" id="hcflcm-workout" placeholder="Show your working here..."></textarea></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="hcflcm-hint-btn">Hint</button></div>
+    <div class="hint-box" id="hcflcm-hint"></div>
+    <div class="feedback" id="hcflcm-fb"><div class="feedback-title" id="hcflcm-fb-title"></div><div class="feedback-explanation" id="hcflcm-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="hcflcm-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="hcflcm-ref"></div></details>
+</div>
+
+<!-- ==================== INDICES VIEW ==================== -->
+<div id="view-num-indices" class="view">
+    <button class="back-btn" data-back="number">Number</button>
+    <header>
+        <h1>Indices</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="idx-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="idx-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="idx-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="idx-streak">0</div></div>
+    </div>
+    <div class="question-card" id="idx-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><textarea class="workout-textarea" id="idx-workout" placeholder="Show your working here..."></textarea></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="idx-hint-btn">Hint</button></div>
+    <div class="hint-box" id="idx-hint"></div>
+    <div class="feedback" id="idx-fb"><div class="feedback-title" id="idx-fb-title"></div><div class="feedback-explanation" id="idx-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="idx-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="idx-ref"></div></details>
+</div>
+
+<!-- ==================== STANDARD FORM VIEW ==================== -->
+<div id="view-num-stdform" class="view">
+    <button class="back-btn" data-back="number">Number</button>
+    <header>
+        <h1>Standard Form</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="sf-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="sf-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="sf-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="sf-streak">0</div></div>
+    </div>
+    <div class="question-card" id="sf-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><textarea class="workout-textarea" id="sf-workout" placeholder="Show your working here..."></textarea></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="sf-hint-btn">Hint</button></div>
+    <div class="hint-box" id="sf-hint"></div>
+    <div class="feedback" id="sf-fb"><div class="feedback-title" id="sf-fb-title"></div><div class="feedback-explanation" id="sf-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="sf-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="sf-ref"></div></details>
+</div>
+
+<!-- ==================== SURDS VIEW ==================== -->
+<div id="view-num-surds" class="view">
+    <button class="back-btn" data-back="number">Number</button>
+    <header>
+        <h1>Surds</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="surd-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="surd-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="surd-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="surd-streak">0</div></div>
+    </div>
+    <div class="question-card" id="surd-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><textarea class="workout-textarea" id="surd-workout" placeholder="Show your working here..."></textarea></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="surd-hint-btn">Hint</button></div>
+    <div class="hint-box" id="surd-hint"></div>
+    <div class="feedback" id="surd-fb"><div class="feedback-title" id="surd-fb-title"></div><div class="feedback-explanation" id="surd-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="surd-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="surd-ref"></div></details>
+</div>
+
+<!-- ==================== RATIO VIEW ==================== -->
+<div id="view-num-ratio" class="view">
+    <button class="back-btn" data-back="number">Number</button>
+    <header>
+        <h1>Ratios &amp; Proportion</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="ratio-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="ratio-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="ratio-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="ratio-streak">0</div></div>
+    </div>
+    <div class="question-card" id="ratio-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><textarea class="workout-textarea" id="ratio-workout" placeholder="Show your working here..."></textarea></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="ratio-hint-btn">Hint</button></div>
+    <div class="hint-box" id="ratio-hint"></div>
+    <div class="feedback" id="ratio-fb"><div class="feedback-title" id="ratio-fb-title"></div><div class="feedback-explanation" id="ratio-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="ratio-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="ratio-ref"></div></details>
 </div>
 
 <!-- Calculator -->
@@ -1437,10 +1640,604 @@ const QA = {
 };
 
 /* ================================================================
+   FRACTIONS DECIMALS PERCENTAGES TRAINER
+   ================================================================ */
+const FDP = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    // Easy: fraction to decimal
+    qFracToDec() {
+        const denoms = [2,4,5,8,10,20,25,50,100];
+        const d = pick(denoms);
+        const n = randInt(1, d-1);
+        const g = gcd(n, d);
+        const ans = n / d;
+        return { type:'free', rule:'Conversion', difficulty:'easy',
+            text:'Convert this fraction to a decimal:',
+            latex:`\\frac{${n}}{${d}}`, answer:ans, answerTex:String(ans),
+            hintTex:[`Divide the numerator by the denominator.`,`\\(${n} \\div ${d} = ?\\)`],
+            explain:`\\(\\frac{${n}}{${d}} = ${n} \\div ${d} = ${ans}\\)` };
+    },
+
+    // Easy: decimal to percentage
+    qDecToPct() {
+        const dec = randInt(1,99) / 100;
+        const pct = dec * 100;
+        return { type:'free', rule:'Conversion', difficulty:'easy',
+            text:'Convert this decimal to a percentage:',
+            latex:String(dec), answer:pct, answerTex:pct + '\\%',
+            hintTex:['Multiply by 100 to convert decimal to percentage.',`\\(${dec} \\times 100 = ?\\)`],
+            explain:`\\(${dec} \\times 100 = ${pct}\\%\\)` };
+    },
+
+    // Easy: percentage to decimal
+    qPctToDec() {
+        const pct = randInt(1,150);
+        const dec = pct / 100;
+        return { type:'free', rule:'Conversion', difficulty:'easy',
+            text:`Convert ${pct}% to a decimal:`,
+            latex:`${pct}\\%`, answer:dec, answerTex:String(dec),
+            hintTex:['Divide by 100 to convert percentage to decimal.',`\\(${pct} \\div 100 = ?\\)`],
+            explain:`\\(${pct}\\% = ${pct} \\div 100 = ${dec}\\)` };
+    },
+
+    // Medium: percentage of amount
+    qPctOfAmount() {
+        const pct = pick([10,15,20,25,30,40,50,60,75]);
+        const amt = randInt(2,20) * 10;
+        const ans = pct * amt / 100;
+        return { type:'free', rule:'Percentage', difficulty:'medium',
+            text:`Find ${pct}% of ${amt}:`,
+            latex:`${pct}\\% \\text{ of } ${amt}`, answer:ans, answerTex:String(ans),
+            hintTex:[`Convert ${pct}% to a decimal first.`,`\\(${pct/100} \\times ${amt} = ?\\)`],
+            explain:`\\(${pct}\\% \\text{ of } ${amt} = ${pct/100} \\times ${amt} = ${ans}\\)` };
+    },
+
+    // Medium: percentage increase
+    qPctIncrease() {
+        const orig = randInt(2,20) * 10;
+        const pct = pick([10,20,25,50]);
+        const inc = orig * pct / 100;
+        const ans = orig + inc;
+        return { type:'free', rule:'Percentage', difficulty:'medium',
+            text:`Increase ${orig} by ${pct}%:`,
+            latex:`${orig} + ${pct}\\%`, answer:ans, answerTex:String(ans),
+            hintTex:[`Find ${pct}% of ${orig}, then add it.`,`${pct}% of ${orig} = ${inc}. Now add to ${orig}.`],
+            explain:`\\(${pct}\\%\\text{ of }${orig} = ${inc}\\). So \\(${orig} + ${inc} = ${ans}\\).` };
+    },
+
+    // Medium: percentage decrease
+    qPctDecrease() {
+        const orig = randInt(2,20) * 10;
+        const pct = pick([10,20,25,50]);
+        const dec = orig * pct / 100;
+        const ans = orig - dec;
+        return { type:'free', rule:'Percentage', difficulty:'medium',
+            text:`Decrease ${orig} by ${pct}%:`,
+            latex:`${orig} - ${pct}\\%`, answer:ans, answerTex:String(ans),
+            hintTex:[`Find ${pct}% of ${orig}, then subtract it.`,`${pct}% of ${orig} = ${dec}. Now subtract from ${orig}.`],
+            explain:`\\(${pct}\\%\\text{ of }${orig} = ${dec}\\). So \\(${orig} - ${dec} = ${ans}\\).` };
+    },
+
+    // Hard: reverse percentage
+    qReversePct() {
+        const pct = pick([10,20,25]);
+        const orig = randInt(4,20) * 10;
+        const after = orig * (100 + pct) / 100;
+        return { type:'free', rule:'Reverse %', difficulty:'hard',
+            text:`After a ${pct}% increase, a price is £${after}. What was the original price?`,
+            latex:`? \\times ${1 + pct/100} = ${after}`, answer:orig, answerTex:'£' + orig,
+            hintTex:[`The new price is ${100+pct}% of the original.`,`Divide ${after} by ${1 + pct/100}.`],
+            explain:`\\(${after} \\div ${1 + pct/100} = ${orig}\\). Original price was £${orig}.` };
+    },
+
+    // Hard: express as percentage
+    qExpressAsPct() {
+        const a = randInt(1,9), b = randInt(a+1, 20);
+        const pct = Math.round(a/b * 1000) / 10;
+        return { type:'free', rule:'Percentage', difficulty:'hard',
+            text:`Express \\(\\frac{${a}}{${b}}\\) as a percentage (1 d.p.):`,
+            latex:`\\frac{${a}}{${b}}`, answer:pct, answerTex:pct + '\\%',
+            hintTex:[`Divide ${a} by ${b}, then multiply by 100.`,`\\(${a} \\div ${b} \\times 100 = ?\\)`],
+            explain:`\\(\\frac{${a}}{${b}} = ${(a/b).toFixed(3)}... \\times 100 = ${pct}\\%\\)` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = {
+            easy: [this.qFracToDec, this.qDecToPct, this.qPctToDec],
+            medium: [this.qPctOfAmount, this.qPctIncrease, this.qPctDecrease],
+            hard: [this.qReversePct, this.qExpressAsPct]
+        };
+        this.allPool = [...this.pools.easy, ...this.pools.easy, ...this.pools.medium, ...this.pools.medium, ...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('fdp-score').textContent='0 / 0'; document.getElementById('fdp-pct').textContent='\u2014'; document.getElementById('fdp-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="fdp-mf" placeholder="?"></math-field><button class="btn btn-primary" id="fdp-check">Check</button></div>`;
+        document.getElementById('fdp-card').innerHTML=h;
+        document.getElementById('fdp-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('fdp-next').classList.remove('show');
+        resetHint('fdp-hint','fdp-hint-btn');
+        document.getElementById('fdp-workout').value='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('fdp-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();FDP.check();}});}document.getElementById('fdp-check')?.addEventListener('click',()=>FDP.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('fdp-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('fdp-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('fdp-score').textContent=`${this.score} / ${this.total}`; document.getElementById('fdp-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('fdp-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('fdp-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('fdp-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('fdp-fb-expl').innerHTML=html; document.getElementById('fdp-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
+   HCF LCM TRAINER
+   ================================================================ */
+const HCFLCM = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    qHCFEasy() {
+        const f = randInt(2,6), a = f*randInt(2,5), b = f*randInt(2,5);
+        if(a===b) return HCFLCM.qHCFEasy();
+        const ans = gcd(a,b);
+        return { type:'free', rule:'HCF', difficulty:'easy', text:`Find the HCF of ${a} and ${b}:`,
+            latex:`\\text{HCF}(${a}, ${b})`, answer:ans, answerTex:String(ans),
+            hintTex:['List factors of each number.',`Factors of ${a}: ${[...Array(a)].map((_,i)=>i+1).filter(x=>a%x===0).join(', ')}`],
+            explain:`HCF(${a}, ${b}) = ${ans}` };
+    },
+    qLCMEasy() {
+        const a = randInt(2,9), b = randInt(2,9);
+        if(a===b) return HCFLCM.qLCMEasy();
+        const ans = a*b/gcd(a,b);
+        return { type:'free', rule:'LCM', difficulty:'easy', text:`Find the LCM of ${a} and ${b}:`,
+            latex:`\\text{LCM}(${a}, ${b})`, answer:ans, answerTex:String(ans),
+            hintTex:['List multiples of each until you find a common one.',`Multiples of ${a}: ${a}, ${2*a}, ${3*a}...`],
+            explain:`LCM(${a}, ${b}) = ${ans}` };
+    },
+    qHCFMedium() {
+        const f = randInt(3,8), a = f*randInt(3,7), b = f*randInt(3,7);
+        if(a===b) return HCFLCM.qHCFMedium();
+        const ans = gcd(a,b);
+        return { type:'free', rule:'HCF', difficulty:'medium', text:`Find the HCF of ${a} and ${b}:`,
+            latex:`\\text{HCF}(${a}, ${b})`, answer:ans, answerTex:String(ans),
+            hintTex:['Use prime factorisation.',`${a} = ${primeFactors(a)}`,`${b} = ${primeFactors(b)}. Common factors?`],
+            explain:`${a} = ${primeFactors(a)}, ${b} = ${primeFactors(b)}. HCF = ${ans}` };
+    },
+    qLCMMedium() {
+        const a = randInt(4,12), b = randInt(4,12);
+        if(a===b||gcd(a,b)===1) return HCFLCM.qLCMMedium();
+        const ans = a*b/gcd(a,b);
+        return { type:'free', rule:'LCM', difficulty:'medium', text:`Find the LCM of ${a} and ${b}:`,
+            latex:`\\text{LCM}(${a}, ${b})`, answer:ans, answerTex:String(ans),
+            hintTex:['LCM = (a × b) ÷ HCF(a,b).',`HCF(${a}, ${b}) = ${gcd(a,b)}. Now calculate.`],
+            explain:`LCM = \\frac{${a} \\times ${b}}{${gcd(a,b)}} = ${ans}` };
+    },
+    qHCFThree() {
+        const f = randInt(2,5), a = f*randInt(2,4), b = f*randInt(2,4), c = f*randInt(2,4);
+        const ans = gcd(gcd(a,b),c);
+        return { type:'free', rule:'HCF', difficulty:'hard', text:`Find the HCF of ${a}, ${b} and ${c}:`,
+            latex:`\\text{HCF}(${a}, ${b}, ${c})`, answer:ans, answerTex:String(ans),
+            hintTex:['Find HCF of first two, then HCF of that with the third.',`HCF(${a}, ${b}) = ${gcd(a,b)}`],
+            explain:`HCF(${a}, ${b}) = ${gcd(a,b)}, then HCF(${gcd(a,b)}, ${c}) = ${ans}` };
+    },
+    qLCMThree() {
+        const a = randInt(2,6), b = randInt(2,6), c = randInt(2,6);
+        const lcmAB = a*b/gcd(a,b), ans = lcmAB*c/gcd(lcmAB,c);
+        return { type:'free', rule:'LCM', difficulty:'hard', text:`Find the LCM of ${a}, ${b} and ${c}:`,
+            latex:`\\text{LCM}(${a}, ${b}, ${c})`, answer:ans, answerTex:String(ans),
+            hintTex:['Find LCM of first two, then LCM of that with the third.',`LCM(${a}, ${b}) = ${lcmAB}`],
+            explain:`LCM(${a}, ${b}) = ${lcmAB}, then LCM(${lcmAB}, ${c}) = ${ans}` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qHCFEasy,this.qLCMEasy], medium:[this.qHCFMedium,this.qLCMMedium], hard:[this.qHCFThree,this.qLCMThree] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('hcflcm-score').textContent='0 / 0'; document.getElementById('hcflcm-pct').textContent='\u2014'; document.getElementById('hcflcm-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="hcflcm-mf" placeholder="?"></math-field><button class="btn btn-primary" id="hcflcm-check">Check</button></div>`;
+        document.getElementById('hcflcm-card').innerHTML=h;
+        document.getElementById('hcflcm-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('hcflcm-next').classList.remove('show');
+        resetHint('hcflcm-hint','hcflcm-hint-btn');
+        document.getElementById('hcflcm-workout').value='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('hcflcm-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();HCFLCM.check();}});}document.getElementById('hcflcm-check')?.addEventListener('click',()=>HCFLCM.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('hcflcm-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('hcflcm-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('hcflcm-score').textContent=`${this.score} / ${this.total}`; document.getElementById('hcflcm-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('hcflcm-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('hcflcm-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('hcflcm-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('hcflcm-fb-expl').innerHTML=html; document.getElementById('hcflcm-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+function primeFactors(n) {
+    let f=[], d=2;
+    while(n>1){ while(n%d===0){f.push(d);n/=d;} d++; }
+    return f.join(' \\times ');
+}
+
+/* ================================================================
+   INDICES TRAINER
+   ================================================================ */
+const IDX = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    qMultiply() {
+        const b=randInt(2,5), m=randInt(2,5), n=randInt(2,5), ans=m+n;
+        return { type:'free', rule:'Multiply', difficulty:'easy', text:'Simplify:',
+            latex:`${b}^{${m}} \\times ${b}^{${n}}`, answer:ans, answerTex:`${b}^{${ans}}`,
+            hintTex:['When multiplying same base, add the powers.',`\\(a^m \\times a^n = a^{m+n}\\)`],
+            explain:`\\(${b}^{${m}} \\times ${b}^{${n}} = ${b}^{${m}+${n}} = ${b}^{${ans}}\\)` };
+    },
+    qDivide() {
+        const b=randInt(2,5), m=randInt(4,8), n=randInt(1,m-1), ans=m-n;
+        return { type:'free', rule:'Divide', difficulty:'easy', text:'Simplify:',
+            latex:`${b}^{${m}} \\div ${b}^{${n}}`, answer:ans, answerTex:`${b}^{${ans}}`,
+            hintTex:['When dividing same base, subtract the powers.',`\\(a^m \\div a^n = a^{m-n}\\)`],
+            explain:`\\(${b}^{${m}} \\div ${b}^{${n}} = ${b}^{${m}-${n}} = ${b}^{${ans}}\\)` };
+    },
+    qPower() {
+        const b=randInt(2,4), m=randInt(2,3), n=randInt(2,3), ans=m*n;
+        return { type:'free', rule:'Power of Power', difficulty:'easy', text:'Simplify:',
+            latex:`(${b}^{${m}})^{${n}}`, answer:ans, answerTex:`${b}^{${ans}}`,
+            hintTex:['Power of a power: multiply the exponents.',`\\((a^m)^n = a^{mn}\\)`],
+            explain:`\\((${b}^{${m}})^{${n}} = ${b}^{${m} \\times ${n}} = ${b}^{${ans}}\\)` };
+    },
+    qZero() {
+        const b=randInt(2,20);
+        return { type:'free', rule:'Zero Power', difficulty:'easy', text:'Evaluate:',
+            latex:`${b}^{0}`, answer:1, answerTex:'1',
+            hintTex:['Any non-zero number to the power 0 equals 1.',`\\(a^0 = 1\\)`],
+            explain:`\\(${b}^{0} = 1\\)` };
+    },
+    qNegative() {
+        const b=randInt(2,5), n=randInt(1,3), ans=1/Math.pow(b,n);
+        return { type:'free', rule:'Negative Index', difficulty:'medium', text:'Evaluate:',
+            latex:`${b}^{-${n}}`, answer:ans, answerTex:`\\frac{1}{${Math.pow(b,n)}}`,
+            hintTex:['Negative power means reciprocal.',`\\(a^{-n} = \\frac{1}{a^n}\\)`],
+            explain:`\\(${b}^{-${n}} = \\frac{1}{${b}^{${n}}} = \\frac{1}{${Math.pow(b,n)}}\\)` };
+    },
+    qFractionalHalf() {
+        const squares = [4,9,16,25,36,49,64,81,100];
+        const n = pick(squares), ans = Math.sqrt(n);
+        return { type:'free', rule:'Fractional Index', difficulty:'medium', text:'Evaluate:',
+            latex:`${n}^{\\frac{1}{2}}`, answer:ans, answerTex:String(ans),
+            hintTex:['Power of 1/2 means square root.',`\\(a^{1/2} = \\sqrt{a}\\)`],
+            explain:`\\(${n}^{1/2} = \\sqrt{${n}} = ${ans}\\)` };
+    },
+    qFractionalThird() {
+        const cubes = [8,27,64,125];
+        const n = pick(cubes), ans = Math.round(Math.pow(n, 1/3));
+        return { type:'free', rule:'Fractional Index', difficulty:'medium', text:'Evaluate:',
+            latex:`${n}^{\\frac{1}{3}}`, answer:ans, answerTex:String(ans),
+            hintTex:['Power of 1/3 means cube root.',`\\(a^{1/3} = \\sqrt[3]{a}\\)`],
+            explain:`\\(${n}^{1/3} = \\sqrt[3]{${n}} = ${ans}\\)` };
+    },
+    qFractionalMN() {
+        const b=pick([4,8,9,16,27]), m=randInt(2,3), n=pick([2,3]);
+        const root = Math.round(Math.pow(b, 1/n)), ans = Math.pow(root, m);
+        return { type:'free', rule:'Fractional Index', difficulty:'hard', text:'Evaluate:',
+            latex:`${b}^{\\frac{${m}}{${n}}}`, answer:ans, answerTex:String(ans),
+            hintTex:[`\\(a^{m/n} = (\\sqrt[n]{a})^m\\)`,`First find \\(\\sqrt[${n}]{${b}} = ${root}\\)`,`Then raise to power ${m}.`],
+            explain:`\\(${b}^{${m}/${n}} = (\\sqrt[${n}]{${b}})^{${m}} = ${root}^{${m}} = ${ans}\\)` };
+    },
+    qCombined() {
+        const b=randInt(2,4), m=randInt(2,4), n=randInt(2,3), p=randInt(1,2), ans=m*n-p;
+        return { type:'free', rule:'Combined', difficulty:'hard', text:'Simplify (give power of '+b+'):',
+            latex:`\\frac{(${b}^{${m}})^{${n}}}{${b}^{${p}}}`, answer:ans, answerTex:`${b}^{${ans}}`,
+            hintTex:['First simplify the numerator.',`\\((${b}^{${m}})^{${n}} = ${b}^{${m*n}}\\)`,`Then divide: \\(${b}^{${m*n}} \\div ${b}^{${p}} = ${b}^{${ans}}\\)`],
+            explain:`\\(\\frac{(${b}^{${m}})^{${n}}}{${b}^{${p}}} = \\frac{${b}^{${m*n}}}{${b}^{${p}}} = ${b}^{${ans}}\\)` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qMultiply,this.qDivide,this.qPower,this.qZero], medium:[this.qNegative,this.qFractionalHalf,this.qFractionalThird], hard:[this.qFractionalMN,this.qCombined] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('idx-score').textContent='0 / 0'; document.getElementById('idx-pct').textContent='\u2014'; document.getElementById('idx-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="idx-mf" placeholder="?"></math-field><button class="btn btn-primary" id="idx-check">Check</button></div>`;
+        document.getElementById('idx-card').innerHTML=h;
+        document.getElementById('idx-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('idx-next').classList.remove('show');
+        resetHint('idx-hint','idx-hint-btn');
+        document.getElementById('idx-workout').value='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('idx-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();IDX.check();}});}document.getElementById('idx-check')?.addEventListener('click',()=>IDX.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('idx-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('idx-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('idx-score').textContent=`${this.score} / ${this.total}`; document.getElementById('idx-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('idx-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('idx-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('idx-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('idx-fb-expl').innerHTML=html; document.getElementById('idx-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
+   STANDARD FORM TRAINER
+   ================================================================ */
+const SF = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    qToSFLarge() {
+        const m=randInt(1,9)+randInt(1,9)/10, p=randInt(2,6), n=m*Math.pow(10,p);
+        return { type:'free', rule:'Convert', difficulty:'easy', text:'Write in standard form (give the power of 10):',
+            latex:n.toLocaleString('en-US'), answer:p, answerTex:`${m} \\times 10^{${p}}`,
+            hintTex:['Move the decimal point until you have a number between 1 and 10.',`Count how many places you moved.`],
+            explain:`\\(${n.toLocaleString('en-US')} = ${m} \\times 10^{${p}}\\)` };
+    },
+    qToSFSmall() {
+        const m=randInt(1,9)+randInt(1,9)/10, p=randInt(2,5), n=m/Math.pow(10,p);
+        return { type:'free', rule:'Convert', difficulty:'easy', text:'Write in standard form (give the power of 10):',
+            latex:n.toFixed(p+1), answer:-p, answerTex:`${m} \\times 10^{-${p}}`,
+            hintTex:['Move decimal right to get a number between 1 and 10.',`Small numbers have negative powers.`],
+            explain:`\\(${n.toFixed(p+1)} = ${m} \\times 10^{-${p}}\\)` };
+    },
+    qFromSF() {
+        const m=randInt(1,9)+randInt(1,9)/10, p=randInt(2,5), ans=m*Math.pow(10,p);
+        return { type:'free', rule:'Convert', difficulty:'easy', text:'Write as an ordinary number:',
+            latex:`${m} \\times 10^{${p}}`, answer:ans, answerTex:ans.toLocaleString('en-US'),
+            hintTex:['Move the decimal point right by the power.',`\\(10^{${p}} = ${Math.pow(10,p)}\\)`],
+            explain:`\\(${m} \\times 10^{${p}} = ${ans.toLocaleString('en-US')}\\)` };
+    },
+    qMultiplySF() {
+        const m1=randInt(2,9), p1=randInt(2,5), m2=randInt(2,9), p2=randInt(2,5);
+        let mAns=m1*m2, pAns=p1+p2;
+        while(mAns>=10){mAns/=10;pAns++;}
+        return { type:'free', rule:'Multiply', difficulty:'medium', text:'Multiply and give in standard form (give the power):',
+            latex:`(${m1} \\times 10^{${p1}}) \\times (${m2} \\times 10^{${p2}})`, answer:pAns, answerTex:`${mAns} \\times 10^{${pAns}}`,
+            hintTex:['Multiply the numbers, add the powers.',`\\(${m1} \\times ${m2} = ${m1*m2}\\), adjust if needed.`],
+            explain:`\\(${m1} \\times ${m2} = ${m1*m2}\\). Powers: \\(${p1}+${p2}=${p1+p2}\\). Final: \\(${mAns} \\times 10^{${pAns}}\\)` };
+    },
+    qDivideSF() {
+        const m1=randInt(4,9), p1=randInt(4,8), m2=randInt(2,4), p2=randInt(1,3);
+        let mAns=m1/m2, pAns=p1-p2;
+        while(mAns<1){mAns*=10;pAns--;}
+        while(mAns>=10){mAns/=10;pAns++;}
+        mAns=Math.round(mAns*10)/10;
+        return { type:'free', rule:'Divide', difficulty:'medium', text:'Divide and give in standard form (give the power):',
+            latex:`(${m1} \\times 10^{${p1}}) \\div (${m2} \\times 10^{${p2}})`, answer:pAns, answerTex:`${mAns} \\times 10^{${pAns}}`,
+            hintTex:['Divide the numbers, subtract the powers.',`\\(${m1} \\div ${m2} = ${(m1/m2).toFixed(1)}\\), adjust if needed.`],
+            explain:`\\(${m1} \\div ${m2} = ${(m1/m2).toFixed(1)}\\). Powers: \\(${p1}-${p2}=${p1-p2}\\). Final: \\(${mAns} \\times 10^{${pAns}}\\)` };
+    },
+    qAddSF() {
+        const m1=randInt(2,5), m2=randInt(2,5), p=randInt(3,6);
+        const sum=m1+m2; let mAns=sum, pAns=p;
+        while(mAns>=10){mAns/=10;pAns++;}
+        return { type:'free', rule:'Add', difficulty:'hard', text:'Add and give in standard form (give the power):',
+            latex:`(${m1} \\times 10^{${p}}) + (${m2} \\times 10^{${p}})`, answer:pAns, answerTex:`${mAns} \\times 10^{${pAns}}`,
+            hintTex:['Same powers: add the numbers directly.',`\\(${m1} + ${m2} = ${sum}\\), then adjust.`],
+            explain:`\\(${m1} + ${m2} = ${sum}\\). So \\(${sum} \\times 10^{${p}} = ${mAns} \\times 10^{${pAns}}\\)` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qToSFLarge,this.qToSFSmall,this.qFromSF], medium:[this.qMultiplySF,this.qDivideSF], hard:[this.qAddSF] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('sf-score').textContent='0 / 0'; document.getElementById('sf-pct').textContent='\u2014'; document.getElementById('sf-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="sf-mf" placeholder="?"></math-field><button class="btn btn-primary" id="sf-check">Check</button></div>`;
+        document.getElementById('sf-card').innerHTML=h;
+        document.getElementById('sf-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('sf-next').classList.remove('show');
+        resetHint('sf-hint','sf-hint-btn');
+        document.getElementById('sf-workout').value='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('sf-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();SF.check();}});}document.getElementById('sf-check')?.addEventListener('click',()=>SF.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('sf-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('sf-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('sf-score').textContent=`${this.score} / ${this.total}`; document.getElementById('sf-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('sf-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('sf-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('sf-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('sf-fb-expl').innerHTML=html; document.getElementById('sf-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
+   SURDS TRAINER
+   ================================================================ */
+const SURD = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    qSimplify() {
+        const k=randInt(2,6), n=randInt(2,5), val=k*k*n;
+        return { type:'free', rule:'Simplify', difficulty:'easy', text:`Simplify \\(\\sqrt{${val}}\\). Give the number outside the root:`,
+            latex:`\\sqrt{${val}}`, answer:k, answerTex:`${k}\\sqrt{${n}}`,
+            hintTex:[`Find a square factor of ${val}.`,`\\(${val} = ${k*k} \\times ${n} = ${k}^2 \\times ${n}\\)`],
+            explain:`\\(\\sqrt{${val}} = \\sqrt{${k}^2 \\times ${n}} = ${k}\\sqrt{${n}}\\)` };
+    },
+    qMultiply() {
+        const a=randInt(2,5), b=randInt(2,5), ans=a*b;
+        return { type:'free', rule:'Multiply', difficulty:'easy', text:'Simplify:',
+            latex:`\\sqrt{${a}} \\times \\sqrt{${b}}`, answer:ans, answerTex:`\\sqrt{${ans}}`,
+            hintTex:['Multiply surds: multiply the numbers under the roots.',`\\(\\sqrt{a} \\times \\sqrt{b} = \\sqrt{ab}\\)`],
+            explain:`\\(\\sqrt{${a}} \\times \\sqrt{${b}} = \\sqrt{${a} \\times ${b}} = \\sqrt{${ans}}\\)` };
+    },
+    qAdd() {
+        const k=randInt(2,5), a=randInt(2,5), b=randInt(1,4), ans=a+b;
+        return { type:'free', rule:'Add', difficulty:'medium', text:`Simplify. Give the coefficient of \\(\\sqrt{${k}}\\):`,
+            latex:`${a}\\sqrt{${k}} + ${b}\\sqrt{${k}}`, answer:ans, answerTex:`${ans}\\sqrt{${k}}`,
+            hintTex:['Add like surds by adding coefficients.',`\\(${a} + ${b} = ${ans}\\)`],
+            explain:`\\(${a}\\sqrt{${k}} + ${b}\\sqrt{${k}} = ${ans}\\sqrt{${k}}\\)` };
+    },
+    qExpand() {
+        const a=randInt(1,4), b=randInt(2,5);
+        const ans=a*a+b;
+        return { type:'free', rule:'Expand', difficulty:'medium', text:`Expand and simplify \\((${a}+\\sqrt{${b}})^2\\). Give the integer part:`,
+            latex:`(${a}+\\sqrt{${b}})^2`, answer:ans, answerTex:`${ans} + ${2*a}\\sqrt{${b}}`,
+            hintTex:['Use \\((a+b)^2 = a^2 + 2ab + b^2\\).',`\\(${a}^2 + 2(${a})(\\sqrt{${b}}) + (\\sqrt{${b}})^2\\)`],
+            explain:`\\(${a}^2 + 2(${a})\\sqrt{${b}} + ${b} = ${a*a} + ${2*a}\\sqrt{${b}} + ${b} = ${ans} + ${2*a}\\sqrt{${b}}\\)` };
+    },
+    qRationalise() {
+        const a=randInt(2,5);
+        return { type:'free', rule:'Rationalise', difficulty:'hard', text:`Rationalise \\(\\frac{1}{\\sqrt{${a}}}\\). Give the number under the root in your answer:`,
+            latex:`\\frac{1}{\\sqrt{${a}}}`, answer:a, answerTex:`\\frac{\\sqrt{${a}}}{${a}}`,
+            hintTex:['Multiply top and bottom by \\(\\sqrt{'+a+'}\\).',`\\(\\frac{1}{\\sqrt{${a}}} \\times \\frac{\\sqrt{${a}}}{\\sqrt{${a}}}\\)`],
+            explain:`\\(\\frac{1}{\\sqrt{${a}}} = \\frac{\\sqrt{${a}}}{${a}}\\)` };
+    },
+    qRationaliseConj() {
+        const a=randInt(1,3), b=randInt(2,5);
+        const denom=a*a-b;
+        return { type:'free', rule:'Rationalise', difficulty:'hard', text:`Rationalise \\(\\frac{1}{${a}+\\sqrt{${b}}}\\). Give the denominator of your answer:`,
+            latex:`\\frac{1}{${a}+\\sqrt{${b}}}`, answer:Math.abs(denom), answerTex:`\\frac{${a}-\\sqrt{${b}}}{${denom}}`,
+            hintTex:['Multiply by conjugate: \\('+a+'-\\sqrt{'+b+'}\\).',`Denominator: \\((${a})^2 - (\\sqrt{${b}})^2 = ${a*a} - ${b} = ${denom}\\)`],
+            explain:`\\(\\frac{1}{${a}+\\sqrt{${b}}} \\times \\frac{${a}-\\sqrt{${b}}}{${a}-\\sqrt{${b}}} = \\frac{${a}-\\sqrt{${b}}}{${denom}}\\)` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qSimplify,this.qMultiply], medium:[this.qAdd,this.qExpand], hard:[this.qRationalise,this.qRationaliseConj] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('surd-score').textContent='0 / 0'; document.getElementById('surd-pct').textContent='\u2014'; document.getElementById('surd-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="surd-mf" placeholder="?"></math-field><button class="btn btn-primary" id="surd-check">Check</button></div>`;
+        document.getElementById('surd-card').innerHTML=h;
+        document.getElementById('surd-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('surd-next').classList.remove('show');
+        resetHint('surd-hint','surd-hint-btn');
+        document.getElementById('surd-workout').value='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('surd-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();SURD.check();}});}document.getElementById('surd-check')?.addEventListener('click',()=>SURD.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('surd-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('surd-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('surd-score').textContent=`${this.score} / ${this.total}`; document.getElementById('surd-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('surd-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('surd-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('surd-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('surd-fb-expl').innerHTML=html; document.getElementById('surd-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
+   RATIO TRAINER
+   ================================================================ */
+const RATIO = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    qSimplify() {
+        const f=randInt(2,6), a=f*randInt(2,6), b=f*randInt(2,6);
+        if(a===b) return RATIO.qSimplify();
+        const g=gcd(a,b);
+        return { type:'free', rule:'Simplify', difficulty:'easy', text:`Simplify ${a}:${b}. Give the first number:`,
+            latex:`${a}:${b}`, answer:a/g, answerTex:`${a/g}:${b/g}`,
+            hintTex:[`Find the HCF of ${a} and ${b}.`,`HCF = ${g}. Divide both by ${g}.`],
+            explain:`\\(${a}:${b} = ${a/g}:${b/g}\\)` };
+    },
+    qShareTwo() {
+        const a=randInt(2,5), b=randInt(2,5), total=randInt(5,15)*(a+b);
+        const ans1=total*a/(a+b);
+        return { type:'free', rule:'Share', difficulty:'easy', text:`Share £${total} in the ratio ${a}:${b}. What is the larger share?`,
+            latex:`${a}:${b}`, answer:Math.max(ans1,total-ans1), answerTex:`£${Math.max(ans1,total-ans1)}`,
+            hintTex:[`Total parts = ${a}+${b} = ${a+b}.`,`One part = £${total/(a+b)}.`],
+            explain:`Total parts = ${a+b}. One part = £${total/(a+b)}. Shares: £${ans1} and £${total-ans1}.` };
+    },
+    qShareThree() {
+        const a=randInt(1,3), b=randInt(1,3), c=randInt(1,3), total=randInt(3,10)*(a+b+c);
+        const part=total/(a+b+c);
+        return { type:'free', rule:'Share', difficulty:'medium', text:`Share £${total} in ratio ${a}:${b}:${c}. What is the middle share?`,
+            latex:`${a}:${b}:${c}`, answer:b*part, answerTex:`£${b*part}`,
+            hintTex:[`Total parts = ${a+b+c}.`,`One part = £${part}. Middle share = ${b} parts.`],
+            explain:`One part = £${part}. Middle share = ${b} × ${part} = £${b*part}.` };
+    },
+    qDirect() {
+        const k=randInt(2,5), x1=randInt(2,6), y1=k*x1, x2=randInt(2,6), y2=k*x2;
+        return { type:'free', rule:'Direct', difficulty:'medium', text:`y is directly proportional to x. If y=${y1} when x=${x1}, find y when x=${x2}:`,
+            latex:`y \\propto x`, answer:y2, answerTex:String(y2),
+            hintTex:[`Find k: y = kx, so k = ${y1}/${x1} = ${k}.`,`Then y = ${k} × ${x2}.`],
+            explain:`\\(k = ${y1}/${x1} = ${k}\\). When \\(x=${x2}\\), \\(y = ${k} \\times ${x2} = ${y2}\\).` };
+    },
+    qInverse() {
+        const k=randInt(12,48), x1=randInt(2,6), y1=k/x1, x2=randInt(2,6), y2=k/x2;
+        if(!Number.isInteger(y1)||!Number.isInteger(y2)) return RATIO.qInverse();
+        return { type:'free', rule:'Inverse', difficulty:'hard', text:`y is inversely proportional to x. If y=${y1} when x=${x1}, find y when x=${x2}:`,
+            latex:`y \\propto \\frac{1}{x}`, answer:y2, answerTex:String(y2),
+            hintTex:[`Find k: y = k/x, so k = y×x = ${y1}×${x1} = ${k}.`,`Then y = ${k}/${x2}.`],
+            explain:`\\(k = ${y1} \\times ${x1} = ${k}\\). When \\(x=${x2}\\), \\(y = ${k}/${x2} = ${y2}\\).` };
+    },
+    qDirectSquare() {
+        const k=randInt(1,4), x1=randInt(2,4), y1=k*x1*x1, x2=randInt(2,4), y2=k*x2*x2;
+        return { type:'free', rule:'Direct (squared)', difficulty:'hard', text:`y is directly proportional to x². If y=${y1} when x=${x1}, find y when x=${x2}:`,
+            latex:`y \\propto x^2`, answer:y2, answerTex:String(y2),
+            hintTex:[`Find k: y = kx², so k = ${y1}/${x1}² = ${k}.`,`Then y = ${k} × ${x2}² = ${k} × ${x2*x2}.`],
+            explain:`\\(k = ${y1}/${x1*x1} = ${k}\\). When \\(x=${x2}\\), \\(y = ${k} \\times ${x2*x2} = ${y2}\\).` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qSimplify,this.qShareTwo], medium:[this.qShareThree,this.qDirect], hard:[this.qInverse,this.qDirectSquare] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('ratio-score').textContent='0 / 0'; document.getElementById('ratio-pct').textContent='\u2014'; document.getElementById('ratio-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="ratio-mf" placeholder="?"></math-field><button class="btn btn-primary" id="ratio-check">Check</button></div>`;
+        document.getElementById('ratio-card').innerHTML=h;
+        document.getElementById('ratio-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('ratio-next').classList.remove('show');
+        resetHint('ratio-hint','ratio-hint-btn');
+        document.getElementById('ratio-workout').value='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('ratio-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();RATIO.check();}});}document.getElementById('ratio-check')?.addEventListener('click',()=>RATIO.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('ratio-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('ratio-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('ratio-score').textContent=`${this.score} / ${this.total}`; document.getElementById('ratio-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('ratio-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('ratio-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('ratio-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('ratio-fb-expl').innerHTML=html; document.getElementById('ratio-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
    INIT
    ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
     LR.init(); SE.init(); QA.init();
+    FDP.init(); HCFLCM.init(); IDX.init(); SF.init(); SURD.init(); RATIO.init();
 
     // Topic cards (hub + folder)
     document.querySelectorAll('.topic-card').forEach(card => {
@@ -1451,6 +2248,13 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'log-simul') { showView('log-simul'); SE.load(); }
             else if (topic === 'quadratics') { showView('quadratics'); }
             else if (topic === 'quad-areas') { showView('quad-areas'); QA.load(); }
+            else if (topic === 'number') { showView('number'); }
+            else if (topic === 'num-fdp') { showView('num-fdp'); FDP.load(); }
+            else if (topic === 'num-hcflcm') { showView('num-hcflcm'); HCFLCM.load(); }
+            else if (topic === 'num-indices') { showView('num-indices'); IDX.load(); }
+            else if (topic === 'num-stdform') { showView('num-stdform'); SF.load(); }
+            else if (topic === 'num-surds') { showView('num-surds'); SURD.load(); }
+            else if (topic === 'num-ratio') { showView('num-ratio'); RATIO.load(); }
         });
     });
 
@@ -1550,6 +2354,149 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratic-functions-equations/x2f8bb11595b61c86:completing-square-vertex-form/v/completing-the-square" target="_blank">Completing the Square</a>
         </div>`;
 
+    // ==================== NUMBER FOLDER TRAINERS ====================
+
+    // FDP (Fractions, Decimals, Percentages)
+    document.getElementById('fdp-hint-btn').addEventListener('click', () => handleHint(FDP, 'fdp-hint', 'fdp-hint-btn'));
+    document.getElementById('fdp-next').addEventListener('click', () => FDP.load());
+    document.querySelectorAll('#fdp-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#fdp-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            FDP.level = btn.dataset.level;
+            FDP.resetScore();
+            FDP.load();
+        });
+    });
+    document.getElementById('fdp-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Fraction to Decimal</span>Divide numerator by denominator: \\(\\frac{3}{4} = 3 \\div 4 = 0.75\\)</div>
+        <div class="rule-item"><span class="rule-name">Decimal to Percent</span>Multiply by 100: \\(0.75 \\times 100 = 75\\%\\)</div>
+        <div class="rule-item"><span class="rule-name">Percent to Decimal</span>Divide by 100: \\(75\\% \\div 100 = 0.75\\)</div>
+        <div class="rule-item"><span class="rule-name">Percent of Amount</span>\\(x\\% \\text{ of } A = \\frac{x}{100} \\times A\\)</div>
+        <div class="rule-item"><span class="rule-name">Percentage Increase</span>New = Original \\(\\times (1 + \\frac{\\%}{100})\\)</div>
+        <div class="rule-item"><span class="rule-name">Percentage Decrease</span>New = Original \\(\\times (1 - \\frac{\\%}{100})\\)</div>
+        <div class="rule-item"><span class="rule-name">Reverse Percentage</span>Original = New \\(\\div\\) multiplier. E.g., after 20% increase: Original = New \\(\\div 1.2\\)</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/cc-sixth-grade-math/cc-6th-ratios-prop-topic/cc-6th-percent-problems/v/finding-a-percent" target="_blank">Finding Percentages</a>
+            <a href="https://www.khanacademy.org/math/pre-algebra/xb4832e56:percentages/xb4832e56:percent-word-problems/v/percent-word-problem-example-1" target="_blank">Percent Problems</a>
+        </div>`;
+
+    // HCFLCM (HCF & LCM)
+    document.getElementById('hcflcm-hint-btn').addEventListener('click', () => handleHint(HCFLCM, 'hcflcm-hint', 'hcflcm-hint-btn'));
+    document.getElementById('hcflcm-next').addEventListener('click', () => HCFLCM.load());
+    document.querySelectorAll('#hcflcm-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#hcflcm-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            HCFLCM.level = btn.dataset.level;
+            HCFLCM.resetScore();
+            HCFLCM.load();
+        });
+    });
+    document.getElementById('hcflcm-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">HCF (Highest Common Factor)</span>The largest number that divides into all given numbers exactly.</div>
+        <div class="rule-item"><span class="rule-name">LCM (Lowest Common Multiple)</span>The smallest number that all given numbers divide into exactly.</div>
+        <div class="rule-item"><span class="rule-name">Prime Factorisation Method</span>Write each number as product of primes. HCF = product of common primes (lowest powers). LCM = product of all primes (highest powers).</div>
+        <div class="rule-item"><span class="rule-name">HCF × LCM Formula</span>For two numbers: \\(\\text{HCF}(a,b) \\times \\text{LCM}(a,b) = a \\times b\\)</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/cc-sixth-grade-math/cc-6th-factors-and-multiples/cc-6th-gcf/v/greatest-common-divisor" target="_blank">Greatest Common Divisor</a>
+            <a href="https://www.khanacademy.org/math/cc-sixth-grade-math/cc-6th-factors-and-multiples/cc-6th-lcm/v/least-common-multiple-lcm" target="_blank">Least Common Multiple</a>
+        </div>`;
+
+    // IDX (Indices)
+    document.getElementById('idx-hint-btn').addEventListener('click', () => handleHint(IDX, 'idx-hint', 'idx-hint-btn'));
+    document.getElementById('idx-next').addEventListener('click', () => IDX.load());
+    document.querySelectorAll('#idx-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#idx-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            IDX.level = btn.dataset.level;
+            IDX.resetScore();
+            IDX.load();
+        });
+    });
+    document.getElementById('idx-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Multiplication</span>\\(a^m \\times a^n = a^{m+n}\\)</div>
+        <div class="rule-item"><span class="rule-name">Division</span>\\(a^m \\div a^n = a^{m-n}\\)</div>
+        <div class="rule-item"><span class="rule-name">Power of Power</span>\\((a^m)^n = a^{mn}\\)</div>
+        <div class="rule-item"><span class="rule-name">Zero Index</span>\\(a^0 = 1\\) (for \\(a \\neq 0\\))</div>
+        <div class="rule-item"><span class="rule-name">Negative Index</span>\\(a^{-n} = \\frac{1}{a^n}\\)</div>
+        <div class="rule-item"><span class="rule-name">Fractional Index</span>\\(a^{\\frac{m}{n}} = \\sqrt[n]{a^m} = (\\sqrt[n]{a})^m\\)</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/cc-eighth-grade-math/cc-8th-numbers-operations/cc-8th-exponent-properties/v/exponent-properties-involving-products" target="_blank">Exponent Properties</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:rational-exponents-radicals/x2f8bb11595b61c86:rational-exponents/v/basic-fractional-exponents" target="_blank">Fractional Exponents</a>
+        </div>`;
+
+    // SF (Standard Form)
+    document.getElementById('sf-hint-btn').addEventListener('click', () => handleHint(SF, 'sf-hint', 'sf-hint-btn'));
+    document.getElementById('sf-next').addEventListener('click', () => SF.load());
+    document.querySelectorAll('#sf-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#sf-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            SF.level = btn.dataset.level;
+            SF.resetScore();
+            SF.load();
+        });
+    });
+    document.getElementById('sf-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Standard Form</span>\\(A \\times 10^n\\) where \\(1 \\leq A < 10\\) and \\(n\\) is an integer.</div>
+        <div class="rule-item"><span class="rule-name">Large Numbers</span>Move decimal left, positive power. E.g., \\(45000 = 4.5 \\times 10^4\\)</div>
+        <div class="rule-item"><span class="rule-name">Small Numbers</span>Move decimal right, negative power. E.g., \\(0.0032 = 3.2 \\times 10^{-3}\\)</div>
+        <div class="rule-item"><span class="rule-name">Multiplication</span>Multiply coefficients, add powers: \\((a \\times 10^m)(b \\times 10^n) = ab \\times 10^{m+n}\\)</div>
+        <div class="rule-item"><span class="rule-name">Division</span>Divide coefficients, subtract powers: \\(\\frac{a \\times 10^m}{b \\times 10^n} = \\frac{a}{b} \\times 10^{m-n}\\)</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/cc-eighth-grade-math/cc-8th-numbers-operations/cc-8th-scientific-notation-intro/v/scientific-notation" target="_blank">Scientific Notation</a>
+            <a href="https://www.khanacademy.org/math/cc-eighth-grade-math/cc-8th-numbers-operations/cc-8th-scientific-notation-compu/v/multiplying-in-scientific-notation" target="_blank">Operations in Scientific Notation</a>
+        </div>`;
+
+    // SURD (Surds)
+    document.getElementById('surd-hint-btn').addEventListener('click', () => handleHint(SURD, 'surd-hint', 'surd-hint-btn'));
+    document.getElementById('surd-next').addEventListener('click', () => SURD.load());
+    document.querySelectorAll('#surd-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#surd-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            SURD.level = btn.dataset.level;
+            SURD.resetScore();
+            SURD.load();
+        });
+    });
+    document.getElementById('surd-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">What is a Surd?</span>An irrational root that cannot be simplified to a whole number, e.g., \\(\\sqrt{2}\\), \\(\\sqrt{5}\\).</div>
+        <div class="rule-item"><span class="rule-name">Simplifying</span>\\(\\sqrt{ab} = \\sqrt{a} \\times \\sqrt{b}\\). Find largest square factor: \\(\\sqrt{50} = \\sqrt{25 \\times 2} = 5\\sqrt{2}\\)</div>
+        <div class="rule-item"><span class="rule-name">Multiplying</span>\\(\\sqrt{a} \\times \\sqrt{b} = \\sqrt{ab}\\) and \\(a\\sqrt{b} \\times c\\sqrt{d} = ac\\sqrt{bd}\\)</div>
+        <div class="rule-item"><span class="rule-name">Adding/Subtracting</span>Combine like surds: \\(3\\sqrt{2} + 5\\sqrt{2} = 8\\sqrt{2}\\) but \\(\\sqrt{2} + \\sqrt{3}\\) cannot be simplified.</div>
+        <div class="rule-item"><span class="rule-name">Rationalising (simple)</span>\\(\\frac{a}{\\sqrt{b}} = \\frac{a\\sqrt{b}}{b}\\) — multiply top and bottom by \\(\\sqrt{b}\\).</div>
+        <div class="rule-item"><span class="rule-name">Rationalising (conjugate)</span>\\(\\frac{a}{b + \\sqrt{c}} = \\frac{a(b - \\sqrt{c})}{b^2 - c}\\) — multiply by conjugate.</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:rational-exponents-radicals/x2f8bb11595b61c86:simplify-square-roots/v/simplifying-square-roots-1" target="_blank">Simplifying Square Roots</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:rational-exponents-radicals/x2f8bb11595b61c86:rationalize-denominators/v/rationalizing-denominators-of-expressions" target="_blank">Rationalizing Denominators</a>
+        </div>`;
+
+    // RATIO (Ratios & Proportion)
+    document.getElementById('ratio-hint-btn').addEventListener('click', () => handleHint(RATIO, 'ratio-hint', 'ratio-hint-btn'));
+    document.getElementById('ratio-next').addEventListener('click', () => RATIO.load());
+    document.querySelectorAll('#ratio-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#ratio-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            RATIO.level = btn.dataset.level;
+            RATIO.resetScore();
+            RATIO.load();
+        });
+    });
+    document.getElementById('ratio-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Simplifying Ratios</span>Divide all parts by their HCF. E.g., \\(12:18 = 2:3\\)</div>
+        <div class="rule-item"><span class="rule-name">Sharing in Ratio</span>Add ratio parts, divide total by sum, multiply by each part. E.g., £100 in ratio 2:3 → parts = 100÷5 = 20, so 40 and 60.</div>
+        <div class="rule-item"><span class="rule-name">Direct Proportion</span>\\(y = kx\\). As \\(x\\) increases, \\(y\\) increases at same rate. Find \\(k = \\frac{y}{x}\\).</div>
+        <div class="rule-item"><span class="rule-name">Inverse Proportion</span>\\(y = \\frac{k}{x}\\). As \\(x\\) increases, \\(y\\) decreases. Find \\(k = xy\\).</div>
+        <div class="rule-item"><span class="rule-name">Direct Square Proportion</span>\\(y = kx^2\\). Find \\(k = \\frac{y}{x^2}\\).</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/pre-algebra/xb4832e56:rates-and-proportional-relationships/xb4832e56:writing-and-solving-proportions/v/find-an-unknown-in-a-proportion" target="_blank">Solving Proportions</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:direct-inverse-variation/x2f8bb11595b61c86:direct-variation/v/direct-variation-1" target="_blank">Direct Variation</a>
+        </div>`;
+
     // Calculator toggle
     document.getElementById('calc-btn').addEventListener('click', () => {
         const modal = document.getElementById('calc-modal');
@@ -1575,6 +2522,18 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); SE.load();
         } else if (document.getElementById('view-quad-areas').classList.contains('active') && QA.answered) {
             e.preventDefault(); QA.load();
+        } else if (document.getElementById('view-num-fdp').classList.contains('active') && FDP.answered) {
+            e.preventDefault(); FDP.load();
+        } else if (document.getElementById('view-num-hcflcm').classList.contains('active') && HCFLCM.answered) {
+            e.preventDefault(); HCFLCM.load();
+        } else if (document.getElementById('view-num-indices').classList.contains('active') && IDX.answered) {
+            e.preventDefault(); IDX.load();
+        } else if (document.getElementById('view-num-stdform').classList.contains('active') && SF.answered) {
+            e.preventDefault(); SF.load();
+        } else if (document.getElementById('view-num-surds').classList.contains('active') && SURD.answered) {
+            e.preventDefault(); SURD.load();
+        } else if (document.getElementById('view-num-ratio').classList.contains('active') && RATIO.answered) {
+            e.preventDefault(); RATIO.load();
         }
     });
     // Track when answers are submitted
