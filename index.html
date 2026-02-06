@@ -791,7 +791,19 @@ function parseLatex(raw) {
     return parseFloat(s);
 }
 
-// ── Paste Calculator Result to Workings ─────────────────────────
+// ── Copy Calculator to Workings ─────────────────────────────────
+function latexToReadable(latex) {
+    return latex
+        .replace(/\\cdot/g, '×')
+        .replace(/\\times/g, '×')
+        .replace(/\\div/g, '÷')
+        .replace(/\\sqrt\{([^}]+)\}/g, '√($1)')
+        .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1)/($2)')
+        .replace(/\\left\(/g, '(').replace(/\\right\)/g, ')')
+        .replace(/\\left\[/g, '[').replace(/\\right\]/g, ']')
+        .replace(/\{/g, '(').replace(/\}/g, ')')
+        .replace(/\^/g, '^');
+}
 function copyCalcToWorkout(textareaId) {
     if (!window.desmosCalc) { alert('Open the calculator first!'); return; }
     const textarea = document.getElementById(textareaId);
@@ -799,7 +811,7 @@ function copyCalcToWorkout(textareaId) {
     const exprs = window.desmosCalc.getExpressions();
     const lines = exprs
         .filter(e => e.latex && e.latex.trim())
-        .map(e => e.latex);
+        .map(e => latexToReadable(e.latex));
     if (lines.length === 0) { alert('Calculator is empty'); return; }
     const text = lines.join('\n');
     const existing = textarea.value;
