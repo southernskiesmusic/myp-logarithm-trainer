@@ -2137,11 +2137,19 @@ const SURD = {
     },
     qExpand() {
         const a=randInt(1,4), b=randInt(2,5);
-        const ans=a*a+b;
-        return { type:'free', rule:'Expand', difficulty:'medium', text:`Expand and simplify \\((${a}+\\sqrt{${b}})^2\\). Give the integer part:`,
-            latex:`(${a}+\\sqrt{${b}})^2`, answer:ans, answerTex:`${ans} + ${2*a}\\sqrt{${b}}`,
+        const intPart=a*a+b, coeff=2*a;
+        const correct = `${intPart} + ${coeff}\\sqrt{${b}}`;
+        // Generate wrong answers
+        const wrongs = [
+            `${a*a} + ${coeff}\\sqrt{${b}}`,       // forgot to add b
+            `${intPart} + ${a}\\sqrt{${b}}`,       // forgot to double coefficient
+            `${intPart+1} + ${coeff}\\sqrt{${b}}`  // arithmetic error
+        ];
+        const opts = shuffle([correct, ...wrongs]);
+        return { type:'mc', rule:'Expand', difficulty:'medium', text:'Expand and simplify:',
+            latex:`(${a}+\\sqrt{${b}})^2`, answer:correct, options:opts,
             hintTex:['Use \\((a+b)^2 = a^2 + 2ab + b^2\\).',`\\(${a}^2 + 2(${a})(\\sqrt{${b}}) + (\\sqrt{${b}})^2\\)`],
-            explain:`\\(${a}^2 + 2(${a})\\sqrt{${b}} + ${b} = ${a*a} + ${2*a}\\sqrt{${b}} + ${b} = ${ans} + ${2*a}\\sqrt{${b}}\\)` };
+            explain:`\\(${a}^2 + 2(${a})\\sqrt{${b}} + ${b} = ${a*a} + ${coeff}\\sqrt{${b}} + ${b} = ${correct}\\)` };
     },
     qRationalise() {
         const a=randInt(2,5);
@@ -2170,14 +2178,39 @@ const SURD = {
         this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
         const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
         let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
-        h+=`<div class="input-area"><math-field class="lr-math-field" id="surd-mf" placeholder="?"></math-field><button class="btn btn-primary" id="surd-check">Check</button></div>`;
+        if (q.type === 'mc') {
+            h += '<div class="options-grid">';
+            q.options.forEach((o,i) => { h += `<button class="option-btn" data-i="${i}">\\(${o}\\)</button>`; });
+            h += '</div>';
+        } else {
+            h+=`<div class="input-area"><math-field class="lr-math-field" id="surd-mf" placeholder="?"></math-field><button class="btn btn-primary" id="surd-check">Check</button></div>`;
+        }
         document.getElementById('surd-card').innerHTML=h;
         document.getElementById('surd-fb').classList.remove('show','correct','incorrect');
         document.getElementById('surd-next').classList.remove('show');
         resetHint('surd-hint','surd-hint-btn');
         document.getElementById('surd-workout').value='';
         renderMath();
-        setTimeout(()=>{const mf=document.getElementById('surd-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();SURD.check();}});}document.getElementById('surd-check')?.addEventListener('click',()=>SURD.check());},200);
+        if (q.type === 'mc') {
+            document.getElementById('surd-card').querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', () => SURD.handleMC(parseInt(btn.dataset.i)));
+            });
+        } else {
+            setTimeout(()=>{const mf=document.getElementById('surd-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();SURD.check();}});}document.getElementById('surd-check')?.addEventListener('click',()=>SURD.check());},200);
+        }
+    },
+    handleMC(idx) {
+        if(this.answered) return;
+        this.answered=true;
+        const q=this.currentQ, chosen=q.options[idx], ok=chosen===q.answer;
+        document.getElementById('surd-card').querySelectorAll('.option-btn').forEach((btn,i) => {
+            btn.disabled=true;
+            if(q.options[i]===q.answer) btn.classList.add('correct');
+            if(i===idx&&!ok) btn.classList.add('incorrect');
+        });
+        this.record(ok);
+        let ex=q.explain; if(!ok)ex=`The answer is \\(${q.answer}\\).<br>`+ex;
+        this.showFb(ok,ex);
     },
     check() {
         if(this.answered)return; const mf=document.getElementById('surd-mf'); if(!mf||!mf.value.trim())return;
