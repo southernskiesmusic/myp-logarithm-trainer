@@ -65,6 +65,7 @@
         .topic-tag.log { background: #e8daef; color: #6c3483; }
         .topic-tag.quad { background: #d5f5e3; color: #1e8449; }
         .topic-tag.num { background: #fdebd0; color: #b9770e; }
+        .topic-tag.alg { background: #d6eaf8; color: #2471a3; }
 
         /* ---- Shared trainer styles ---- */
         header { text-align: center; margin-bottom: 24px; }
@@ -364,6 +365,11 @@
             <h2>Number</h2>
             <p>Fractions, decimals, percentages, HCF/LCM, indices, standard form, surds, ratios.</p>
             <span class="topic-tag num">6 activities</span>
+        </div>
+        <div class="topic-card" data-topic="algebra">
+            <h2>Algebra</h2>
+            <p>Expressions, linear equations, sequences, and inequalities.</p>
+            <span class="topic-tag alg">4 activities</span>
         </div>
     </div>
 </div>
@@ -746,6 +752,141 @@
     <div class="feedback" id="ratio-fb"><div class="feedback-title" id="ratio-fb-title"></div><div class="feedback-explanation" id="ratio-fb-expl"></div></div>
     <button class="btn btn-primary next-btn" id="ratio-next">Next Question</button>
     <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="ratio-ref"></div></details>
+</div>
+
+<!-- ==================== ALGEBRA FOLDER VIEW ==================== -->
+<div id="view-algebra" class="view">
+    <button class="back-btn" data-back="hub">All Topics</button>
+    <header>
+        <h1>Algebra</h1>
+        <p>Choose an activity</p>
+    </header>
+    <div class="topic-grid">
+        <div class="topic-card" data-topic="alg-expr">
+            <h2>Expressions</h2>
+            <p>Simplify, expand brackets, and factorise algebraic expressions.</p>
+        </div>
+        <div class="topic-card" data-topic="alg-linear">
+            <h2>Linear Equations</h2>
+            <p>Solve one-step, two-step, and equations with brackets.</p>
+        </div>
+        <div class="topic-card" data-topic="alg-seq">
+            <h2>Sequences</h2>
+            <p>Arithmetic and geometric sequences, find the nth term.</p>
+        </div>
+        <div class="topic-card" data-topic="alg-ineq">
+            <h2>Inequalities</h2>
+            <p>Solve and represent linear inequalities.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== EXPRESSIONS VIEW ==================== -->
+<div id="view-alg-expr" class="view">
+    <button class="back-btn" data-back="algebra">Algebra</button>
+    <header>
+        <h1>Algebraic Expressions</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="expr-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="expr-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="expr-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="expr-streak">0</div></div>
+    </div>
+    <div class="question-card" id="expr-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('expr-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="expr-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="expr-hint-btn">Hint</button></div>
+    <div class="hint-box" id="expr-hint"></div>
+    <div class="feedback" id="expr-fb"><div class="feedback-title" id="expr-fb-title"></div><div class="feedback-explanation" id="expr-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="expr-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="expr-ref"></div></details>
+</div>
+
+<!-- ==================== LINEAR EQUATIONS VIEW ==================== -->
+<div id="view-alg-linear" class="view">
+    <button class="back-btn" data-back="algebra">Algebra</button>
+    <header>
+        <h1>Linear Equations</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="linear-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="linear-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="linear-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="linear-streak">0</div></div>
+    </div>
+    <div class="question-card" id="linear-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('linear-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="linear-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="linear-hint-btn">Hint</button></div>
+    <div class="hint-box" id="linear-hint"></div>
+    <div class="feedback" id="linear-fb"><div class="feedback-title" id="linear-fb-title"></div><div class="feedback-explanation" id="linear-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="linear-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="linear-ref"></div></details>
+</div>
+
+<!-- ==================== SEQUENCES VIEW ==================== -->
+<div id="view-alg-seq" class="view">
+    <button class="back-btn" data-back="algebra">Algebra</button>
+    <header>
+        <h1>Sequences</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="seq-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="seq-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="seq-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="seq-streak">0</div></div>
+    </div>
+    <div class="question-card" id="seq-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('seq-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="seq-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="seq-hint-btn">Hint</button></div>
+    <div class="hint-box" id="seq-hint"></div>
+    <div class="feedback" id="seq-fb"><div class="feedback-title" id="seq-fb-title"></div><div class="feedback-explanation" id="seq-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="seq-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="seq-ref"></div></details>
+</div>
+
+<!-- ==================== INEQUALITIES VIEW ==================== -->
+<div id="view-alg-ineq" class="view">
+    <button class="back-btn" data-back="algebra">Algebra</button>
+    <header>
+        <h1>Inequalities</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="ineq-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="ineq-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="ineq-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="ineq-streak">0</div></div>
+    </div>
+    <div class="question-card" id="ineq-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('ineq-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="ineq-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="ineq-hint-btn">Hint</button></div>
+    <div class="hint-box" id="ineq-hint"></div>
+    <div class="feedback" id="ineq-fb"><div class="feedback-title" id="ineq-fb-title"></div><div class="feedback-explanation" id="ineq-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="ineq-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="ineq-ref"></div></details>
 </div>
 
 <!-- Calculator -->
@@ -2364,11 +2505,448 @@ const RATIO = {
 };
 
 /* ================================================================
+   ALGEBRAIC EXPRESSIONS TRAINER
+   ================================================================ */
+const EXPR = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    // Easy: Collect like terms (simple)
+    qCollectSimple() {
+        const a=randInt(2,6), b=randInt(1,5), c=randInt(1,5);
+        const sum=a+c;
+        return { type:'free', rule:'Simplify', difficulty:'easy', text:'Simplify:',
+            latex:`${a}x + ${b} + ${c}x`, answer:sum, answerTex:`${sum}x + ${b}`,
+            hintTex:['Collect the x terms together.',`${a}x + ${c}x = ${sum}x`],
+            explain:`Collect like terms: \\(${a}x + ${c}x = ${sum}x\\). Answer: \\(${sum}x + ${b}\\)` };
+    },
+
+    // Easy: Collect with subtraction
+    qCollectSub() {
+        const a=randInt(5,9), b=randInt(2,4), c=randInt(1,4);
+        const diff=a-c;
+        return { type:'free', rule:'Simplify', difficulty:'easy', text:'Simplify (give the coefficient of x):',
+            latex:`${a}x - ${c}x + ${b}`, answer:diff, answerTex:`${diff}x + ${b}`,
+            hintTex:['Subtract the x terms.',`${a}x - ${c}x = ${diff}x`],
+            explain:`\\(${a}x - ${c}x = ${diff}x\\). Answer: \\(${diff}x + ${b}\\)` };
+    },
+
+    // Easy: Expand single bracket
+    qExpandSingle() {
+        const a=randInt(2,5), b=randInt(1,6), c=randInt(1,5);
+        const ab=a*b, ac=a*c;
+        return { type:'free', rule:'Expand', difficulty:'easy', text:'Expand (give the coefficient of x):',
+            latex:`${a}(${b}x + ${c})`, answer:ab, answerTex:`${ab}x + ${ac}`,
+            hintTex:['Multiply each term inside by the number outside.',`${a} \\times ${b}x = ${ab}x`],
+            explain:`\\(${a}(${b}x + ${c}) = ${ab}x + ${ac}\\)` };
+    },
+
+    // Medium: Expand and simplify two brackets
+    qExpandTwo() {
+        const a=randInt(2,4), b=randInt(1,4), c=randInt(2,4), d=randInt(1,4);
+        const xCoeff = a*b + c*d;
+        return { type:'free', rule:'Expand', difficulty:'medium', text:'Expand and simplify (give the coefficient of x):',
+            latex:`${a}(${b}x + 1) + ${c}(${d}x + 2)`, answer:xCoeff, answerTex:`${xCoeff}x + ${a + 2*c}`,
+            hintTex:['Expand each bracket separately first.',`${a}(${b}x + 1) = ${a*b}x + ${a}`,`${c}(${d}x + 2) = ${c*d}x + ${2*c}`],
+            explain:`\\(${a*b}x + ${a} + ${c*d}x + ${2*c} = ${xCoeff}x + ${a + 2*c}\\)` };
+    },
+
+    // Medium: Expand (x+a)(x+b)
+    qExpandBinomial() {
+        const a=randInt(1,6), b=randInt(1,6);
+        const xCoeff = a+b, const_ = a*b;
+        return { type:'free', rule:'Expand', difficulty:'medium', text:'Expand. Give the coefficient of x:',
+            latex:`(x + ${a})(x + ${b})`, answer:xCoeff, answerTex:`x^2 + ${xCoeff}x + ${const_}`,
+            hintTex:['Use FOIL: First, Outside, Inside, Last.',`x \\cdot x = x^2, \\quad x \\cdot ${b} = ${b}x, \\quad ${a} \\cdot x = ${a}x, \\quad ${a} \\cdot ${b} = ${a*b}`],
+            explain:`\\((x + ${a})(x + ${b}) = x^2 + ${a}x + ${b}x + ${a*b} = x^2 + ${xCoeff}x + ${const_}\\)` };
+    },
+
+    // Medium: Factorise with common factor
+    qFactorCommon() {
+        const f=randInt(2,5), a=randInt(1,4), b=randInt(1,4);
+        return { type:'free', rule:'Factorise', difficulty:'medium', text:'Factorise. What is the common factor?',
+            latex:`${f*a}x + ${f*b}`, answer:f, answerTex:`${f}(${a}x + ${b})`,
+            hintTex:['Find the highest common factor of the coefficients.',`HCF(${f*a}, ${f*b}) = ${f}`],
+            explain:`\\(${f*a}x + ${f*b} = ${f}(${a}x + ${b})\\)` };
+    },
+
+    // Hard: Factorise quadratic x^2+bx+c
+    qFactorQuad() {
+        const p=randInt(1,6), q=randInt(1,6);
+        const b=p+q, c=p*q;
+        return { type:'free', rule:'Factorise', difficulty:'hard', text:'Factorise. Give the smaller number in the brackets:',
+            latex:`x^2 + ${b}x + ${c}`, answer:Math.min(p,q), answerTex:`(x + ${p})(x + ${q})`,
+            hintTex:['Find two numbers that multiply to '+c+' and add to '+b+'.',`${p} \\times ${q} = ${c} \\text{ and } ${p} + ${q} = ${b}`],
+            explain:`\\(x^2 + ${b}x + ${c} = (x + ${p})(x + ${q})\\)` };
+    },
+
+    // Hard: Factorise difference of squares
+    qFactorDiffSq() {
+        const a=randInt(2,9);
+        return { type:'free', rule:'Factorise', difficulty:'hard', text:'Factorise. What number goes in the brackets?',
+            latex:`x^2 - ${a*a}`, answer:a, answerTex:`(x + ${a})(x - ${a})`,
+            hintTex:['This is a difference of two squares: a² - b² = (a+b)(a-b).',`\\sqrt{${a*a}} = ${a}`],
+            explain:`\\(x^2 - ${a*a} = x^2 - ${a}^2 = (x + ${a})(x - ${a})\\)` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qCollectSimple,this.qCollectSub,this.qExpandSingle], medium:[this.qExpandTwo,this.qExpandBinomial,this.qFactorCommon], hard:[this.qFactorQuad,this.qFactorDiffSq] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('expr-score').textContent='0 / 0'; document.getElementById('expr-pct').textContent='\u2014'; document.getElementById('expr-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="expr-mf" placeholder="?"></math-field><button class="btn btn-primary" id="expr-check">Check</button></div>`;
+        document.getElementById('expr-card').innerHTML=h;
+        document.getElementById('expr-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('expr-next').classList.remove('show');
+        resetHint('expr-hint','expr-hint-btn');
+        document.getElementById('expr-workout').innerHTML='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('expr-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();EXPR.check();}});}document.getElementById('expr-check')?.addEventListener('click',()=>EXPR.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('expr-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('expr-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('expr-score').textContent=`${this.score} / ${this.total}`; document.getElementById('expr-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('expr-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('expr-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('expr-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('expr-fb-expl').innerHTML=html; document.getElementById('expr-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
+   LINEAR EQUATIONS TRAINER
+   ================================================================ */
+const LINEAR = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    // Easy: One-step (x + a = b)
+    qOneStepAdd() {
+        const x=randInt(-10,10), a=randInt(1,10), b=x+a;
+        return { type:'free', rule:'One-step', difficulty:'easy', text:'Solve for x:',
+            latex:`x + ${a} = ${b}`, answer:x, answerTex:`x = ${x}`,
+            hintTex:['Subtract '+a+' from both sides.',`x = ${b} - ${a}`],
+            explain:`\\(x + ${a} = ${b}\\) so \\(x = ${b} - ${a} = ${x}\\)` };
+    },
+
+    // Easy: One-step (ax = b)
+    qOneStepMult() {
+        const x=randInt(1,10), a=randInt(2,6), b=a*x;
+        return { type:'free', rule:'One-step', difficulty:'easy', text:'Solve for x:',
+            latex:`${a}x = ${b}`, answer:x, answerTex:`x = ${x}`,
+            hintTex:['Divide both sides by '+a+'.',`x = ${b} \\div ${a}`],
+            explain:`\\(${a}x = ${b}\\) so \\(x = ${b} \\div ${a} = ${x}\\)` };
+    },
+
+    // Easy: One-step (x - a = b)
+    qOneStepSub() {
+        const x=randInt(1,15), a=randInt(1,10), b=x-a;
+        return { type:'free', rule:'One-step', difficulty:'easy', text:'Solve for x:',
+            latex:`x - ${a} = ${b}`, answer:x, answerTex:`x = ${x}`,
+            hintTex:['Add '+a+' to both sides.',`x = ${b} + ${a}`],
+            explain:`\\(x - ${a} = ${b}\\) so \\(x = ${b} + ${a} = ${x}\\)` };
+    },
+
+    // Medium: Two-step (ax + b = c)
+    qTwoStep() {
+        const x=randInt(1,10), a=randInt(2,5), b=randInt(1,10), c=a*x+b;
+        return { type:'free', rule:'Two-step', difficulty:'medium', text:'Solve for x:',
+            latex:`${a}x + ${b} = ${c}`, answer:x, answerTex:`x = ${x}`,
+            hintTex:['First subtract '+b+' from both sides.',`${a}x = ${c-b}. Now divide by ${a}.`],
+            explain:`\\(${a}x + ${b} = ${c}\\). Subtract ${b}: \\(${a}x = ${c-b}\\). Divide by ${a}: \\(x = ${x}\\)` };
+    },
+
+    // Medium: x on both sides (ax + b = cx + d)
+    qBothSides() {
+        const x=randInt(1,8), a=randInt(3,6), c=randInt(1,a-1), b=randInt(1,10), d=a*x+b-c*x;
+        return { type:'free', rule:'Both sides', difficulty:'medium', text:'Solve for x:',
+            latex:`${a}x + ${b} = ${c}x + ${d}`, answer:x, answerTex:`x = ${x}`,
+            hintTex:['Get all x terms on one side.',`${a}x - ${c}x = ${d} - ${b}`,`${a-c}x = ${d-b}`],
+            explain:`\\(${a}x - ${c}x = ${d} - ${b}\\), so \\(${a-c}x = ${d-b}\\), hence \\(x = ${x}\\)` };
+    },
+
+    // Medium: Fraction (x/a = b)
+    qFraction() {
+        const x=randInt(2,10)*randInt(2,5), a=randInt(2,5), b=x/a;
+        if(!Number.isInteger(b)) return LINEAR.qFraction();
+        return { type:'free', rule:'Fractions', difficulty:'medium', text:'Solve for x:',
+            latex:`\\frac{x}{${a}} = ${b}`, answer:x, answerTex:`x = ${x}`,
+            hintTex:['Multiply both sides by '+a+'.',`x = ${b} \\times ${a}`],
+            explain:`\\(\\frac{x}{${a}} = ${b}\\) so \\(x = ${b} \\times ${a} = ${x}\\)` };
+    },
+
+    // Hard: Brackets a(x + b) = c
+    qBrackets() {
+        const x=randInt(1,8), a=randInt(2,5), b=randInt(1,6), c=a*(x+b);
+        return { type:'free', rule:'Brackets', difficulty:'hard', text:'Solve for x:',
+            latex:`${a}(x + ${b}) = ${c}`, answer:x, answerTex:`x = ${x}`,
+            hintTex:['Expand the bracket first, or divide both sides by '+a+'.',`x + ${b} = ${c/a}`,`x = ${c/a} - ${b}`],
+            explain:`\\(${a}(x + ${b}) = ${c}\\). Divide by ${a}: \\(x + ${b} = ${c/a}\\). So \\(x = ${x}\\)` };
+    },
+
+    // Hard: Brackets on both sides
+    qBracketsBoth() {
+        const x=randInt(1,6), a=randInt(2,4), b=randInt(1,5), c=randInt(2,4), d=randInt(1,5);
+        const lhs = a*(x+b), rhs = c*(x+d);
+        if(a===c) return LINEAR.qBracketsBoth();
+        const diff = lhs - rhs;
+        return { type:'free', rule:'Brackets', difficulty:'hard', text:'Solve for x:',
+            latex:`${a}(x + ${b}) = ${c}(x + ${d}) + ${diff}`, answer:x, answerTex:`x = ${x}`,
+            hintTex:['Expand both brackets.',`${a}x + ${a*b} = ${c}x + ${c*d} + ${diff}`,`Collect x terms: ${a-c}x = ${c*d + diff - a*b}`],
+            explain:`Expand: \\(${a}x + ${a*b} = ${c}x + ${c*d + diff}\\). Solve: \\(x = ${x}\\)` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qOneStepAdd,this.qOneStepMult,this.qOneStepSub], medium:[this.qTwoStep,this.qBothSides,this.qFraction], hard:[this.qBrackets,this.qBracketsBoth] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('linear-score').textContent='0 / 0'; document.getElementById('linear-pct').textContent='\u2014'; document.getElementById('linear-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="linear-mf" placeholder="?"></math-field><button class="btn btn-primary" id="linear-check">Check</button></div>`;
+        document.getElementById('linear-card').innerHTML=h;
+        document.getElementById('linear-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('linear-next').classList.remove('show');
+        resetHint('linear-hint','linear-hint-btn');
+        document.getElementById('linear-workout').innerHTML='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('linear-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();LINEAR.check();}});}document.getElementById('linear-check')?.addEventListener('click',()=>LINEAR.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('linear-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('linear-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('linear-score').textContent=`${this.score} / ${this.total}`; document.getElementById('linear-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('linear-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('linear-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('linear-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('linear-fb-expl').innerHTML=html; document.getElementById('linear-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
+   SEQUENCES TRAINER
+   ================================================================ */
+const SEQ = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    // Easy: Find next term (arithmetic)
+    qArithNext() {
+        const a=randInt(1,10), d=randInt(1,6);
+        const seq = [a, a+d, a+2*d, a+3*d];
+        const ans = a+4*d;
+        return { type:'free', rule:'Arithmetic', difficulty:'easy', text:'Find the next term:',
+            latex:seq.join(', ') + ', \\ldots', answer:ans, answerTex:String(ans),
+            hintTex:['Find the common difference between terms.',`d = ${seq[1]} - ${seq[0]} = ${d}`],
+            explain:`Common difference = ${d}. Next term = ${seq[3]} + ${d} = ${ans}` };
+    },
+
+    // Easy: Find common difference
+    qArithDiff() {
+        const a=randInt(1,10), d=randInt(2,8);
+        const seq = [a, a+d, a+2*d, a+3*d];
+        return { type:'free', rule:'Arithmetic', difficulty:'easy', text:'Find the common difference:',
+            latex:seq.join(', ') + ', \\ldots', answer:d, answerTex:`d = ${d}`,
+            hintTex:['Subtract the first term from the second.',`d = ${seq[1]} - ${seq[0]}`],
+            explain:`d = ${seq[1]} - ${seq[0]} = ${d}` };
+    },
+
+    // Medium: Find nth term formula coefficient
+    qArithNth() {
+        const a=randInt(1,10), d=randInt(2,6);
+        const seq = [a, a+d, a+2*d];
+        return { type:'free', rule:'Arithmetic', difficulty:'medium', text:'Find the nth term. Give the coefficient of n:',
+            latex:seq.join(', ') + ', \\ldots', answer:d, answerTex:`${d}n + ${a-d}`,
+            hintTex:['The nth term is an + b where a = common difference.',`a_n = ${d}n + (${a} - ${d})`],
+            explain:`d = ${d}, first term = ${a}. Formula: \\(a_n = ${d}n + ${a-d}\\)` };
+    },
+
+    // Medium: Find a specific term
+    qArithTerm() {
+        const a=randInt(1,10), d=randInt(2,5), n=randInt(5,10);
+        const ans = a + (n-1)*d;
+        const seq = [a, a+d, a+2*d];
+        return { type:'free', rule:'Arithmetic', difficulty:'medium', text:`Find the ${n}th term:`,
+            latex:seq.join(', ') + ', \\ldots', answer:ans, answerTex:`a_{${n}} = ${ans}`,
+            hintTex:[`a_n = a + (n-1)d where a=${a}, d=${d}`,`a_{${n}} = ${a} + ${n-1} \\times ${d}`],
+            explain:`\\(a_{${n}} = ${a} + (${n}-1) \\times ${d} = ${a} + ${(n-1)*d} = ${ans}\\)` };
+    },
+
+    // Medium: Geometric next term
+    qGeomNext() {
+        const a=randInt(1,4), r=randInt(2,4);
+        const seq = [a, a*r, a*r*r];
+        const ans = a*r*r*r;
+        return { type:'free', rule:'Geometric', difficulty:'medium', text:'Find the next term:',
+            latex:seq.join(', ') + ', \\ldots', answer:ans, answerTex:String(ans),
+            hintTex:['Find the common ratio by dividing consecutive terms.',`r = ${seq[1]} \\div ${seq[0]} = ${r}`],
+            explain:`Common ratio = ${r}. Next term = ${seq[2]} \\times ${r} = ${ans}` };
+    },
+
+    // Hard: Find common ratio
+    qGeomRatio() {
+        const a=randInt(2,5), r=randInt(2,4);
+        const seq = [a, a*r, a*r*r, a*r*r*r];
+        return { type:'free', rule:'Geometric', difficulty:'hard', text:'Find the common ratio:',
+            latex:seq.join(', ') + ', \\ldots', answer:r, answerTex:`r = ${r}`,
+            hintTex:['Divide the second term by the first.',`r = ${seq[1]} \\div ${seq[0]}`],
+            explain:`r = ${seq[1]} \\div ${seq[0]} = ${r}` };
+    },
+
+    // Hard: Find specific geometric term
+    qGeomTerm() {
+        const a=randInt(1,3), r=randInt(2,3), n=randInt(4,6);
+        const ans = a * Math.pow(r, n-1);
+        const seq = [a, a*r, a*r*r];
+        return { type:'free', rule:'Geometric', difficulty:'hard', text:`Find the ${n}th term:`,
+            latex:seq.join(', ') + ', \\ldots', answer:ans, answerTex:`a_{${n}} = ${ans}`,
+            hintTex:[`a_n = a \\times r^{n-1} where a=${a}, r=${r}`,`a_{${n}} = ${a} \\times ${r}^{${n-1}}`],
+            explain:`\\(a_{${n}} = ${a} \\times ${r}^{${n-1}} = ${a} \\times ${Math.pow(r,n-1)} = ${ans}\\)` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qArithNext,this.qArithDiff], medium:[this.qArithNth,this.qArithTerm,this.qGeomNext], hard:[this.qGeomRatio,this.qGeomTerm] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('seq-score').textContent='0 / 0'; document.getElementById('seq-pct').textContent='\u2014'; document.getElementById('seq-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="seq-mf" placeholder="?"></math-field><button class="btn btn-primary" id="seq-check">Check</button></div>`;
+        document.getElementById('seq-card').innerHTML=h;
+        document.getElementById('seq-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('seq-next').classList.remove('show');
+        resetHint('seq-hint','seq-hint-btn');
+        document.getElementById('seq-workout').innerHTML='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('seq-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();SEQ.check();}});}document.getElementById('seq-check')?.addEventListener('click',()=>SEQ.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('seq-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('seq-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('seq-score').textContent=`${this.score} / ${this.total}`; document.getElementById('seq-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('seq-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('seq-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('seq-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('seq-fb-expl').innerHTML=html; document.getElementById('seq-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
+   INEQUALITIES TRAINER
+   ================================================================ */
+const INEQ = {
+    score:0, total:0, streak:0, currentQ:null, answered:false, hintIdx:0, level:'all',
+
+    // Easy: One-step x + a > b
+    qOneStepAdd() {
+        const x=randInt(1,10), a=randInt(1,10), b=x+a-randInt(1,5);
+        const ans = b-a;
+        const op = pick(['>', '<', '\\geq', '\\leq']);
+        return { type:'free', rule:'One-step', difficulty:'easy', text:`Solve for x. Give the boundary value:`,
+            latex:`x + ${a} ${op} ${b}`, answer:ans, answerTex:`x ${op} ${ans}`,
+            hintTex:['Subtract '+a+' from both sides.',`x ${op} ${b} - ${a}`],
+            explain:`\\(x + ${a} ${op} ${b}\\) so \\(x ${op} ${b} - ${a} = ${ans}\\)` };
+    },
+
+    // Easy: One-step ax > b
+    qOneStepMult() {
+        const x=randInt(2,8), a=randInt(2,5), b=a*x;
+        const op = pick(['>', '<', '\\geq', '\\leq']);
+        return { type:'free', rule:'One-step', difficulty:'easy', text:`Solve for x. Give the boundary value:`,
+            latex:`${a}x ${op} ${b}`, answer:x, answerTex:`x ${op} ${x}`,
+            hintTex:['Divide both sides by '+a+'.',`x ${op} ${b} \\div ${a}`],
+            explain:`\\(${a}x ${op} ${b}\\) so \\(x ${op} ${b} \\div ${a} = ${x}\\)` };
+    },
+
+    // Medium: Two-step ax + b > c
+    qTwoStep() {
+        const x=randInt(1,8), a=randInt(2,5), b=randInt(1,10), c=a*x+b;
+        const op = pick(['>', '<']);
+        return { type:'free', rule:'Two-step', difficulty:'medium', text:`Solve for x. Give the boundary value:`,
+            latex:`${a}x + ${b} ${op} ${c}`, answer:x, answerTex:`x ${op} ${x}`,
+            hintTex:['First subtract '+b+' from both sides.',`${a}x ${op} ${c-b}. Now divide by ${a}.`],
+            explain:`\\(${a}x + ${b} ${op} ${c}\\). Subtract ${b}: \\(${a}x ${op} ${c-b}\\). Divide: \\(x ${op} ${x}\\)` };
+    },
+
+    // Medium: Negative coefficient (flip sign)
+    qNegative() {
+        const x=randInt(1,8), a=randInt(-5,-2), b=a*x;
+        return { type:'free', rule:'Negative', difficulty:'medium', text:`Solve for x. Give the boundary value (inequality flips when dividing by negative):`,
+            latex:`${a}x > ${b}`, answer:x, answerTex:`x < ${x}`,
+            hintTex:['When dividing by a negative, flip the inequality sign!',`x < ${b} \\div (${a})`],
+            explain:`\\(${a}x > ${b}\\). Divide by ${a} and flip: \\(x < ${x}\\)` };
+    },
+
+    // Hard: Double inequality a < x + b < c
+    qDouble() {
+        const x1=randInt(1,5), x2=x1+randInt(2,5), b=randInt(1,5);
+        const a=x1+b, c=x2+b;
+        return { type:'free', rule:'Double', difficulty:'hard', text:`Solve the double inequality. Give the lower bound:`,
+            latex:`${a} < x + ${b} < ${c}`, answer:x1, answerTex:`${x1} < x < ${x2}`,
+            hintTex:['Subtract '+b+' from all three parts.',`${a} - ${b} < x < ${c} - ${b}`],
+            explain:`Subtract ${b}: \\(${a-b} < x < ${c-b}\\), so \\(${x1} < x < ${x2}\\)` };
+    },
+
+    // Hard: Brackets a(x + b) > c
+    qBrackets() {
+        const x=randInt(2,8), a=randInt(2,4), b=randInt(1,5), c=a*(x+b);
+        const op = pick(['>', '<']);
+        return { type:'free', rule:'Brackets', difficulty:'hard', text:`Solve for x. Give the boundary value:`,
+            latex:`${a}(x + ${b}) ${op} ${c}`, answer:x, answerTex:`x ${op} ${x}`,
+            hintTex:['Expand or divide both sides by '+a+' first.',`x + ${b} ${op} ${c/a}`,`x ${op} ${c/a} - ${b}`],
+            explain:`\\(${a}(x + ${b}) ${op} ${c}\\). Divide by ${a}: \\(x + ${b} ${op} ${c/a}\\). So \\(x ${op} ${x}\\)` };
+    },
+
+    pools:null, allPool:null,
+    init() {
+        this.pools = { easy:[this.qOneStepAdd,this.qOneStepMult], medium:[this.qTwoStep,this.qNegative], hard:[this.qDouble,this.qBrackets] };
+        this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+    },
+    next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('ineq-score').textContent='0 / 0'; document.getElementById('ineq-pct').textContent='\u2014'; document.getElementById('ineq-streak').textContent='0'; },
+    load() {
+        this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
+        const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
+        let h=`<div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div><div class="rule-tag">${q.rule}</div><div class="question-text">${q.text}</div><div class="question-prompt">\\(${q.latex}\\)</div>`;
+        h+=`<div class="input-area"><math-field class="lr-math-field" id="ineq-mf" placeholder="?"></math-field><button class="btn btn-primary" id="ineq-check">Check</button></div>`;
+        document.getElementById('ineq-card').innerHTML=h;
+        document.getElementById('ineq-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('ineq-next').classList.remove('show');
+        resetHint('ineq-hint','ineq-hint-btn');
+        document.getElementById('ineq-workout').innerHTML='';
+        renderMath();
+        setTimeout(()=>{const mf=document.getElementById('ineq-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();INEQ.check();}});}document.getElementById('ineq-check')?.addEventListener('click',()=>INEQ.check());},200);
+    },
+    check() {
+        if(this.answered)return; const mf=document.getElementById('ineq-mf'); if(!mf||!mf.value.trim())return;
+        this.answered=true; const ans=parseLatex(mf.value), ok=Math.abs(ans-this.currentQ.answer)<0.01;
+        mf.disabled=true; document.getElementById('ineq-check').disabled=true;
+        this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
+        this.showFb(ok,ex);
+    },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('ineq-score').textContent=`${this.score} / ${this.total}`; document.getElementById('ineq-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('ineq-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    showFb(ok,html) { const fb=document.getElementById('ineq-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('ineq-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('ineq-fb-expl').innerHTML=html; document.getElementById('ineq-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+};
+
+/* ================================================================
    INIT
    ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
     LR.init(); SE.init(); QA.init();
     FDP.init(); HCFLCM.init(); IDX.init(); SF.init(); SURD.init(); RATIO.init();
+    EXPR.init(); LINEAR.init(); SEQ.init(); INEQ.init();
 
     // Topic cards (hub + folder)
     document.querySelectorAll('.topic-card').forEach(card => {
@@ -2386,6 +2964,11 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'num-stdform') { showView('num-stdform'); SF.load(); }
             else if (topic === 'num-surds') { showView('num-surds'); SURD.load(); }
             else if (topic === 'num-ratio') { showView('num-ratio'); RATIO.load(); }
+            else if (topic === 'algebra') { showView('algebra'); }
+            else if (topic === 'alg-expr') { showView('alg-expr'); EXPR.load(); }
+            else if (topic === 'alg-linear') { showView('alg-linear'); LINEAR.load(); }
+            else if (topic === 'alg-seq') { showView('alg-seq'); SEQ.load(); }
+            else if (topic === 'alg-ineq') { showView('alg-ineq'); INEQ.load(); }
         });
     });
 
@@ -2628,6 +3211,103 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:direct-inverse-variation/x2f8bb11595b61c86:direct-variation/v/direct-variation-1" target="_blank">Direct Variation</a>
         </div>`;
 
+    // ==================== ALGEBRA FOLDER TRAINERS ====================
+
+    // EXPR (Algebraic Expressions)
+    document.getElementById('expr-hint-btn').addEventListener('click', () => handleHint(EXPR, 'expr-hint', 'expr-hint-btn'));
+    document.getElementById('expr-next').addEventListener('click', () => EXPR.load());
+    document.querySelectorAll('#expr-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#expr-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            EXPR.level = btn.dataset.level;
+            EXPR.resetScore();
+            EXPR.load();
+        });
+    });
+    document.getElementById('expr-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Collecting Like Terms</span>Add or subtract terms with the same variable: \\(3x + 5x = 8x\\), \\(2x + 3y\\) cannot be simplified.</div>
+        <div class="rule-item"><span class="rule-name">Expanding Single Brackets</span>Multiply each term inside by the term outside: \\(a(b + c) = ab + ac\\)</div>
+        <div class="rule-item"><span class="rule-name">Expanding Double Brackets (FOIL)</span>\\((x + a)(x + b) = x^2 + (a+b)x + ab\\). First, Outside, Inside, Last.</div>
+        <div class="rule-item"><span class="rule-name">Factorising (Common Factor)</span>Take out the highest common factor: \\(6x + 9 = 3(2x + 3)\\)</div>
+        <div class="rule-item"><span class="rule-name">Factorising Quadratics</span>\\(x^2 + bx + c = (x + p)(x + q)\\) where \\(p + q = b\\) and \\(pq = c\\)</div>
+        <div class="rule-item"><span class="rule-name">Difference of Squares</span>\\(a^2 - b^2 = (a + b)(a - b)\\)</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:foundation-algebra/x2f8bb11595b61c86:combine-like-terms/v/combining-like-terms" target="_blank">Combining Like Terms</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratics-multiplying-factoring/x2f8bb11595b61c86:multiply-binomial/v/multiplying-binomials" target="_blank">Multiplying Binomials</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratics-multiplying-factoring/x2f8bb11595b61c86:factor-quadratics-intro/v/factoring-quadratic-expressions" target="_blank">Factoring Quadratics</a>
+        </div>`;
+
+    // LINEAR (Linear Equations)
+    document.getElementById('linear-hint-btn').addEventListener('click', () => handleHint(LINEAR, 'linear-hint', 'linear-hint-btn'));
+    document.getElementById('linear-next').addEventListener('click', () => LINEAR.load());
+    document.querySelectorAll('#linear-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#linear-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            LINEAR.level = btn.dataset.level;
+            LINEAR.resetScore();
+            LINEAR.load();
+        });
+    });
+    document.getElementById('linear-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">One-Step Equations</span>Perform the inverse operation. E.g., \\(x + 5 = 12 \\Rightarrow x = 12 - 5 = 7\\)</div>
+        <div class="rule-item"><span class="rule-name">Two-Step Equations</span>Deal with addition/subtraction first, then multiplication/division. E.g., \\(3x + 2 = 11\\)</div>
+        <div class="rule-item"><span class="rule-name">Variables on Both Sides</span>Collect variable terms on one side, constants on the other: \\(5x + 3 = 2x + 12\\)</div>
+        <div class="rule-item"><span class="rule-name">Equations with Brackets</span>Expand brackets first, or divide both sides by the coefficient: \\(2(x + 3) = 10\\)</div>
+        <div class="rule-item"><span class="rule-name">Equations with Fractions</span>Multiply both sides by the denominator: \\(\\frac{x}{4} = 5 \\Rightarrow x = 20\\)</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:solve-equations-inequalities/x2f8bb11595b61c86:one-step-add-sub-equations/v/one-step-addition-equation" target="_blank">One-Step Equations</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:solve-equations-inequalities/x2f8bb11595b61c86:linear-equations-2-steps/v/solving-two-step-equations" target="_blank">Two-Step Equations</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:solve-equations-inequalities/x2f8bb11595b61c86:linear-equations-variables-both-sides/v/solving-linear-equations-variables-on-both-sides" target="_blank">Variables on Both Sides</a>
+        </div>`;
+
+    // SEQ (Sequences)
+    document.getElementById('seq-hint-btn').addEventListener('click', () => handleHint(SEQ, 'seq-hint', 'seq-hint-btn'));
+    document.getElementById('seq-next').addEventListener('click', () => SEQ.load());
+    document.querySelectorAll('#seq-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#seq-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            SEQ.level = btn.dataset.level;
+            SEQ.resetScore();
+            SEQ.load();
+        });
+    });
+    document.getElementById('seq-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Arithmetic Sequence</span>Add a constant (common difference \\(d\\)) each time: \\(2, 5, 8, 11, \\ldots\\) has \\(d = 3\\)</div>
+        <div class="rule-item"><span class="rule-name">Arithmetic nth Term</span>\\(a_n = a + (n-1)d\\) where \\(a\\) = first term, \\(d\\) = common difference</div>
+        <div class="rule-item"><span class="rule-name">Geometric Sequence</span>Multiply by a constant (common ratio \\(r\\)) each time: \\(2, 6, 18, 54, \\ldots\\) has \\(r = 3\\)</div>
+        <div class="rule-item"><span class="rule-name">Geometric nth Term</span>\\(a_n = a \\cdot r^{n-1}\\) where \\(a\\) = first term, \\(r\\) = common ratio</div>
+        <div class="rule-item"><span class="rule-name">Finding \\(d\\) or \\(r\\)</span>\\(d = a_2 - a_1\\) for arithmetic. \\(r = a_2 \\div a_1\\) for geometric.</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:sequences/x2f8bb11595b61c86:introduction-to-arithmetic-sequences/v/arithmetic-sequences" target="_blank">Arithmetic Sequences</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:sequences/x2f8bb11595b61c86:introduction-to-geometric-sequences/v/geometric-sequences-introduction" target="_blank">Geometric Sequences</a>
+        </div>`;
+
+    // INEQ (Inequalities)
+    document.getElementById('ineq-hint-btn').addEventListener('click', () => handleHint(INEQ, 'ineq-hint', 'ineq-hint-btn'));
+    document.getElementById('ineq-next').addEventListener('click', () => INEQ.load());
+    document.querySelectorAll('#ineq-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#ineq-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            INEQ.level = btn.dataset.level;
+            INEQ.resetScore();
+            INEQ.load();
+        });
+    });
+    document.getElementById('ineq-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Inequality Symbols</span>\\(>\\) greater than, \\(<\\) less than, \\(\\geq\\) greater or equal, \\(\\leq\\) less or equal</div>
+        <div class="rule-item"><span class="rule-name">Solving Inequalities</span>Same as equations, but flip the sign when multiplying/dividing by a negative!</div>
+        <div class="rule-item"><span class="rule-name">Negative Multiplication</span>\\(-2x > 6 \\Rightarrow x < -3\\) (sign flips)</div>
+        <div class="rule-item"><span class="rule-name">Double Inequalities</span>\\(a < x + b < c\\) means do the same operation to all three parts.</div>
+        <div class="rule-item"><span class="rule-name">Number Line</span>Open circle \\(\\circ\\) for \\(<\\) or \\(>\\). Filled circle \\(\\bullet\\) for \\(\\leq\\) or \\(\\geq\\).</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:solve-equations-inequalities/x2f8bb11595b61c86:one-step-inequalities/v/one-step-inequalities" target="_blank">One-Step Inequalities</a>
+            <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:solve-equations-inequalities/x2f8bb11595b61c86:two-step-inequalities/v/two-step-inequalities" target="_blank">Two-Step Inequalities</a>
+        </div>`;
+
     // Calculator setup with Desmos Graphing Calculator API (supports getExpressions)
     window.desmosCalc = null;
     document.getElementById('calc-btn').addEventListener('click', () => {
@@ -2684,6 +3364,14 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); SURD.load();
         } else if (document.getElementById('view-num-ratio').classList.contains('active') && RATIO.answered) {
             e.preventDefault(); RATIO.load();
+        } else if (document.getElementById('view-alg-expr').classList.contains('active') && EXPR.answered) {
+            e.preventDefault(); EXPR.load();
+        } else if (document.getElementById('view-alg-linear').classList.contains('active') && LINEAR.answered) {
+            e.preventDefault(); LINEAR.load();
+        } else if (document.getElementById('view-alg-seq').classList.contains('active') && SEQ.answered) {
+            e.preventDefault(); SEQ.load();
+        } else if (document.getElementById('view-alg-ineq').classList.contains('active') && INEQ.answered) {
+            e.preventDefault(); INEQ.load();
         }
     });
     // Track when answers are submitted
