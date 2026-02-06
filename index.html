@@ -68,6 +68,7 @@
         .topic-tag.num { background: #fdebd0; color: #b9770e; }
         .topic-tag.alg { background: #d6eaf8; color: #2471a3; }
         .topic-tag.func { background: #fdebd0; color: #b9770e; }
+        .topic-tag.crit-b { background: #f5eef8; color: #7d3c98; }
 
         /* ---- Shared trainer styles ---- */
         header { text-align: center; margin-bottom: 24px; }
@@ -351,7 +352,7 @@
     <div class="hub-header">
         <h1>MYP Extended Maths Trainer</h1>
         <p>Pick a topic to practise</p>
-        <div class="last-updated">Last updated: 6 Feb 2026, 3:05 PM</div>
+        <div class="last-updated">Last updated: 6 Feb 2026, 3:15 PM</div>
     </div>
     <div class="topic-grid">
         <div class="topic-card" data-topic="logarithms">
@@ -378,6 +379,11 @@
             <h2>Functions & Graphs</h2>
             <p>Linear functions, quadratics, and graph transformations.</p>
             <span class="topic-tag func">3 activities</span>
+        </div>
+        <div class="topic-card" data-topic="criterion-b">
+            <h2>Criterion B: Investigations</h2>
+            <p>Guided pattern investigations for MYP assessment.</p>
+            <span class="topic-tag crit-b">3 activities</span>
         </div>
     </div>
 </div>
@@ -999,6 +1005,86 @@
     <div class="feedback" id="trans-fb"><div class="feedback-title" id="trans-fb-title"></div><div class="feedback-explanation" id="trans-fb-expl"></div></div>
     <button class="btn btn-primary next-btn" id="trans-next">Next Question</button>
     <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="trans-ref"></div></details>
+</div>
+
+<!-- ==================== CRITERION B FOLDER VIEW ==================== -->
+<div id="view-criterion-b" class="view">
+    <button class="back-btn" data-back="hub">All Topics</button>
+    <header>
+        <h1>Criterion B: Investigations</h1>
+        <p>Guided pattern investigations</p>
+    </header>
+    <div class="topic-grid">
+        <div class="topic-card" data-topic="crit-matchstick">
+            <h2>Matchstick Patterns</h2>
+            <p>Investigate patterns in geometric shapes made from matchsticks.</p>
+        </div>
+        <div class="topic-card" data-topic="crit-number">
+            <h2>Number Sums</h2>
+            <p>Discover patterns in sums of consecutive numbers.</p>
+        </div>
+        <div class="topic-card" data-topic="crit-dots">
+            <h2>Dot Patterns</h2>
+            <p>Explore triangular, square, and other figurate numbers.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MATCHSTICK PATTERNS INVESTIGATION ==================== -->
+<div id="view-crit-matchstick" class="view">
+    <button class="back-btn" data-back="criterion-b">Criterion B</button>
+    <header>
+        <h1>Matchstick Patterns</h1>
+        <p>Investigation</p>
+    </header>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Progress</div><div class="value primary" id="match-progress">0 / 6</div></div>
+        <div class="score-item"><div class="label">Correct</div><div class="value success" id="match-correct">0</div></div>
+    </div>
+    <div class="question-card" id="match-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('match-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="match-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="match-hint-btn">Hint</button></div>
+    <div class="hint-box" id="match-hint"></div>
+    <div class="feedback" id="match-fb"><div class="feedback-title" id="match-fb-title"></div><div class="feedback-explanation" id="match-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="match-next">Next Question</button>
+</div>
+
+<!-- ==================== NUMBER SUMS INVESTIGATION ==================== -->
+<div id="view-crit-number" class="view">
+    <button class="back-btn" data-back="criterion-b">Criterion B</button>
+    <header>
+        <h1>Number Sums</h1>
+        <p>Investigation</p>
+    </header>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Progress</div><div class="value primary" id="numsum-progress">0 / 6</div></div>
+        <div class="score-item"><div class="label">Correct</div><div class="value success" id="numsum-correct">0</div></div>
+    </div>
+    <div class="question-card" id="numsum-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('numsum-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="numsum-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="numsum-hint-btn">Hint</button></div>
+    <div class="hint-box" id="numsum-hint"></div>
+    <div class="feedback" id="numsum-fb"><div class="feedback-title" id="numsum-fb-title"></div><div class="feedback-explanation" id="numsum-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="numsum-next">Next Question</button>
+</div>
+
+<!-- ==================== DOT PATTERNS INVESTIGATION ==================== -->
+<div id="view-crit-dots" class="view">
+    <button class="back-btn" data-back="criterion-b">Criterion B</button>
+    <header>
+        <h1>Dot Patterns</h1>
+        <p>Investigation</p>
+    </header>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Progress</div><div class="value primary" id="dots-progress">0 / 6</div></div>
+        <div class="score-item"><div class="label">Correct</div><div class="value success" id="dots-correct">0</div></div>
+    </div>
+    <div class="question-card" id="dots-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('dots-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="dots-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="dots-hint-btn">Hint</button></div>
+    <div class="hint-box" id="dots-hint"></div>
+    <div class="feedback" id="dots-fb"><div class="feedback-title" id="dots-fb-title"></div><div class="feedback-explanation" id="dots-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="dots-next">Next Question</button>
 </div>
 
 <!-- Calculator -->
@@ -3548,6 +3634,191 @@ const TRANS = {
 };
 
 /* ================================================================
+   MATCHSTICK PATTERNS INVESTIGATION
+   ================================================================ */
+const MATCH = {
+    step: 0, correct: 0,
+    questions: [
+        { text: 'A row of triangles is made from matchsticks. 1 triangle uses 3 matchsticks. 2 triangles (sharing a side) use 5 matchsticks. How many matchsticks for 3 triangles?',
+          svg: `<svg width="300" height="80" style="display:block;margin:16px auto"><polygon points="30,60 60,10 90,60" fill="none" stroke="#333" stroke-width="2"/><polygon points="90,60 120,10 150,60" fill="none" stroke="#333" stroke-width="2"/><text x="60" y="75" text-anchor="middle" font-size="12">n=1: 3</text><text x="120" y="75" text-anchor="middle" font-size="12">n=2: 5</text></svg>`,
+          answer: 7, hint: 'Each new triangle adds 2 matchsticks (shares one side).' },
+        { text: 'How many matchsticks for 4 triangles?', answer: 9, hint: 'Continue the pattern: 3, 5, 7, ...' },
+        { text: 'How many matchsticks for 5 triangles?', answer: 11, hint: 'What is being added each time?' },
+        { text: 'What is the common difference in this sequence?', answer: 2, hint: 'How many matchsticks are added for each new triangle?' },
+        { text: 'The formula is M = an + b. What is the value of a (the coefficient of n)?', answer: 2, hint: 'The coefficient equals the common difference.' },
+        { text: 'Using M = 2n + b, find b by substituting n=1, M=3.', answer: 1, hint: '3 = 2(1) + b, so b = ?' },
+    ],
+    reset() { this.step = 0; this.correct = 0; },
+    load() {
+        if (this.step >= this.questions.length) {
+            document.getElementById('match-card').innerHTML = `<div class="question-text" style="text-align:center;padding:32px 16px;"><h2 style="color:var(--success);margin-bottom:16px;">Investigation Complete!</h2><p>You got <strong>${this.correct}</strong> out of <strong>${this.questions.length}</strong> correct.</p><p style="margin-top:16px;">The general formula is: <strong>M = 2n + 1</strong></p><p style="margin-top:8px;color:var(--text-light);">This can be verified: when n=1, M=3 ✓ when n=10, M=21 ✓</p><button class="btn btn-primary" style="margin-top:24px;" onclick="MATCH.reset();MATCH.load();">Start Again</button></div>`;
+            document.getElementById('match-fb').classList.remove('show');
+            document.getElementById('match-next').classList.remove('show');
+            renderMath(); return;
+        }
+        const q = this.questions[this.step];
+        let h = `<div class="question-text" style="margin-bottom:16px;"><span class="rule-tag">Step ${this.step + 1}/${this.questions.length}</span></div>`;
+        h += `<div class="question-text">${q.text}</div>`;
+        if (q.svg) h += q.svg;
+        h += `<div class="input-area"><math-field class="lr-math-field" id="match-mf" placeholder="?"></math-field><button class="btn btn-primary" id="match-check">Check</button></div>`;
+        document.getElementById('match-card').innerHTML = h;
+        document.getElementById('match-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('match-next').classList.remove('show');
+        document.getElementById('match-progress').textContent = `${this.step} / ${this.questions.length}`;
+        document.getElementById('match-correct').textContent = this.correct;
+        resetHint('match-hint', 'match-hint-btn');
+        document.getElementById('match-workout').innerHTML = '';
+        renderMath();
+        setTimeout(() => {
+            const mf = document.getElementById('match-mf');
+            if (mf) { mf.focus(); mf.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();MATCH.check();} }); }
+            document.getElementById('match-check')?.addEventListener('click', () => MATCH.check());
+        }, 200);
+    },
+    check() {
+        const mf = document.getElementById('match-mf'); if (!mf || !mf.value.trim()) return;
+        const q = this.questions[this.step];
+        const ans = parseLatex(mf.value), ok = Math.abs(ans - q.answer) < 0.01;
+        mf.disabled = true; document.getElementById('match-check').disabled = true;
+        if (ok) this.correct++;
+        const fb = document.getElementById('match-fb');
+        fb.classList.remove('correct','incorrect');
+        fb.classList.add('show', ok ? 'correct' : 'incorrect');
+        document.getElementById('match-fb-title').textContent = ok ? 'Correct!' : 'Not quite...';
+        document.getElementById('match-fb-expl').innerHTML = ok ? 'Well done!' : `The answer is ${q.answer}.`;
+        document.getElementById('match-next').classList.add('show');
+        document.getElementById('match-progress').textContent = `${this.step + 1} / ${this.questions.length}`;
+        document.getElementById('match-correct').textContent = this.correct;
+        this.step++;
+        if (window.markAnswered) window.markAnswered();
+    },
+    getHint() { return this.questions[this.step]?.hint || 'Think about the pattern.'; }
+};
+
+/* ================================================================
+   NUMBER SUMS INVESTIGATION
+   ================================================================ */
+const NUMSUM = {
+    step: 0, correct: 0,
+    questions: [
+        { text: 'Find the sum: 1 + 2 + 3 = ?', answer: 6, hint: 'Add them up!' },
+        { text: 'Find the sum: 1 + 2 + 3 + 4 = ?', answer: 10, hint: 'Continue adding.' },
+        { text: 'Find the sum: 1 + 2 + 3 + 4 + 5 = ?', answer: 15, hint: 'What is the pattern in the sums: 6, 10, ...?' },
+        { text: 'The sums form a sequence: 1, 3, 6, 10, 15, ... These are triangular numbers. What is the 6th triangular number (sum of 1 to 6)?', answer: 21, hint: 'The differences are 2, 3, 4, 5, ... so add 6 to 15.' },
+        { text: 'There is a formula: Sum = n(n+1)/2. Using this, find the sum of 1 to 10.', answer: 55, hint: 'Substitute n = 10: 10 × 11 / 2 = ?' },
+        { text: 'Using the formula, find the sum of the first 100 natural numbers.', answer: 5050, hint: '100 × 101 / 2 = ?' },
+    ],
+    reset() { this.step = 0; this.correct = 0; },
+    load() {
+        if (this.step >= this.questions.length) {
+            document.getElementById('numsum-card').innerHTML = `<div class="question-text" style="text-align:center;padding:32px 16px;"><h2 style="color:var(--success);margin-bottom:16px;">Investigation Complete!</h2><p>You got <strong>${this.correct}</strong> out of <strong>${this.questions.length}</strong> correct.</p><p style="margin-top:16px;">The general formula is: <strong>S = n(n+1)/2</strong></p><p style="margin-top:8px;color:var(--text-light);">This is attributed to Gauss, who allegedly discovered it as a child!</p><button class="btn btn-primary" style="margin-top:24px;" onclick="NUMSUM.reset();NUMSUM.load();">Start Again</button></div>`;
+            document.getElementById('numsum-fb').classList.remove('show');
+            document.getElementById('numsum-next').classList.remove('show');
+            renderMath(); return;
+        }
+        const q = this.questions[this.step];
+        let h = `<div class="question-text" style="margin-bottom:16px;"><span class="rule-tag">Step ${this.step + 1}/${this.questions.length}</span></div>`;
+        h += `<div class="question-text">${q.text}</div>`;
+        h += `<div class="input-area"><math-field class="lr-math-field" id="numsum-mf" placeholder="?"></math-field><button class="btn btn-primary" id="numsum-check">Check</button></div>`;
+        document.getElementById('numsum-card').innerHTML = h;
+        document.getElementById('numsum-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('numsum-next').classList.remove('show');
+        document.getElementById('numsum-progress').textContent = `${this.step} / ${this.questions.length}`;
+        document.getElementById('numsum-correct').textContent = this.correct;
+        resetHint('numsum-hint', 'numsum-hint-btn');
+        document.getElementById('numsum-workout').innerHTML = '';
+        renderMath();
+        setTimeout(() => {
+            const mf = document.getElementById('numsum-mf');
+            if (mf) { mf.focus(); mf.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();NUMSUM.check();} }); }
+            document.getElementById('numsum-check')?.addEventListener('click', () => NUMSUM.check());
+        }, 200);
+    },
+    check() {
+        const mf = document.getElementById('numsum-mf'); if (!mf || !mf.value.trim()) return;
+        const q = this.questions[this.step];
+        const ans = parseLatex(mf.value), ok = Math.abs(ans - q.answer) < 0.01;
+        mf.disabled = true; document.getElementById('numsum-check').disabled = true;
+        if (ok) this.correct++;
+        const fb = document.getElementById('numsum-fb');
+        fb.classList.remove('correct','incorrect');
+        fb.classList.add('show', ok ? 'correct' : 'incorrect');
+        document.getElementById('numsum-fb-title').textContent = ok ? 'Correct!' : 'Not quite...';
+        document.getElementById('numsum-fb-expl').innerHTML = ok ? 'Well done!' : `The answer is ${q.answer}.`;
+        document.getElementById('numsum-next').classList.add('show');
+        document.getElementById('numsum-progress').textContent = `${this.step + 1} / ${this.questions.length}`;
+        document.getElementById('numsum-correct').textContent = this.correct;
+        this.step++;
+        if (window.markAnswered) window.markAnswered();
+    },
+    getHint() { return this.questions[this.step]?.hint || 'Think about the pattern.'; }
+};
+
+/* ================================================================
+   DOT PATTERNS INVESTIGATION
+   ================================================================ */
+const DOTS = {
+    step: 0, correct: 0,
+    questions: [
+        { text: 'Square numbers: 1, 4, 9, 16, ... How many dots in a 5×5 square?',
+          svg: `<svg width="200" height="60" style="display:block;margin:16px auto"><circle cx="20" cy="30" r="5" fill="#333"/><circle cx="60" cy="20" r="4" fill="#333"/><circle cx="75" cy="20" r="4" fill="#333"/><circle cx="60" cy="35" r="4" fill="#333"/><circle cx="75" cy="35" r="4" fill="#333"/><circle cx="110" cy="15" r="3" fill="#333"/><circle cx="125" cy="15" r="3" fill="#333"/><circle cx="140" cy="15" r="3" fill="#333"/><circle cx="110" cy="30" r="3" fill="#333"/><circle cx="125" cy="30" r="3" fill="#333"/><circle cx="140" cy="30" r="3" fill="#333"/><circle cx="110" cy="45" r="3" fill="#333"/><circle cx="125" cy="45" r="3" fill="#333"/><circle cx="140" cy="45" r="3" fill="#333"/><text x="20" y="55" text-anchor="middle" font-size="10">1</text><text x="67" y="55" text-anchor="middle" font-size="10">4</text><text x="125" y="55" text-anchor="middle" font-size="10">9</text></svg>`,
+          answer: 25, hint: '5 × 5 = ?' },
+        { text: 'What is the 10th square number?', answer: 100, hint: '10 × 10 = ?' },
+        { text: 'Triangular numbers: 1, 3, 6, 10, ... What is the 7th triangular number?',
+          svg: `<svg width="220" height="70" style="display:block;margin:16px auto"><circle cx="20" cy="30" r="5" fill="#9b59b6"/><circle cx="55" cy="20" r="4" fill="#9b59b6"/><circle cx="45" cy="35" r="4" fill="#9b59b6"/><circle cx="65" cy="35" r="4" fill="#9b59b6"/><circle cx="110" cy="10" r="3" fill="#9b59b6"/><circle cx="100" cy="25" r="3" fill="#9b59b6"/><circle cx="120" cy="25" r="3" fill="#9b59b6"/><circle cx="90" cy="40" r="3" fill="#9b59b6"/><circle cx="110" cy="40" r="3" fill="#9b59b6"/><circle cx="130" cy="40" r="3" fill="#9b59b6"/><text x="20" y="55" text-anchor="middle" font-size="10">1</text><text x="55" y="55" text-anchor="middle" font-size="10">3</text><text x="110" y="55" text-anchor="middle" font-size="10">6</text></svg>`,
+          answer: 28, hint: '1+2+3+4+5+6+7 = ? or use n(n+1)/2' },
+        { text: 'The difference between consecutive square numbers: 4-1=3, 9-4=5, 16-9=7. What is 25-16?', answer: 9, hint: 'The differences are odd numbers: 3, 5, 7, ...' },
+        { text: 'The differences between square numbers are: 3, 5, 7, 9, ... These are odd numbers! The nth odd number is 2n-1. What is the 10th odd number?', answer: 19, hint: '2(10) - 1 = ?' },
+        { text: 'A formula connects square and triangular numbers: The nth square = sum of first n odd numbers. Verify: 1+3+5+7 = ?', answer: 16, hint: 'This should equal 4² = 16' },
+    ],
+    reset() { this.step = 0; this.correct = 0; },
+    load() {
+        if (this.step >= this.questions.length) {
+            document.getElementById('dots-card').innerHTML = `<div class="question-text" style="text-align:center;padding:32px 16px;"><h2 style="color:var(--success);margin-bottom:16px;">Investigation Complete!</h2><p>You got <strong>${this.correct}</strong> out of <strong>${this.questions.length}</strong> correct.</p><p style="margin-top:16px;">Key formulas discovered:</p><p><strong>Square numbers: n²</strong></p><p><strong>Triangular numbers: n(n+1)/2</strong></p><p style="margin-top:8px;color:var(--text-light);">Square numbers = sum of first n odd numbers!</p><button class="btn btn-primary" style="margin-top:24px;" onclick="DOTS.reset();DOTS.load();">Start Again</button></div>`;
+            document.getElementById('dots-fb').classList.remove('show');
+            document.getElementById('dots-next').classList.remove('show');
+            renderMath(); return;
+        }
+        const q = this.questions[this.step];
+        let h = `<div class="question-text" style="margin-bottom:16px;"><span class="rule-tag">Step ${this.step + 1}/${this.questions.length}</span></div>`;
+        h += `<div class="question-text">${q.text}</div>`;
+        if (q.svg) h += q.svg;
+        h += `<div class="input-area"><math-field class="lr-math-field" id="dots-mf" placeholder="?"></math-field><button class="btn btn-primary" id="dots-check">Check</button></div>`;
+        document.getElementById('dots-card').innerHTML = h;
+        document.getElementById('dots-fb').classList.remove('show','correct','incorrect');
+        document.getElementById('dots-next').classList.remove('show');
+        document.getElementById('dots-progress').textContent = `${this.step} / ${this.questions.length}`;
+        document.getElementById('dots-correct').textContent = this.correct;
+        resetHint('dots-hint', 'dots-hint-btn');
+        document.getElementById('dots-workout').innerHTML = '';
+        renderMath();
+        setTimeout(() => {
+            const mf = document.getElementById('dots-mf');
+            if (mf) { mf.focus(); mf.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();DOTS.check();} }); }
+            document.getElementById('dots-check')?.addEventListener('click', () => DOTS.check());
+        }, 200);
+    },
+    check() {
+        const mf = document.getElementById('dots-mf'); if (!mf || !mf.value.trim()) return;
+        const q = this.questions[this.step];
+        const ans = parseLatex(mf.value), ok = Math.abs(ans - q.answer) < 0.01;
+        mf.disabled = true; document.getElementById('dots-check').disabled = true;
+        if (ok) this.correct++;
+        const fb = document.getElementById('dots-fb');
+        fb.classList.remove('correct','incorrect');
+        fb.classList.add('show', ok ? 'correct' : 'incorrect');
+        document.getElementById('dots-fb-title').textContent = ok ? 'Correct!' : 'Not quite...';
+        document.getElementById('dots-fb-expl').innerHTML = ok ? 'Well done!' : `The answer is ${q.answer}.`;
+        document.getElementById('dots-next').classList.add('show');
+        document.getElementById('dots-progress').textContent = `${this.step + 1} / ${this.questions.length}`;
+        document.getElementById('dots-correct').textContent = this.correct;
+        this.step++;
+        if (window.markAnswered) window.markAnswered();
+    },
+    getHint() { return this.questions[this.step]?.hint || 'Think about the pattern.'; }
+};
+
+/* ================================================================
    INIT
    ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -3581,6 +3852,10 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'func-linear') { showView('func-linear'); LINF.load(); }
             else if (topic === 'func-quadratic') { showView('func-quadratic'); QUADF.load(); }
             else if (topic === 'func-transform') { showView('func-transform'); TRANS.load(); }
+            else if (topic === 'criterion-b') { showView('criterion-b'); }
+            else if (topic === 'crit-matchstick') { showView('crit-matchstick'); MATCH.reset(); MATCH.load(); }
+            else if (topic === 'crit-number') { showView('crit-number'); NUMSUM.reset(); NUMSUM.load(); }
+            else if (topic === 'crit-dots') { showView('crit-dots'); DOTS.reset(); DOTS.load(); }
         });
     });
 
@@ -3994,6 +4269,38 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:transformations/x2ec2f6f830c9fb89:trans-func/v/scaling-functions-intro" target="_blank">Scaling Functions</a>
         </div>`;
 
+    // ==================== CRITERION B INVESTIGATIONS ====================
+
+    // MATCH (Matchstick Patterns)
+    document.getElementById('match-hint-btn').addEventListener('click', () => {
+        const hint = MATCH.getHint();
+        document.getElementById('match-hint').innerHTML = hint;
+        document.getElementById('match-hint').classList.add('show');
+        document.getElementById('match-hint-btn').disabled = true;
+        document.getElementById('match-hint-btn').textContent = 'Hint Shown';
+    });
+    document.getElementById('match-next').addEventListener('click', () => MATCH.load());
+
+    // NUMSUM (Number Sums)
+    document.getElementById('numsum-hint-btn').addEventListener('click', () => {
+        const hint = NUMSUM.getHint();
+        document.getElementById('numsum-hint').innerHTML = hint;
+        document.getElementById('numsum-hint').classList.add('show');
+        document.getElementById('numsum-hint-btn').disabled = true;
+        document.getElementById('numsum-hint-btn').textContent = 'Hint Shown';
+    });
+    document.getElementById('numsum-next').addEventListener('click', () => NUMSUM.load());
+
+    // DOTS (Dot Patterns)
+    document.getElementById('dots-hint-btn').addEventListener('click', () => {
+        const hint = DOTS.getHint();
+        document.getElementById('dots-hint').innerHTML = hint;
+        document.getElementById('dots-hint').classList.add('show');
+        document.getElementById('dots-hint-btn').disabled = true;
+        document.getElementById('dots-hint-btn').textContent = 'Hint Shown';
+    });
+    document.getElementById('dots-next').addEventListener('click', () => DOTS.load());
+
     // Calculator setup with Desmos Graphing Calculator API (supports getExpressions)
     window.desmosCalc = null;
     document.getElementById('calc-btn').addEventListener('click', () => {
@@ -4064,6 +4371,12 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); QUADF.load();
         } else if (document.getElementById('view-func-transform').classList.contains('active') && TRANS.answered) {
             e.preventDefault(); TRANS.load();
+        } else if (document.getElementById('view-crit-matchstick').classList.contains('active') && document.getElementById('match-next').classList.contains('show')) {
+            e.preventDefault(); MATCH.load();
+        } else if (document.getElementById('view-crit-number').classList.contains('active') && document.getElementById('numsum-next').classList.contains('show')) {
+            e.preventDefault(); NUMSUM.load();
+        } else if (document.getElementById('view-crit-dots').classList.contains('active') && document.getElementById('dots-next').classList.contains('show')) {
+            e.preventDefault(); DOTS.load();
         }
     });
     // Track when answers are submitted
