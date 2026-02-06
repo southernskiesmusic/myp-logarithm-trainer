@@ -321,18 +321,29 @@
         .calc-btn.active { background: var(--error); }
         .calc-modal {
             display: none; position: fixed; bottom: 90px; right: 24px; z-index: 999;
-            width: 340px; height: 480px; background: var(--card);
+            width: 340px; height: 520px; background: var(--card);
             border-radius: var(--radius); box-shadow: 0 8px 32px rgba(0,0,0,0.2);
             overflow: hidden; animation: slideUp 0.2s ease;
+            flex-direction: column;
         }
-        .calc-modal.show { display: block; }
+        .calc-modal.show { display: flex; }
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .calc-modal iframe { width: 100%; height: 100%; border: none; }
+        .calc-modal .calc-container { flex: 1; width: 100%; }
+        .calc-modal .calc-copy-bar {
+            padding: 8px; background: #f5f5f5; border-top: 1px solid #e0e0e0;
+            display: flex; gap: 8px;
+        }
+        .calc-modal .calc-copy-bar button {
+            flex: 1; padding: 10px; background: var(--primary); color: white;
+            border: none; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .calc-modal .calc-copy-bar button:hover { background: #3651d4; }
         @media (max-width: 480px) {
-            .calc-modal { width: calc(100vw - 32px); right: 16px; bottom: 80px; height: 400px; }
+            .calc-modal { width: calc(100vw - 32px); right: 16px; bottom: 80px; height: 440px; }
             .calc-btn { bottom: 16px; right: 16px; width: 50px; height: 50px; font-size: 1.3rem; }
         }
     </style>
@@ -758,8 +769,12 @@
 <!-- Calculator -->
 <button class="calc-btn" id="calc-btn" title="Calculator">🧮</button>
 <div class="calc-modal" id="calc-modal">
-    <iframe src="https://www.desmos.com/scientific" title="Desmos Calculator"></iframe>
+    <div class="calc-container" id="calc-container"></div>
+    <div class="calc-copy-bar">
+        <button id="calc-copy-btn">Copy to Workings</button>
+    </div>
 </div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
 
 </div><!-- /app -->
 
@@ -2575,12 +2590,34 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:direct-inverse-variation/x2f8bb11595b61c86:direct-variation/v/direct-variation-1" target="_blank">Direct Variation</a>
         </div>`;
 
-    // Calculator toggle
+    // Calculator setup with Desmos API
+    let desmosCalc = null;
     document.getElementById('calc-btn').addEventListener('click', () => {
         const modal = document.getElementById('calc-modal');
         const btn = document.getElementById('calc-btn');
         modal.classList.toggle('show');
         btn.classList.toggle('active');
+        // Initialize Desmos on first open
+        if (!desmosCalc && modal.classList.contains('show')) {
+            const container = document.getElementById('calc-container');
+            desmosCalc = Desmos.ScientificCalculator(container, { fontSize: 16 });
+        }
+    });
+
+    // Copy calculator expressions to active workout
+    document.getElementById('calc-copy-btn').addEventListener('click', () => {
+        if (!desmosCalc) return;
+        const exprs = desmosCalc.getExpressions();
+        const lines = exprs.filter(e => e.latex).map(e => e.latex.replace(/\\cdot/g,'×').replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g,'($1)/($2)'));
+        if (lines.length === 0) return;
+        // Find active workout textarea
+        const activeView = document.querySelector('.view.active');
+        if (!activeView) return;
+        const textarea = activeView.querySelector('.workout-textarea');
+        if (!textarea) return;
+        const existing = textarea.value;
+        textarea.value = existing + (existing && !existing.endsWith('\n') ? '\n' : '') + '--- Calculator ---\n' + lines.join('\n');
+        textarea.focus();
     });
 
     // Enter key for next question after answering
