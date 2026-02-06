@@ -246,6 +246,15 @@
         .copy-calc-btn:hover { opacity: 0.9; transform: translateY(-1px); }
         .copy-calc-btn:active { transform: translateY(0); }
         details.workout-section .copy-calc-btn { margin-bottom: 8px; }
+        .workout-content {
+            width: calc(100% - 32px); min-height: 150px; margin: 0 16px 16px; padding: 16px;
+            border: 2px solid #e0e0e0; border-radius: 12px; background: #fafbfc;
+            font-family: 'Cascadia Code','Fira Code',monospace; font-size: 1rem;
+            line-height: 1.8; overflow-y: auto; max-height: 400px;
+        }
+        .workout-content:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(67,97,238,0.15); }
+        .workout-content:empty::before { content: 'Show your working here...'; color: #b0b8c4; }
+        .workout-content img { max-width: 100%; border-radius: 8px; margin: 8px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 
         .answer-section {
             background: var(--card); border-radius: var(--radius);
@@ -397,7 +406,7 @@
     <details class="workout-section">
         <summary>Working Out</summary>
         <button class="copy-calc-btn" onclick="copyCalcToWorkout('lr-workout')">📋 Copy Calculator to Workings</button>
-        <textarea class="workout-textarea" id="lr-workout" placeholder="Show your working here..."></textarea>
+        <div class="workout-content" id="lr-workout" contenteditable="true"></div>
     </details>
 
     <div style="text-align:center;margin-bottom:16px;">
@@ -449,8 +458,7 @@
     <div class="workout-section">
         <h3>Your Working</h3>
         <button class="copy-calc-btn" style="margin:0 0 12px;width:100%;" onclick="copyCalcToWorkout('se-workout')">📋 Copy Calculator to Workings</button>
-        <textarea class="workout-textarea" id="se-workout"
-            placeholder="Show your working here...&#10;&#10;e.g.  Let u = log&#8322;(x), v = log&#8322;(y)&#10;      u + v = 5&#10;      u - v = 1&#10;      Add: 2u = 6, u = 3&#10;      So x = 2&#179; = 8"></textarea>
+        <div class="workout-content" id="se-workout" contenteditable="true" style="margin:0;width:100%;"></div>
     </div>
 
     <div class="answer-section">
@@ -522,7 +530,7 @@
     <details class="workout-section">
         <summary>Working Out</summary>
         <button class="copy-calc-btn" onclick="copyCalcToWorkout('qa-workout')">📋 Copy Calculator to Workings</button>
-        <textarea class="workout-textarea" id="qa-workout" placeholder="Show your working here..."></textarea>
+        <div class="workout-content" id="qa-workout" contenteditable="true"></div>
     </details>
 
     <div style="text-align:center;margin-bottom:16px;">
@@ -597,7 +605,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="fdp-streak">0</div></div>
     </div>
     <div class="question-card" id="fdp-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('fdp-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="fdp-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('fdp-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="fdp-workout" contenteditable="true"></div></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="fdp-hint-btn">Hint</button></div>
     <div class="hint-box" id="fdp-hint"></div>
     <div class="feedback" id="fdp-fb"><div class="feedback-title" id="fdp-fb-title"></div><div class="feedback-explanation" id="fdp-fb-expl"></div></div>
@@ -624,7 +632,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="hcflcm-streak">0</div></div>
     </div>
     <div class="question-card" id="hcflcm-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('hcflcm-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="hcflcm-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('hcflcm-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="hcflcm-workout" contenteditable="true"></div></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="hcflcm-hint-btn">Hint</button></div>
     <div class="hint-box" id="hcflcm-hint"></div>
     <div class="feedback" id="hcflcm-fb"><div class="feedback-title" id="hcflcm-fb-title"></div><div class="feedback-explanation" id="hcflcm-fb-expl"></div></div>
@@ -651,7 +659,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="idx-streak">0</div></div>
     </div>
     <div class="question-card" id="idx-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('idx-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="idx-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('idx-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="idx-workout" contenteditable="true"></div></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="idx-hint-btn">Hint</button></div>
     <div class="hint-box" id="idx-hint"></div>
     <div class="feedback" id="idx-fb"><div class="feedback-title" id="idx-fb-title"></div><div class="feedback-explanation" id="idx-fb-expl"></div></div>
@@ -678,7 +686,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="sf-streak">0</div></div>
     </div>
     <div class="question-card" id="sf-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('sf-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="sf-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('sf-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="sf-workout" contenteditable="true"></div></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="sf-hint-btn">Hint</button></div>
     <div class="hint-box" id="sf-hint"></div>
     <div class="feedback" id="sf-fb"><div class="feedback-title" id="sf-fb-title"></div><div class="feedback-explanation" id="sf-fb-expl"></div></div>
@@ -705,7 +713,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="surd-streak">0</div></div>
     </div>
     <div class="question-card" id="surd-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('surd-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="surd-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('surd-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="surd-workout" contenteditable="true"></div></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="surd-hint-btn">Hint</button></div>
     <div class="hint-box" id="surd-hint"></div>
     <div class="feedback" id="surd-fb"><div class="feedback-title" id="surd-fb-title"></div><div class="feedback-explanation" id="surd-fb-expl"></div></div>
@@ -732,7 +740,7 @@
         <div class="score-item"><div class="label">Streak</div><div class="value success" id="ratio-streak">0</div></div>
     </div>
     <div class="question-card" id="ratio-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
-    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('ratio-workout')">📋 Copy Calculator to Workings</button><textarea class="workout-textarea" id="ratio-workout" placeholder="Show your working here..."></textarea></details>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('ratio-workout')">📋 Copy Calculator to Workings</button><div class="workout-content" id="ratio-workout" contenteditable="true"></div></details>
     <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="ratio-hint-btn">Hint</button></div>
     <div class="hint-box" id="ratio-hint"></div>
     <div class="feedback" id="ratio-fb"><div class="feedback-title" id="ratio-fb-title"></div><div class="feedback-explanation" id="ratio-fb-expl"></div></div>
@@ -804,30 +812,41 @@ function latexToReadable(latex) {
         .replace(/\{/g, '(').replace(/\}/g, ')')
         .replace(/\^/g, '^');
 }
-function copyCalcToWorkout(textareaId) {
+function copyCalcToWorkout(workoutId) {
     if (!window.desmosCalc) { alert('Open the calculator first!'); return; }
-    const textarea = document.getElementById(textareaId);
-    if (!textarea) return;
-    const state = window.desmosCalc.getState();
-    const exprs = state.expressions.list || [];
-    const lines = [];
-    for (const e of exprs) {
-        if (!e.latex || !e.latex.trim()) continue;
-        const expr = latexToReadable(e.latex);
-        lines.push(expr);
-        // Try to get the result if it's a simple expression
-        try {
-            const val = window.desmosCalc.expressionAnalysis[e.id];
-            if (val && val.evaluation !== undefined) {
-                lines.push('    = ' + val.evaluation);
+    const workout = document.getElementById(workoutId);
+    if (!workout) return;
+
+    // Take screenshot of calculator
+    window.desmosCalc.screenshot({
+        width: 400,
+        height: 300,
+        targetPixelRatio: 2
+    }, function(dataUrl) {
+        // Create image element
+        const img = document.createElement('img');
+        img.src = dataUrl;
+        img.alt = 'Calculator working';
+
+        // For contenteditable div
+        if (workout.contentEditable === 'true') {
+            workout.appendChild(document.createElement('br'));
+            workout.appendChild(img);
+            workout.appendChild(document.createElement('br'));
+        }
+        // For textarea - fall back to text
+        else if (workout.tagName === 'TEXTAREA') {
+            const state = window.desmosCalc.getState();
+            const exprs = state.expressions.list || [];
+            const lines = exprs.filter(e => e.latex && e.latex.trim()).map(e => latexToReadable(e.latex));
+            if (lines.length > 0) {
+                const text = lines.join('\n');
+                const existing = workout.value;
+                workout.value = existing + (existing && !existing.endsWith('\n') ? '\n' : '') + '--- Calculator ---\n' + text;
             }
-        } catch(err) {}
-    }
-    if (lines.length === 0) { alert('Calculator is empty'); return; }
-    const text = lines.join('\n');
-    const existing = textarea.value;
-    textarea.value = existing + (existing && !existing.endsWith('\n') ? '\n' : '') + '--- Calculator ---\n' + text;
-    textarea.focus();
+        }
+        workout.focus();
+    });
 }
 
 // ── Progressive Hint System ─────────────────────────────────────
@@ -1018,7 +1037,7 @@ const LR = {
         document.getElementById('lr-next').classList.remove('show');
         this.hintIdx = 0;
         resetHint('lr-hint', 'lr-hint-btn');
-        document.getElementById('lr-workout').value = '';
+        document.getElementById('lr-workout').innerHTML = '';
         renderMath();
 
         if (q.type === 'mc') {
@@ -1228,7 +1247,7 @@ const SE = {
             <div class="difficulty-tag ${q.difficulty}">${dl[q.difficulty]}</div>
             <div style="font-size:1.1rem;margin-bottom:8px;">Find \\(x\\) and \\(y\\):</div>
             <div class="equation-system">\\(${q.eq1}\\)<br>\\(${q.eq2}\\)</div>`;
-        document.getElementById('se-workout').value = '';
+        document.getElementById('se-workout').innerHTML = '';
         const mx=document.getElementById('se-mf-x'), my=document.getElementById('se-mf-y');
         if(mx){mx.value='';mx.disabled=false;} if(my){my.value='';my.disabled=false;}
         document.getElementById('se-check').disabled = false;
@@ -1622,7 +1641,7 @@ const QA = {
         document.getElementById('qa-next').classList.remove('show');
         this.hintIdx = 0;
         resetHint('qa-hint', 'qa-hint-btn');
-        document.getElementById('qa-workout').value = '';
+        document.getElementById('qa-workout').innerHTML = '';
         renderMath();
 
         if (q.type === 'mc') {
@@ -1814,7 +1833,7 @@ const FDP = {
         document.getElementById('fdp-fb').classList.remove('show','correct','incorrect');
         document.getElementById('fdp-next').classList.remove('show');
         resetHint('fdp-hint','fdp-hint-btn');
-        document.getElementById('fdp-workout').value='';
+        document.getElementById('fdp-workout').innerHTML='';
         renderMath();
         setTimeout(()=>{const mf=document.getElementById('fdp-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();FDP.check();}});}document.getElementById('fdp-check')?.addEventListener('click',()=>FDP.check());},200);
     },
@@ -1904,7 +1923,7 @@ const HCFLCM = {
         document.getElementById('hcflcm-fb').classList.remove('show','correct','incorrect');
         document.getElementById('hcflcm-next').classList.remove('show');
         resetHint('hcflcm-hint','hcflcm-hint-btn');
-        document.getElementById('hcflcm-workout').value='';
+        document.getElementById('hcflcm-workout').innerHTML='';
         renderMath();
         setTimeout(()=>{const mf=document.getElementById('hcflcm-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();HCFLCM.check();}});}document.getElementById('hcflcm-check')?.addEventListener('click',()=>HCFLCM.check());},200);
     },
@@ -2017,7 +2036,7 @@ const IDX = {
         document.getElementById('idx-fb').classList.remove('show','correct','incorrect');
         document.getElementById('idx-next').classList.remove('show');
         resetHint('idx-hint','idx-hint-btn');
-        document.getElementById('idx-workout').value='';
+        document.getElementById('idx-workout').innerHTML='';
         renderMath();
         setTimeout(()=>{const mf=document.getElementById('idx-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();IDX.check();}});}document.getElementById('idx-check')?.addEventListener('click',()=>IDX.check());},200);
     },
@@ -2105,7 +2124,7 @@ const SF = {
         document.getElementById('sf-fb').classList.remove('show','correct','incorrect');
         document.getElementById('sf-next').classList.remove('show');
         resetHint('sf-hint','sf-hint-btn');
-        document.getElementById('sf-workout').value='';
+        document.getElementById('sf-workout').innerHTML='';
         renderMath();
         setTimeout(()=>{const mf=document.getElementById('sf-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();SF.check();}});}document.getElementById('sf-check')?.addEventListener('click',()=>SF.check());},200);
     },
@@ -2203,7 +2222,7 @@ const SURD = {
         document.getElementById('surd-fb').classList.remove('show','correct','incorrect');
         document.getElementById('surd-next').classList.remove('show');
         resetHint('surd-hint','surd-hint-btn');
-        document.getElementById('surd-workout').value='';
+        document.getElementById('surd-workout').innerHTML='';
         renderMath();
         if (q.type === 'mc') {
             document.getElementById('surd-card').querySelectorAll('.option-btn').forEach(btn => {
@@ -2307,7 +2326,7 @@ const RATIO = {
         document.getElementById('ratio-fb').classList.remove('show','correct','incorrect');
         document.getElementById('ratio-next').classList.remove('show');
         resetHint('ratio-hint','ratio-hint-btn');
-        document.getElementById('ratio-workout').value='';
+        document.getElementById('ratio-workout').innerHTML='';
         renderMath();
         setTimeout(()=>{const mf=document.getElementById('ratio-mf');if(mf){mf.focus();mf.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();RATIO.check();}});}document.getElementById('ratio-check')?.addEventListener('click',()=>RATIO.check());},200);
     },
