@@ -212,6 +212,18 @@
         .workout-section h3 {
             font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 12px;
         }
+        details.workout-section { padding: 0; }
+        details.workout-section summary {
+            padding: 16px 24px; cursor: pointer; font-weight: 600;
+            color: var(--primary); user-select: none; list-style: none;
+        }
+        details.workout-section summary::-webkit-details-marker { display: none; }
+        details.workout-section summary::before { content: '+ '; font-weight: 700; }
+        details.workout-section[open] summary::before { content: '− '; }
+        details.workout-section[open] summary { border-bottom: 1px solid #f0f0f0; }
+        details.workout-section .workout-textarea {
+            margin: 16px; width: calc(100% - 32px); min-height: 120px;
+        }
         .workout-textarea {
             width: 100%; min-height: 180px; padding: 16px;
             border: 2px solid #e0e0e0; border-radius: 12px;
@@ -339,6 +351,11 @@
 
     <div class="question-card" id="lr-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
 
+    <details class="workout-section">
+        <summary>Working Out</summary>
+        <textarea class="workout-textarea" id="lr-workout" placeholder="Show your working here..."></textarea>
+    </details>
+
     <div style="text-align:center;margin-bottom:16px;">
         <button class="btn btn-hint" id="lr-hint-btn">Hint</button>
     </div>
@@ -456,6 +473,11 @@
     </div>
 
     <div class="question-card" id="qa-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+
+    <details class="workout-section">
+        <summary>Working Out</summary>
+        <textarea class="workout-textarea" id="qa-workout" placeholder="Show your working here..."></textarea>
+    </details>
 
     <div style="text-align:center;margin-bottom:16px;">
         <button class="btn btn-hint" id="qa-hint-btn">Hint</button>
@@ -707,6 +729,7 @@ const LR = {
         document.getElementById('lr-next').classList.remove('show');
         this.hintIdx = 0;
         resetHint('lr-hint', 'lr-hint-btn');
+        document.getElementById('lr-workout').value = '';
         renderMath();
 
         if (q.type === 'mc') {
@@ -1308,6 +1331,7 @@ const QA = {
         document.getElementById('qa-next').classList.remove('show');
         this.hintIdx = 0;
         resetHint('qa-hint', 'qa-hint-btn');
+        document.getElementById('qa-workout').value = '';
         renderMath();
 
         if (q.type === 'mc') {
