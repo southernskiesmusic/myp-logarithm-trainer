@@ -2122,7 +2122,9 @@ const SURD = {
             explain:`\\(\\sqrt{${val}} = \\sqrt{${k}^2 \\times ${n}} = ${k}\\sqrt{${n}}\\)` };
     },
     qMultiply() {
-        const a=randInt(2,5), b=randInt(2,5), ans=a*b;
+        // Avoid perfect squares (4, 9, etc.) so answer stays as √n
+        const primes = [2,3,5,7,11];
+        const a=pick(primes), b=pick(primes), ans=a*b;
         return { type:'free', rule:'Multiply', difficulty:'easy', text:'Simplify. Give the number under the root:',
             latex:`\\sqrt{${a}} \\times \\sqrt{${b}}`, answer:ans, answerTex:String(ans),
             hintTex:['Multiply surds: multiply the numbers under the roots.',`\\(\\sqrt{a} \\times \\sqrt{b} = \\sqrt{ab}\\)`],
