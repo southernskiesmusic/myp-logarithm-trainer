@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     EXPR.init(); LINEAR.init(); SEQ.init(); INEQ.init();
     LINF.init(); QUADF.init(); TRANS.init();
 
-    // Topic cards (hub + folder)
-    document.querySelectorAll('.topic-card').forEach(card => {
+    // Topic cards (hub + folder) — skip lesson cards
+    document.querySelectorAll('.topic-card[data-topic]').forEach(card => {
         card.addEventListener('click', () => {
             const topic = card.dataset.topic;
             if (topic === 'logarithms') { showView('logarithms'); }
