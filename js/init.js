@@ -45,6 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('click', () => {
             const id = card.dataset.lesson;
             if (id === 'log-intro') LessonEngine.start(LESSON_LOG_INTRO);
+            else if (id === 'log-rules-lesson') LessonEngine.start(LESSON_LOG_RULES);
+            else if (id === 'log-natural') LessonEngine.start(LESSON_LOG_NATURAL);
+            else if (id === 'log-expand') LessonEngine.start(LESSON_LOG_EXPAND);
+            else if (id === 'log-equations') LessonEngine.start(LESSON_LOG_EQUATIONS);
             else if (id === 'indices') LessonEngine.start(LESSON_INDICES);
             else if (id === 'surds') LessonEngine.start(LESSON_SURDS);
         });
