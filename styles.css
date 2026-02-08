@@ -386,8 +386,9 @@ details.workout-section .copy-calc-btn { margin-bottom: 8px; }
 .lesson-content p { margin-bottom: 12px; }
 .lesson-step { padding: 12px 16px; margin: 8px 0; border-radius: 12px; background: #f8f9fa; border: 1px solid #e0e0e0; opacity: 0; max-height: 0; overflow: hidden; transition: opacity 0.4s ease, max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease; padding: 0 16px; margin: 0; }
 .lesson-step.revealed { opacity: 1; max-height: 200px; padding: 12px 16px; margin: 8px 0; }
-.lesson-nav { text-align: center; margin: 24px 0; }
-.lesson-nav .btn { margin: 0 8px; }
+.lesson-nav { margin: 24px 0; }
+.lesson-nav .btn { margin: 0 4px; }
+.lesson-btn-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .lesson-score { text-align: center; font-size: 1.1rem; margin: 16px 0; }
 .lesson-score strong { color: var(--primary); }
 .section-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); margin: 24px 0 12px; padding-left: 4px; }

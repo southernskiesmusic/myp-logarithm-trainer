@@ -10,6 +10,7 @@ const LessonEngine = {
     practiceCorrect: 0,
     practiceTotal: 0,
     exampleStepIdx: 0,
+    _enterBound: false,
 
     start(lesson) {
         this.lesson = lesson;
@@ -17,8 +18,37 @@ const LessonEngine = {
         this.folder = lesson.folder;
         this.practiceCorrect = 0;
         this.practiceTotal = 0;
+        this.furthestIdx = 0;
         showView('lesson');
         this.renderScreen();
+        if (!this._enterBound) {
+            this._enterBound = true;
+            document.addEventListener('keydown', e => {
+                if (e.key !== 'Enter') return;
+                const lessonView = document.getElementById('view-lesson');
+                if (!lessonView || !lessonView.classList.contains('active')) return;
+                // If a math-field is focused, let its own handler fire
+                if (document.activeElement && document.activeElement.tagName === 'MATH-FIELD') return;
+                const cont = document.getElementById('lesson-continue-btn');
+                if (cont && cont.style.display !== 'none') { e.preventDefault(); cont.click(); return; }
+                const reveal = document.getElementById('lesson-reveal-btn');
+                if (reveal && reveal.style.display !== 'none') { e.preventDefault(); reveal.click(); return; }
+                // Concept/summary: click the primary button in nav
+                const navPrimary = document.querySelector('#lesson-nav .btn-primary');
+                if (navPrimary) { e.preventDefault(); navPrimary.click(); }
+            });
+        }
+    },
+
+    navButtons(forwardLabel, forwardAction) {
+        const backDisabled = this.screenIdx <= 0 ? ' disabled' : '';
+        let h = '<div class="lesson-btn-row">' +
+            '<button class="btn btn-hint" onclick="LessonEngine.back()"' + backDisabled + '>&larr; Back</button>';
+        if (forwardLabel) {
+            h += '<button class="btn btn-primary" id="lesson-continue-btn" onclick="' + forwardAction + '">' + forwardLabel + ' &rarr;</button>';
+        }
+        h += '</div>';
+        return h;
     },
 
     renderScreen() {
@@ -48,8 +78,7 @@ const LessonEngine = {
     renderConcept(screen, content, nav) {
         content.innerHTML =
             '<h3>' + screen.title + '</h3>' + screen.html;
-        nav.innerHTML =
-            '<button class="btn btn-primary" onclick="LessonEngine.advance()">Continue</button>';
+        nav.innerHTML = this.navButtons('Continue', 'LessonEngine.advance()');
     },
 
     renderExample(screen, content, nav) {
@@ -60,9 +89,11 @@ const LessonEngine = {
             h += '<div class="lesson-step" id="lesson-step-' + i + '">' + step.text + '</div>';
         });
         content.innerHTML = h;
-        nav.innerHTML =
+        nav.innerHTML = '<div class="lesson-btn-row">' +
+            '<button class="btn btn-hint" onclick="LessonEngine.back()"' + (this.screenIdx <= 0 ? ' disabled' : '') + '>&larr; Back</button>' +
             '<button class="btn btn-primary" id="lesson-reveal-btn" onclick="LessonEngine.revealStep()">Reveal Next Step</button>' +
-            '<button class="btn btn-primary" id="lesson-continue-btn" onclick="LessonEngine.advance()" style="display:none;">Continue</button>';
+            '<button class="btn btn-primary" id="lesson-continue-btn" onclick="LessonEngine.advance()" style="display:none;">Continue &rarr;</button>' +
+            '</div>';
     },
 
     revealStep() {
@@ -94,8 +125,9 @@ const LessonEngine = {
         if (q.type === 'mc') {
             h += '<div class="options-grid">';
             q.options.forEach((o, i) => {
+                const display = o.includes('\\(') ? o : '\\(' + o + '\\)';
                 h += '<button class="option-btn" data-i="' + i + '" onclick="LessonEngine.checkMC(this)">' +
-                    '\\(' + o + '\\)</button>';
+                    display + '</button>';
             });
             h += '</div>';
         } else {
@@ -109,7 +141,9 @@ const LessonEngine = {
             '<div class="feedback-explanation" id="lesson-fb-expl"></div></div>';
 
         content.innerHTML = h;
-        nav.innerHTML = '';
+        nav.innerHTML = '<div class="lesson-btn-row">' +
+            '<button class="btn btn-hint" onclick="LessonEngine.back()"' + (this.screenIdx <= 0 ? ' disabled' : '') + '>&larr; Back</button>' +
+            '</div>';
 
         // Set up Enter key on math field after render
         setTimeout(() => {
@@ -166,8 +200,7 @@ const LessonEngine = {
         expl.innerHTML = q.explain || '';
         renderMath();
 
-        document.getElementById('lesson-nav').innerHTML =
-            '<button class="btn btn-primary" onclick="LessonEngine.advance()">Continue</button>';
+        document.getElementById('lesson-nav').innerHTML = this.navButtons('Continue', 'LessonEngine.advance()');
     },
 
     renderSummary(screen, content, nav) {
@@ -179,12 +212,14 @@ const LessonEngine = {
         h += screen.html;
         content.innerHTML = h;
 
-        let navH = '';
+        let navH = '<div class="lesson-btn-row">' +
+            '<button class="btn btn-hint" onclick="LessonEngine.back()">&larr; Back</button>';
         if (screen.nextActivity) {
             navH += '<button class="btn btn-primary" onclick="LessonEngine.goToActivity(\'' +
                 screen.nextActivity + '\')">Start Practising</button>';
         }
-        navH += '<button class="btn btn-hint" onclick="showView(\'' + this.folder + '\')">Back to Topics</button>';
+        navH += '</div>' +
+            '<button class="btn btn-hint" style="margin-top:8px;" onclick="showView(\'' + this.folder + '\')">Back to Topics</button>';
         nav.innerHTML = navH;
     },
 
@@ -194,14 +229,21 @@ const LessonEngine = {
         if (card) card.click();
     },
 
+    back() {
+        if (this.screenIdx <= 0) return;
+        this.screenIdx--;
+        this.renderScreen();
+        window.scrollTo(0, 0);
+    },
+
     advance() {
         this.screenIdx++;
         if (this.screenIdx >= this.lesson.screens.length) {
             showView(this.folder);
             return;
         }
+        if (this.screenIdx > this.furthestIdx) this.furthestIdx = this.screenIdx;
         this.renderScreen();
-        // Scroll to top
         window.scrollTo(0, 0);
     }
 };

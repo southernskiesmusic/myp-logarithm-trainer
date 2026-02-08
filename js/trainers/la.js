@@ -15,6 +15,7 @@ const SKILL_DEFS = [
 ];
 const SKILL_IDS = SKILL_DEFS.map(s => s.id);
 const UNLOCK_THR = 0.6;
+const MIN_ATT = 10;
 const MASTERED_THR = 0.8;
 const DECAY = 0.85;
 const MAX_ATT = 50;
@@ -53,7 +54,7 @@ const LA = {
     },
     isUnlocked(sid) {
         const def=SKILL_DEFS.find(s=>s.id===sid);
-        return def.prereqs.every(p=>this.computeMastery(p)>=UNLOCK_THR);
+        return def.prereqs.every(p=>this.data.skills[p].attempts.length>=MIN_ATT && this.computeMastery(p)>=UNLOCK_THR);
     },
     getOverallMastery() {
         let sum=0;
@@ -539,11 +540,16 @@ const LA = {
             const cls = this.getMasteryClass(mastery);
 
             if (!unlocked) {
-                const missing = def.prereqs.filter(p => this.computeMastery(p) < UNLOCK_THR);
-                const names = missing.map(p => SKILL_DEFS.find(s => s.id === p).name);
+                const missing = def.prereqs.filter(p => this.data.skills[p].attempts.length < MIN_ATT || this.computeMastery(p) < UNLOCK_THR);
+                const details = missing.map(p => {
+                    const name = SKILL_DEFS.find(s => s.id === p).name;
+                    const att = this.data.skills[p].attempts.length;
+                    const m = Math.round(this.computeMastery(p) * 100);
+                    return `${name} (${att}/${MIN_ATT} attempts, ${m}%)`;
+                });
                 html += `<div class="la-skill-tile locked">
                     <div class="la-skill-name"><span style="font-size:0.85rem">&#128274;</span> ${def.name}</div>
-                    <div class="la-skill-stats"><span>Unlock: ${names.join(', ')} at 60%</span></div></div>`;
+                    <div class="la-skill-stats"><span>Unlocks after ${MIN_ATT}+ attempts and 60% mastery on ${details.join('; ')}</span></div></div>`;
             } else {
                 html += `<div class="la-skill-tile" data-skill="${def.id}">
                     <div class="la-skill-name">${def.name} <span style="margin-left:auto;font-weight:700;">${pct}%</span></div>
