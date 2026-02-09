@@ -96,16 +96,15 @@ const Auth = {
                 if (cloud.trainerStats) {
                     localStorage.setItem('trainerStats', JSON.stringify(cloud.trainerStats));
                 }
-                // Custom background
-                let needsReload = false;
-                if (cloud.customBg) {
+                // Custom background — only reload if bg is new
+                if (cloud.customBg && !localStorage.getItem('customBg')) {
                     localStorage.setItem('customBg', cloud.customBg);
                     if (cloud.customBgColor) localStorage.setItem('customBgColor', cloud.customBgColor);
                     if (cloud.customBgOpacity) localStorage.setItem('customBgOpacity', cloud.customBgOpacity);
-                    needsReload = true;
+                    location.reload();
+                    return;
                 }
                 console.log('Synced from cloud');
-                if (needsReload) location.reload();
             } else {
                 // First sign-in: push local data up
                 this.pushToCloud();
