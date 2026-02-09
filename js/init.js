@@ -61,7 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
         'quadratic-func': LESSON_QUADRATIC_FUNC,
         'transformations': LESSON_TRANSFORMATIONS,
         'factorising-quad': LESSON_FACTORISING_QUAD,
-        'completing-square': LESSON_COMPLETING_SQUARE
+        'completing-square': LESSON_COMPLETING_SQUARE,
+        'circle-angles': LESSON_CIRCLE_ANGLES,
+        'circle-tangents': LESSON_CIRCLE_TANGENTS,
+        'circle-chords': LESSON_CIRCLE_CHORDS
     };
     document.querySelectorAll('[data-lesson]').forEach(card => {
         card.addEventListener('click', () => {

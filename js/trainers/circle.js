@@ -208,8 +208,10 @@ const CT = {
         svg += _ctLine(O.x,O.y,T1.x,T1.y,'#4361ee') + _ctLine(O.x,O.y,T2.x,T2.y,'#4361ee');
         svg += _ctLine(P.x,P.y,T1.x,T1.y,'#ef476f') + _ctLine(P.x,P.y,T2.x,T2.y,'#ef476f');
         svg += _ctDot(T1.x,T1.y) + _ctDot(T2.x,T2.y) + _ctDot(P.x,P.y,'#ef476f') + _ctDot(O.x,O.y,'#4361ee');
+        const T1L=_ctOuter(T1,150,150,16), T2L=_ctOuter(T2,150,150,16);
         svg += _ctLabel(PL.x,PL.y,'P','#ef476f');
         svg += _ctLabel(140,140,'O','#4361ee');
+        svg += _ctLabel(T1L.x,T1L.y,'T','#2b2d42') + _ctLabel(T2L.x,T2L.y,'T','#2b2d42');
         svg += _ctLabel((O.x+T1.x)/2-6,(O.y+T1.y)/2-6,r+'','#4361ee','12px');
         svg += _ctLabel((P.x+O.x)/2+10,(P.y+O.y)/2,dist+'','#2b2d42','12px');
         svg += _ctLabel((P.x+T1.x)/2+10,(P.y+T1.y)/2,'?','#06d6a0','14px');

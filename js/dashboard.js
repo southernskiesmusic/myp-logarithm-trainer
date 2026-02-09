@@ -31,7 +31,7 @@ const DASHBOARD = {
         ], lessonIds: ['factorising-quad','completing-square'] },
         { name: 'Geometry', trainers: [
             { prefix: 'ct', label: 'Circle Theorems' }
-        ], lessonIds: [] }
+        ], lessonIds: ['circle-angles','circle-tangents','circle-chords'] }
     ],
 
     render() {
