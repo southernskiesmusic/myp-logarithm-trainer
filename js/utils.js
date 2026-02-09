@@ -212,3 +212,15 @@ function primeFactors(n) {
     while(n>1){ while(n%d===0){f.push(d);n/=d;} d++; }
     return f.join(' \\times ');
 }
+
+// Number keys 1-4 click MC option buttons
+document.addEventListener('keydown', e => {
+    if (document.activeElement && (document.activeElement.tagName === 'MATH-FIELD' ||
+        document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA' ||
+        document.activeElement.isContentEditable)) return;
+    const k = parseInt(e.key);
+    if (k >= 1 && k <= 4) {
+        const btn = document.querySelector('.option-btn[data-i="' + (k - 1) + '"]:not(:disabled)');
+        if (btn) { e.preventDefault(); btn.click(); }
+    }
+});
