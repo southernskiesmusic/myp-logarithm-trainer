@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     LR.init(); SE.init(); LA.init(); QA.init();
     FDP.init(); HCFLCM.init(); IDX.init(); SF.init(); SURD.init(); RATIO.init();
     EXPR.init(); LINEAR.init(); SEQ.init(); INEQ.init();
-    LINF.init(); QUADF.init(); TRANS.init();
+    LINF.init(); QUADF.init(); TRANS.init(); CT.init();
     updateDailyStreakUI();
 
     // Topic cards (hub + folder) — skip lesson cards
@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'func-linear') { showView('func-linear'); LINF.load(); }
             else if (topic === 'func-quadratic') { showView('func-quadratic'); QUADF.load(); }
             else if (topic === 'func-transform') { showView('func-transform'); TRANS.load(); }
+            else if (topic === 'geometry') { showView('geometry'); }
+            else if (topic === 'geo-circle') { showView('geo-circle'); CT.load(); }
             else if (topic === 'criterion-b') { showView('criterion-b'); }
             else if (topic === 'crit-matchstick') { showView('crit-matchstick'); MATCH.reset(); MATCH.load(); }
             else if (topic === 'crit-number') { showView('crit-number'); NUMSUM.reset(); NUMSUM.load(); }
@@ -539,6 +541,34 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:transformations/x2ec2f6f830c9fb89:trans-func/v/scaling-functions-intro" target="_blank">Scaling Functions</a>
         </div>`;
 
+    // ==================== GEOMETRY FOLDER TRAINERS ====================
+
+    // CT (Circle Theorems)
+    document.getElementById('ct-hint-btn').addEventListener('click', () => handleHint(CT, 'ct-hint', 'ct-hint-btn'));
+    document.getElementById('ct-next').addEventListener('click', () => CT.load());
+    document.querySelectorAll('#ct-levels .level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#ct-levels .level-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            CT.level = btn.dataset.level;
+            CT.resetScore();
+            CT.load();
+        });
+    });
+    document.getElementById('ct-ref').innerHTML = `
+        <div class="rule-item"><span class="rule-name">Angle at Centre</span>The angle at the centre is twice the angle at the circumference standing on the same arc.</div>
+        <div class="rule-item"><span class="rule-name">Angle in Semicircle</span>The angle in a semicircle is always 90°.</div>
+        <div class="rule-item"><span class="rule-name">Same Segment</span>Angles in the same segment are equal.</div>
+        <div class="rule-item"><span class="rule-name">Cyclic Quadrilateral</span>Opposite angles of a cyclic quadrilateral sum to 180°.</div>
+        <div class="rule-item"><span class="rule-name">Tangent-Radius</span>A tangent to a circle is perpendicular to the radius at the point of contact.</div>
+        <div class="rule-item"><span class="rule-name">Two Tangents</span>Tangents from an external point are equal in length.</div>
+        <div class="rule-item"><span class="rule-name">Alternate Segment</span>The angle between a tangent and a chord equals the angle in the alternate segment.</div>
+        <div class="rule-item"><span class="rule-name">Chord Bisector</span>The perpendicular from the centre to a chord bisects the chord.</div>
+        <div class="ka-links"><strong>Khan Academy:</strong>
+            <a href="https://www.khanacademy.org/math/geometry/hs-geo-circles/hs-geo-inscribed-angles/v/inscribed-angle-theorem-proof" target="_blank">Inscribed Angles</a>
+            <a href="https://www.khanacademy.org/math/geometry/hs-geo-circles/hs-geo-tangent-lines/v/determining-tangent-lines-angles" target="_blank">Tangent Lines</a>
+        </div>`;
+
     // ==================== CRITERION B INVESTIGATIONS ====================
 
     // MATCH (Matchstick Patterns)
@@ -798,6 +828,8 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); QUADF.load();
         } else if (document.getElementById('view-func-transform').classList.contains('active') && TRANS.answered) {
             e.preventDefault(); TRANS.load();
+        } else if (document.getElementById('view-geo-circle').classList.contains('active') && CT.answered) {
+            e.preventDefault(); CT.load();
         } else if (document.getElementById('view-crit-matchstick').classList.contains('active') && document.getElementById('match-next').classList.contains('show')) {
             e.preventDefault(); MATCH.load();
         } else if (document.getElementById('view-crit-number').classList.contains('active') && document.getElementById('numsum-next').classList.contains('show')) {
@@ -826,7 +858,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ineq: { topic: 'alg-ineq', name: 'Inequalities' },
         linf: { topic: 'func-linear', name: 'Linear Functions' },
         quadf: { topic: 'func-quadratic', name: 'Quadratic Functions' },
-        trans: { topic: 'func-transform', name: 'Transformations' }
+        trans: { topic: 'func-transform', name: 'Transformations' },
+        ct: { topic: 'geo-circle', name: 'Circle Theorems' }
     };
 
     function showContinuePrompt() {
@@ -904,7 +937,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'ineq': { obj: INEQ, name: 'Inequalities' },
         'linf': { obj: LINF, name: 'Linear Functions' },
         'quadf': { obj: QUADF, name: 'Quadratic Functions' },
-        'trans': { obj: TRANS, name: 'Transformations' }
+        'trans': { obj: TRANS, name: 'Transformations' },
+        'ct': { obj: CT, name: 'Circle Theorems' }
     };
     for (const prefix in TIMED_TRAINERS) {
         const levelSel = document.getElementById(prefix + '-levels') ||

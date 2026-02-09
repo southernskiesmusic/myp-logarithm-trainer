@@ -66,6 +66,7 @@ body {
 .topic-tag.num { background: #fdebd0; color: #b9770e; }
 .topic-tag.alg { background: #d6eaf8; color: #2471a3; }
 .topic-tag.func { background: #fdebd0; color: #b9770e; }
+.topic-tag.geo { background: #d1f2eb; color: #117864; }
 .topic-tag.crit-b { background: #f5eef8; color: #7d3c98; }
 
 /* ---- Shared trainer styles ---- */

@@ -73,6 +73,11 @@
             <p>Linear functions, quadratics, and graph transformations.</p>
             <span class="topic-tag func">3 lessons + 3 activities</span>
         </div>
+        <div class="topic-card" data-topic="geometry">
+            <h2>Geometry</h2>
+            <p>Circle theorems, angles, tangents, and chords.</p>
+            <span class="topic-tag geo">1 activity</span>
+        </div>
         <div class="topic-card" data-topic="criterion-b">
             <h2>Criterion B: Investigations</h2>
             <p>Guided pattern investigations for MYP assessment.</p>
@@ -861,6 +866,49 @@
     <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="trans-ref"></div></details>
 </div>
 
+<!-- ==================== GEOMETRY FOLDER VIEW ==================== -->
+<div id="view-geometry" class="view">
+    <button class="back-btn" data-back="hub">All Topics</button>
+    <header>
+        <h1>Geometry</h1>
+        <p>Choose an activity</p>
+    </header>
+    <div class="topic-grid">
+        <h3 class="section-label">Practice</h3>
+        <div class="topic-card" data-topic="geo-circle">
+            <h2>Circle Theorems</h2>
+            <p>Angles, tangents, chords, and cyclic quadrilaterals.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== CIRCLE THEOREMS VIEW ==================== -->
+<div id="view-geo-circle" class="view">
+    <button class="back-btn" data-back="geometry">Geometry</button>
+    <header>
+        <h1>Circle Theorems</h1>
+        <p>IB MYP Level</p>
+    </header>
+    <div class="level-select" id="ct-levels">
+        <button class="level-btn active" data-level="all">All</button>
+        <button class="level-btn" data-level="easy">Easy</button>
+        <button class="level-btn" data-level="medium">Medium</button>
+        <button class="level-btn" data-level="hard">Challenging</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="ct-score">0 / 0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value primary" id="ct-pct">&mdash;</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value success" id="ct-streak">0</div></div>
+    </div>
+    <div class="question-card" id="ct-card"><p style="color:var(--text-light)">Loading&hellip;</p></div>
+    <details class="workout-section"><summary>Working Out</summary><button class="copy-calc-btn" onclick="copyCalcToWorkout('ct-workout')">&#128203; Copy Calculator to Workings</button><div class="workout-content" id="ct-workout" contenteditable="true"></div></details>
+    <div style="text-align:center;margin-bottom:16px;"><button class="btn btn-hint" id="ct-hint-btn">Hint</button></div>
+    <div class="hint-box" id="ct-hint"></div>
+    <div class="feedback" id="ct-fb"><div class="feedback-title" id="ct-fb-title"></div><div class="feedback-explanation" id="ct-fb-expl"></div></div>
+    <button class="btn btn-primary next-btn" id="ct-next">Next Question</button>
+    <details class="rules-ref"><summary>Rules Reference</summary><div class="rules-content" id="ct-ref"></div></details>
+</div>
+
 <!-- ==================== CRITERION B FOLDER VIEW ==================== -->
 <div id="view-criterion-b" class="view">
     <button class="back-btn" data-back="hub">All Topics</button>
@@ -1016,6 +1064,7 @@
 <script src="js/trainers/linf.js"></script>
 <script src="js/trainers/quadf.js"></script>
 <script src="js/trainers/trans.js"></script>
+<script src="js/trainers/circle.js"></script>
 <script src="js/trainers/match.js"></script>
 <script src="js/trainers/numsum.js"></script>
 <script src="js/trainers/dots.js"></script>

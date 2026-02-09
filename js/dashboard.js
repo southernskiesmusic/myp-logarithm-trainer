@@ -28,7 +28,10 @@ const DASHBOARD = {
         ], lessonIds: ['linear-func','quadratic-func','transformations'] },
         { name: 'Quadratics', trainers: [
             { prefix: 'qa', label: 'Expressions & Areas' }
-        ], lessonIds: ['factorising-quad','completing-square'] }
+        ], lessonIds: ['factorising-quad','completing-square'] },
+        { name: 'Geometry', trainers: [
+            { prefix: 'ct', label: 'Circle Theorems' }
+        ], lessonIds: [] }
     ],
 
     render() {

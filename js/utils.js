@@ -250,6 +250,7 @@ const TIMED = {
     best: {},
 
     start(prefix, trainer) {
+        if (this.interval) { clearInterval(this.interval); this.interval = null; }
         this.active = true;
         this.prefix = prefix;
         this.trainer = trainer;
