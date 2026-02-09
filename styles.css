@@ -471,8 +471,8 @@ body.has-bg .rules-ref,
 body.has-bg .lesson-content,
 body.has-bg .dash-topic,
 body.has-bg .dash-stat,
-body.has-bg .fb-form,
+body.has-bg .fb-float-body,
 body.has-bg .settings-dropdown,
 body.has-bg .calc-modal,
-body.has-bg .fb-float-panel { background: rgba(255,255,255,0.35); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-body.has-bg .hub-header { background: rgba(255,255,255,0.25); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
+body.has-bg .fb-float-panel { background: rgba(255,255,255,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+body.has-bg .hub-header { background: rgba(255,255,255,0.82); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
