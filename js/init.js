@@ -745,7 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 lockViewport: false,
                 xAxisNumbers: true,
                 yAxisNumbers: true,
-                showGrid: false
+                showGrid: true
             });
         }
     });
