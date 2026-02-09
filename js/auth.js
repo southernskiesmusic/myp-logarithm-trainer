@@ -40,6 +40,8 @@ const Auth = {
 
     signOut() {
         if (!this.db) return;
+        // Cancel any pending sync so cleared bg doesn't overwrite cloud
+        clearTimeout(this._syncTimer);
         // Clear personal bg before reload
         localStorage.removeItem('customBg');
         localStorage.removeItem('customBgColor');
@@ -95,15 +97,15 @@ const Auth = {
                     localStorage.setItem('trainerStats', JSON.stringify(cloud.trainerStats));
                 }
                 // Custom background
+                let needsReload = false;
                 if (cloud.customBg) {
                     localStorage.setItem('customBg', cloud.customBg);
                     if (cloud.customBgColor) localStorage.setItem('customBgColor', cloud.customBgColor);
                     if (cloud.customBgOpacity) localStorage.setItem('customBgOpacity', cloud.customBgOpacity);
-                    // Re-apply background after restoring
-                    if (typeof applyBg === 'function') applyBg();
-                    else location.reload();
+                    needsReload = true;
                 }
                 console.log('Synced from cloud');
+                if (needsReload) location.reload();
             } else {
                 // First sign-in: push local data up
                 this.pushToCloud();
