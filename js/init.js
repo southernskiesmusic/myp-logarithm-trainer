@@ -586,6 +586,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     settingsBtn.addEventListener('click', () => settingsDrop.classList.toggle('show'));
 
+    // Extract dominant colour from image data URL
+    function extractColor(dataUrl, cb) {
+        const img = new Image();
+        img.onload = () => {
+            const c = document.createElement('canvas');
+            const size = 50; // sample at tiny size for speed
+            c.width = size; c.height = Math.round(size * img.height / img.width);
+            const ctx = c.getContext('2d');
+            ctx.drawImage(img, 0, 0, c.width, c.height);
+            const d = ctx.getImageData(0, 0, c.width, c.height).data;
+            // Bucket colours (ignoring very dark/light pixels)
+            const buckets = {};
+            for (let i = 0; i < d.length; i += 4) {
+                const r = d[i], g = d[i+1], b = d[i+2];
+                const lum = 0.299*r + 0.587*g + 0.114*b;
+                if (lum < 30 || lum > 225) continue; // skip near-black/white
+                const sat = Math.max(r,g,b) - Math.min(r,g,b);
+                if (sat < 20) continue; // skip greys
+                // Quantise to 8-level buckets
+                const kr = (r >> 5) << 5, kg = (g >> 5) << 5, kb = (b >> 5) << 5;
+                const key = kr + ',' + kg + ',' + kb;
+                if (!buckets[key]) buckets[key] = { r: 0, g: 0, b: 0, count: 0 };
+                buckets[key].r += r; buckets[key].g += g; buckets[key].b += b;
+                buckets[key].count++;
+            }
+            let best = null, bestCount = 0;
+            for (const k in buckets) {
+                if (buckets[k].count > bestCount) { best = buckets[k]; bestCount = buckets[k].count; }
+            }
+            if (best) {
+                const r = Math.round(best.r / best.count);
+                const g = Math.round(best.g / best.count);
+                const b = Math.round(best.b / best.count);
+                // Boost saturation slightly for a vibrant accent
+                const max = Math.max(r, g, b), min = Math.min(r, g, b);
+                const mid = (max + min) / 2;
+                const boost = (v) => Math.round(Math.min(255, Math.max(0, mid + (v - mid) * 1.3)));
+                cb('rgb(' + boost(r) + ',' + boost(g) + ',' + boost(b) + ')');
+            }
+        };
+        img.src = dataUrl;
+    }
+
+    function applyAccentColor() {
+        const color = localStorage.getItem('customBgColor');
+        if (color) {
+            document.documentElement.style.setProperty('--primary', color);
+            // Derive a light version
+            const m = color.match(/\d+/g);
+            if (m) document.documentElement.style.setProperty('--primary-light', 'rgba(' + m[0] + ',' + m[1] + ',' + m[2] + ',0.12)');
+        } else {
+            document.documentElement.style.removeProperty('--primary');
+            document.documentElement.style.removeProperty('--primary-light');
+        }
+    }
+
     // Apply saved background on load
     function applyBg() {
         const data = localStorage.getItem('customBg');
@@ -595,10 +651,12 @@ document.addEventListener('DOMContentLoaded', () => {
             bgOverlay.style.opacity = opacity;
             bgClear.style.display = '';
             document.body.classList.add('has-bg');
+            applyAccentColor();
         } else {
             bgOverlay.style.backgroundImage = '';
             bgClear.style.display = 'none';
             document.body.classList.remove('has-bg');
+            applyAccentColor();
         }
         bgOpacity.value = Math.round(opacity * 100);
         bgOpacityVal.textContent = Math.round(opacity * 100) + '%';
@@ -621,6 +679,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
             try {
                 localStorage.setItem('customBg', dataUrl);
+                extractColor(dataUrl, (color) => {
+                    localStorage.setItem('customBgColor', color);
+                    applyAccentColor();
+                });
                 applyBg();
             } catch (e) {
                 alert('Image too large for localStorage. Try a smaller image.');
@@ -632,6 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bgClear.addEventListener('click', () => {
         localStorage.removeItem('customBg');
+        localStorage.removeItem('customBgColor');
         applyBg();
     });
 
