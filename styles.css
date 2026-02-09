@@ -454,3 +454,19 @@ details.workout-section .copy-calc-btn { margin-bottom: 8px; }
 .settings-item span:first-child { font-weight: 600; min-width: 110px; }
 #bg-opacity { accent-color: var(--primary); }
 .bg-overlay { position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center; background-attachment: fixed; pointer-events: none; }
+
+/* When custom bg is active, make cards translucent */
+body.has-bg .topic-card,
+body.has-bg .question-card,
+body.has-bg .score-bar,
+body.has-bg .feedback,
+body.has-bg .hint-box,
+body.has-bg .workout-section,
+body.has-bg .rules-ref,
+body.has-bg .lesson-content,
+body.has-bg .dash-topic,
+body.has-bg .dash-stat,
+body.has-bg .fb-form,
+body.has-bg .settings-dropdown,
+body.has-bg .calc-modal { background: rgba(255,255,255,0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+body.has-bg .hub-header { background: rgba(255,255,255,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }

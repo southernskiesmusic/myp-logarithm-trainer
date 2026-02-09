@@ -591,9 +591,11 @@ document.addEventListener('DOMContentLoaded', () => {
             bgOverlay.style.backgroundImage = 'url(' + data + ')';
             bgOverlay.style.opacity = opacity;
             bgClear.style.display = '';
+            document.body.classList.add('has-bg');
         } else {
             bgOverlay.style.backgroundImage = '';
             bgClear.style.display = 'none';
+            document.body.classList.remove('has-bg');
         }
         bgOpacity.value = Math.round(opacity * 100);
         bgOpacityVal.textContent = Math.round(opacity * 100) + '%';
