@@ -83,9 +83,10 @@ const EXPR = {
     init() {
         this.pools = { easy:[this.qCollectSimple,this.qCollectSub,this.qExpandSingle], medium:[this.qExpandTwo,this.qExpandBinomial,this.qFactorCommon], hard:[this.qFactorQuad,this.qFactorDiffSq] };
         this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+loadTrainerStats('expr',this);
     },
     next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
-    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('expr-score').textContent='0 / 0'; document.getElementById('expr-pct').textContent='\u2014'; document.getElementById('expr-streak').textContent='0'; },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('expr-score').textContent='0 / 0'; document.getElementById('expr-pct').textContent='\u2014'; document.getElementById('expr-streak').textContent='0'; saveTrainerStats('expr',this); },
     load() {
         this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
         const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
@@ -145,6 +146,6 @@ const EXPR = {
         const constant = parseInt(match[3]);
         return factor===f && coeffX===a && constant===b;
     },
-    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('expr-score').textContent=`${this.score} / ${this.total}`; document.getElementById('expr-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('expr-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('expr-score').textContent=`${this.score} / ${this.total}`; document.getElementById('expr-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('expr-streak').textContent=this.streak; saveTrainerStats('expr',this); if(window.markAnswered)window.markAnswered(); },
     showFb(ok,html) { const fb=document.getElementById('expr-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('expr-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('expr-fb-expl').innerHTML=html; document.getElementById('expr-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
 };

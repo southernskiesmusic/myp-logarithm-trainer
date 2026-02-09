@@ -58,9 +58,10 @@ const HCFLCM = {
     init() {
         this.pools = { easy:[this.qHCFEasy,this.qLCMEasy], medium:[this.qHCFMedium,this.qLCMMedium], hard:[this.qHCFThree,this.qLCMThree] };
         this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+        loadTrainerStats('hcflcm',this);
     },
     next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
-    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('hcflcm-score').textContent='0 / 0'; document.getElementById('hcflcm-pct').textContent='\u2014'; document.getElementById('hcflcm-streak').textContent='0'; },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('hcflcm-score').textContent='0 / 0'; document.getElementById('hcflcm-pct').textContent='\u2014'; document.getElementById('hcflcm-streak').textContent='0'; saveTrainerStats('hcflcm',this); },
     load() {
         this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
         const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
@@ -81,6 +82,6 @@ const HCFLCM = {
         this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
         this.showFb(ok,ex);
     },
-    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('hcflcm-score').textContent=`${this.score} / ${this.total}`; document.getElementById('hcflcm-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('hcflcm-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('hcflcm-score').textContent=`${this.score} / ${this.total}`; document.getElementById('hcflcm-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('hcflcm-streak').textContent=this.streak; saveTrainerStats('hcflcm',this); if(window.markAnswered)window.markAnswered(); },
     showFb(ok,html) { const fb=document.getElementById('hcflcm-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('hcflcm-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('hcflcm-fb-expl').innerHTML=html; document.getElementById('hcflcm-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
 };

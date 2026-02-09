@@ -17,7 +17,8 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg); color: var(--text);
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh; padding: 20px;
 }
 #app { max-width: 680px; margin: 0 auto; }
@@ -415,3 +416,41 @@ details.workout-section .copy-calc-btn { margin-bottom: 8px; }
 .topic-card.lesson-card { border-left: 4px solid var(--primary); }
 .topic-tag.lesson { background: var(--primary-light); color: var(--primary); }
 .topic-tag.lesson-done { background: var(--success-light); color: var(--success); font-weight: 700; }
+
+/* ---- Dashboard ---- */
+.dash-overview { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+.dash-stat { background: var(--card); border-radius: 12px; box-shadow: var(--shadow); padding: 16px 10px; text-align: center; }
+.dash-stat-value { font-size: 1.4rem; font-weight: 700; }
+.dash-stat-label { font-size: 0.75rem; color: var(--text-light); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.03em; }
+.dash-topic { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.dash-topic-header { font-size: 1rem; font-weight: 700; margin-bottom: 12px; color: var(--primary); }
+.dash-lesson-count { font-size: 0.78rem; font-weight: 400; color: var(--text-light); margin-left: 8px; }
+.dash-row { display: grid; grid-template-columns: 120px 1fr 60px 40px; align-items: center; gap: 8px; padding: 6px 0; }
+.dash-row-label { font-size: 0.85rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dash-row-bar { height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; }
+.dash-row-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+.dash-row-stat { font-size: 0.78rem; color: var(--text-light); text-align: right; }
+.dash-row-pct { font-size: 0.78rem; font-weight: 600; text-align: right; }
+@media (max-width: 480px) {
+    .dash-overview { grid-template-columns: repeat(2, 1fr); }
+    .dash-row { grid-template-columns: 90px 1fr 50px 36px; }
+}
+
+/* ---- Feedback ---- */
+.fb-form { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; }
+.fb-form label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+.fb-form select, .fb-form textarea { width: 100%; border: 2px solid #e0e0e0; border-radius: 10px; padding: 10px 14px; font-size: 0.95rem; font-family: inherit; margin-bottom: 16px; transition: border-color 0.2s; }
+.fb-form select:focus, .fb-form textarea:focus { border-color: var(--primary); outline: none; }
+.fb-form textarea { min-height: 120px; resize: vertical; }
+.fb-confirmation { background: var(--success-light); color: var(--success); border-radius: 10px; padding: 12px 20px; text-align: center; font-weight: 600; margin-top: 12px; display: none; }
+.fb-confirmation.show { display: block; }
+.topic-tag.dash { background: #eef0ff; color: var(--primary); }
+.topic-tag.fb { background: #fff3e0; color: #e65100; }
+
+/* ---- Settings ---- */
+.settings-dropdown { display: none; background: var(--card); border-radius: 12px; box-shadow: var(--shadow); padding: 14px 18px; margin-top: 10px; text-align: left; }
+.settings-dropdown.show { display: block; }
+.settings-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 0.85rem; flex-wrap: wrap; }
+.settings-item span:first-child { font-weight: 600; min-width: 110px; }
+#bg-opacity { accent-color: var(--primary); }
+.bg-overlay { position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center; background-attachment: fixed; pointer-events: none; }

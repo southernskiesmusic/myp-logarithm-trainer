@@ -106,9 +106,10 @@ const FDP = {
             hard: [this.qReversePct, this.qExpressAsPct]
         };
         this.allPool = [...this.pools.easy, ...this.pools.easy, ...this.pools.medium, ...this.pools.medium, ...this.pools.hard];
+        loadTrainerStats('fdp',this);
     },
     next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
-    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('fdp-score').textContent='0 / 0'; document.getElementById('fdp-pct').textContent='\u2014'; document.getElementById('fdp-streak').textContent='0'; },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('fdp-score').textContent='0 / 0'; document.getElementById('fdp-pct').textContent='\u2014'; document.getElementById('fdp-streak').textContent='0'; saveTrainerStats('fdp',this); },
     load() {
         this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
         const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
@@ -129,6 +130,6 @@ const FDP = {
         this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
         this.showFb(ok,ex);
     },
-    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('fdp-score').textContent=`${this.score} / ${this.total}`; document.getElementById('fdp-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('fdp-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('fdp-score').textContent=`${this.score} / ${this.total}`; document.getElementById('fdp-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('fdp-streak').textContent=this.streak; saveTrainerStats('fdp',this); if(window.markAnswered)window.markAnswered(); },
     showFb(ok,html) { const fb=document.getElementById('fdp-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('fdp-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('fdp-fb-expl').innerHTML=html; document.getElementById('fdp-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
 };

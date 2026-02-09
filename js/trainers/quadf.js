@@ -95,9 +95,10 @@ const QUADF = {
     init() {
         this.pools = { easy:[this.qYIntercept,this.qRootsFactored,this.qDirection], medium:[this.qAxisSymmetry,this.qVertexY,this.qDiscriminant], hard:[this.qQuadFormula,this.qCompleteSquare] };
         this.allPool = [...this.pools.easy,...this.pools.easy,...this.pools.medium,...this.pools.medium,...this.pools.hard];
+loadTrainerStats('quadf',this);
     },
     next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
-    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('quadf-score').textContent='0 / 0'; document.getElementById('quadf-pct').textContent='\u2014'; document.getElementById('quadf-streak').textContent='0'; },
+    resetScore() { this.score=0;this.total=0;this.streak=0; document.getElementById('quadf-score').textContent='0 / 0'; document.getElementById('quadf-pct').textContent='\u2014'; document.getElementById('quadf-streak').textContent='0'; saveTrainerStats('quadf',this); },
     load() {
         this.answered=false; this.currentQ=this.next(); this.hintIdx=0;
         const q=this.currentQ, dl={easy:'Easy',medium:'Medium',hard:'Challenging'};
@@ -142,6 +143,6 @@ const QUADF = {
         this.record(ok); let ex=this.currentQ.explain; if(!ok)ex=`The answer is \\(${this.currentQ.answerTex}\\).<br>`+ex;
         this.showFb(ok,ex);
     },
-    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('quadf-score').textContent=`${this.score} / ${this.total}`; document.getElementById('quadf-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('quadf-streak').textContent=this.streak; if(window.markAnswered)window.markAnswered(); },
+    record(ok) { this.total++; if(ok){this.score++;this.streak++;}else{this.streak=0;} document.getElementById('quadf-score').textContent=`${this.score} / ${this.total}`; document.getElementById('quadf-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014'; document.getElementById('quadf-streak').textContent=this.streak; saveTrainerStats('quadf',this); if(window.markAnswered)window.markAnswered(); },
     showFb(ok,html) { const fb=document.getElementById('quadf-fb'); fb.classList.remove('correct','incorrect'); fb.classList.add('show',ok?'correct':'incorrect'); fb.style.textAlign='center'; document.getElementById('quadf-fb-title').textContent=ok?'Correct!':'Not quite\u2026'; document.getElementById('quadf-fb-expl').innerHTML=html; document.getElementById('quadf-next').classList.add('show'); renderMath(); fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }
 };

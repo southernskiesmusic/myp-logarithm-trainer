@@ -14,6 +14,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
+<div class="bg-overlay" id="bg-overlay"></div>
 <div id="app">
 
 <!-- ==================== HUB VIEW ==================== -->
@@ -24,6 +25,20 @@
         <div class="auth-bar">
             <span id="auth-info"></span>
             <button class="btn btn-hint btn-sm" id="auth-btn">Sign in</button>
+            <button class="btn btn-hint btn-sm" id="settings-btn" title="Settings">&#9881;</button>
+        </div>
+        <div class="settings-dropdown" id="settings-dropdown">
+            <label class="settings-item">
+                <span>Background Image</span>
+                <input type="file" id="bg-upload" accept="image/*" hidden>
+                <button class="btn btn-hint btn-sm" id="bg-choose">Choose</button>
+                <button class="btn btn-hint btn-sm" id="bg-clear" style="display:none">Clear</button>
+            </label>
+            <label class="settings-item">
+                <span>Opacity</span>
+                <input type="range" id="bg-opacity" min="0" max="100" value="15" style="width:100px">
+                <span id="bg-opacity-val">15%</span>
+            </label>
         </div>
         <div class="last-updated" id="last-updated">Last updated: loading...</div>
     </div>
@@ -46,17 +61,27 @@
         <div class="topic-card" data-topic="algebra">
             <h2>Algebra</h2>
             <p>Expressions, linear equations, sequences, and inequalities.</p>
-            <span class="topic-tag alg">4 activities</span>
+            <span class="topic-tag alg">3 lessons + 4 activities</span>
         </div>
         <div class="topic-card" data-topic="functions">
             <h2>Functions & Graphs</h2>
             <p>Linear functions, quadratics, and graph transformations.</p>
-            <span class="topic-tag func">3 activities</span>
+            <span class="topic-tag func">3 lessons + 3 activities</span>
         </div>
         <div class="topic-card" data-topic="criterion-b">
             <h2>Criterion B: Investigations</h2>
             <p>Guided pattern investigations for MYP assessment.</p>
             <span class="topic-tag crit-b">3 activities</span>
+        </div>
+        <div class="topic-card" data-topic="dashboard">
+            <h2>Progress Dashboard</h2>
+            <p>View your stats across all topics and trainers.</p>
+            <span class="topic-tag dash">Your Progress</span>
+        </div>
+        <div class="topic-card" data-topic="feedback">
+            <h2>Feedback</h2>
+            <p>Report a bug, suggest a feature, or leave a comment.</p>
+            <span class="topic-tag fb">Send Feedback</span>
         </div>
     </div>
 </div>
@@ -559,6 +584,23 @@
         <p>Choose an activity</p>
     </header>
     <div class="topic-grid">
+        <h3 class="section-label">Lessons</h3>
+        <div class="topic-card lesson-card" data-lesson="expressions">
+            <h2>Algebraic Expressions</h2>
+            <p>Collecting terms, expanding, and factorising.</p>
+            <span class="topic-tag lesson">Lesson</span>
+        </div>
+        <div class="topic-card lesson-card" data-lesson="linear-eq">
+            <h2>Linear Equations</h2>
+            <p>One-step, two-step, and equations with brackets.</p>
+            <span class="topic-tag lesson">Lesson</span>
+        </div>
+        <div class="topic-card lesson-card" data-lesson="sequences">
+            <h2>Sequences</h2>
+            <p>Arithmetic, geometric, and nth term formulas.</p>
+            <span class="topic-tag lesson">Lesson</span>
+        </div>
+        <h3 class="section-label">Practice</h3>
         <div class="topic-card" data-topic="alg-expr">
             <h2>Expressions</h2>
             <p>Simplify, expand brackets, and factorise algebraic expressions.</p>
@@ -694,6 +736,23 @@
         <p>Choose an activity</p>
     </header>
     <div class="topic-grid">
+        <h3 class="section-label">Lessons</h3>
+        <div class="topic-card lesson-card" data-lesson="linear-func">
+            <h2>Linear Functions</h2>
+            <p>Gradient, y-intercept, parallel and perpendicular lines.</p>
+            <span class="topic-tag lesson">Lesson</span>
+        </div>
+        <div class="topic-card lesson-card" data-lesson="quadratic-func">
+            <h2>Quadratic Functions</h2>
+            <p>Parabolas, vertex, axis of symmetry, discriminant.</p>
+            <span class="topic-tag lesson">Lesson</span>
+        </div>
+        <div class="topic-card lesson-card" data-lesson="transformations">
+            <h2>Graph Transformations</h2>
+            <p>Shifts, reflections, and stretches of functions.</p>
+            <span class="topic-tag lesson">Lesson</span>
+        </div>
+        <h3 class="section-label">Practice</h3>
         <div class="topic-card" data-topic="func-linear">
             <h2>Linear Functions</h2>
             <p>Gradient, y-intercept, equations of lines, parallel and perpendicular.</p>
@@ -870,6 +929,37 @@
     <button class="btn btn-primary next-btn" id="dots-next">Next Question</button>
 </div>
 
+<!-- ==================== PROGRESS DASHBOARD VIEW ==================== -->
+<div id="view-dashboard" class="view">
+    <button class="back-btn" data-back="hub">All Topics</button>
+    <header>
+        <h1>Progress Dashboard</h1>
+        <p>Your stats across all topics</p>
+    </header>
+    <div id="dash-content"></div>
+</div>
+
+<!-- ==================== FEEDBACK VIEW ==================== -->
+<div id="view-feedback" class="view">
+    <button class="back-btn" data-back="hub">All Topics</button>
+    <header>
+        <h1>Feedback</h1>
+        <p>Help us improve the trainer</p>
+    </header>
+    <div class="fb-form">
+        <label for="fb-type">Type</label>
+        <select id="fb-type">
+            <option value="bug">Bug Report</option>
+            <option value="feature">Feature Request</option>
+            <option value="comment">General Comment</option>
+        </select>
+        <label for="fb-message">Message</label>
+        <textarea id="fb-message" placeholder="Describe the issue, idea, or comment..."></textarea>
+        <button class="btn btn-primary" id="fb-submit" style="width:100%">Send Feedback</button>
+        <div class="fb-confirmation" id="fb-confirmation">Thanks for your feedback!</div>
+    </div>
+</div>
+
 <!-- ==================== LESSON VIEW (reusable) ==================== -->
 <div id="view-lesson" class="view">
     <button class="back-btn" id="lesson-back-btn">Back</button>
@@ -932,6 +1022,16 @@
 <script src="js/lessons/log-equations.js"></script>
 <script src="js/lessons/indices.js"></script>
 <script src="js/lessons/surds.js"></script>
+<script src="js/lessons/expressions.js"></script>
+<script src="js/lessons/linear-eq.js"></script>
+<script src="js/lessons/sequences.js"></script>
+<script src="js/lessons/linear-func.js"></script>
+<script src="js/lessons/quadratic-func.js"></script>
+<script src="js/lessons/transformations.js"></script>
+
+<!-- 3b. Dashboard + Feedback -->
+<script src="js/dashboard.js"></script>
+<script src="js/feedback.js"></script>
 
 <!-- 4. Init (must load LAST) -->
 <script src="js/init.js"></script>

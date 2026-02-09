@@ -124,6 +124,7 @@ const SE = {
     init() {
         this.pools = { easy:[this.qDirect], medium:[this.qSumDiff,this.qProdQuot], hard:[this.qCoefficients,this.qPowerForm] };
         this.allPool = [this.qDirect,this.qDirect,this.qSumDiff,this.qSumDiff,this.qSumDiff,this.qProdQuot,this.qProdQuot,this.qCoefficients,this.qPowerForm];
+        loadTrainerStats('se',this);
     },
     next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
 
@@ -174,6 +175,7 @@ const SE = {
         document.getElementById('se-score').textContent=`${this.score} / ${this.total}`;
         document.getElementById('se-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014';
         document.getElementById('se-streak').textContent=this.streak;
+        saveTrainerStats('se',this);
         if (window.markAnswered) window.markAnswered();
     },
 
@@ -193,5 +195,6 @@ const SE = {
         document.getElementById('se-score').textContent='0 / 0';
         document.getElementById('se-pct').textContent='\u2014';
         document.getElementById('se-streak').textContent='0';
+        saveTrainerStats('se',this);
     }
 };

@@ -105,6 +105,7 @@ const LR = {
             this.qChangeOfBase, this.qChangeOfBaseFrac,
             this.qExpandProduct, this.qExpandPower
         ];
+        loadTrainerStats('lr',this);
     },
     next() { return pick(this.pool)(); },
 
@@ -187,6 +188,7 @@ const LR = {
         document.getElementById('lr-score').textContent = `${this.score} / ${this.total}`;
         document.getElementById('lr-pct').textContent = this.total ? Math.round(this.score/this.total*100)+'%' : '\u2014';
         document.getElementById('lr-streak').textContent = this.streak;
+        saveTrainerStats('lr',this);
         if (window.markAnswered) window.markAnswered();
     },
 

@@ -86,6 +86,10 @@ const Auth = {
                 if (cloud.lessons) {
                     localStorage.setItem('lessonProgress', JSON.stringify(cloud.lessons));
                 }
+                // Trainer stats
+                if (cloud.trainerStats) {
+                    localStorage.setItem('trainerStats', JSON.stringify(cloud.trainerStats));
+                }
                 console.log('Synced from cloud');
             } else {
                 // First sign-in: push local data up
@@ -108,6 +112,9 @@ const Auth = {
             // Lesson progress
             const lp = localStorage.getItem('lessonProgress');
             if (lp) data.lessons = JSON.parse(lp);
+            // Trainer stats
+            const ts = localStorage.getItem('trainerStats');
+            if (ts) data.trainerStats = JSON.parse(ts);
 
             data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
             await ref.set(data, { merge: true });

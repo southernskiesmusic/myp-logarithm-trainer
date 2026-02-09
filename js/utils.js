@@ -24,7 +24,6 @@ function renderMath() {
 }
 
 function parseLatex(raw) {
-    console.log('[parseLatex] raw:', JSON.stringify(raw));
     // Strip MathLive formatting, spacing/display commands
     let s = raw.replace(/\\left|\\right|\\,|\\:|\\;|\\!|\\displaystyle|\\textstyle|\\placeholder\{[^}]*\}/g, '').replace(/\s+/g, '');
     s = s.replace(/−/g, '-');
@@ -38,12 +37,10 @@ function parseLatex(raw) {
         }
         if (outerOnly) s = s.slice(1, -1);
     }
-    console.log('[parseLatex] cleaned:', JSON.stringify(s));
     // \frac, \dfrac, \tfrac, \cfrac (with optional leading negative)
     const fm = s.match(/(-?)\\[cdt]?frac\{(-?[\d.]+)\}\{(-?[\d.]+)\}/);
     if (fm) {
         const sign = fm[1] === '-' ? -1 : 1;
-        console.log('[parseLatex] frac match:', fm[2], '/', fm[3], 'sign:', sign);
         return sign * parseFloat(fm[2]) / parseFloat(fm[3]);
     }
     // \over style: 1\over 3
@@ -52,9 +49,15 @@ function parseLatex(raw) {
     // Slash division: 1/3
     const dv = s.match(/^(-?[\d.]+)\/(-?[\d.]+)$/);
     if (dv) return parseFloat(dv[1]) / parseFloat(dv[2]);
-    const val = parseFloat(s);
-    console.log('[parseLatex] parseFloat result:', val, 'from', JSON.stringify(s));
-    return val;
+    return parseFloat(s);
+}
+
+// Parse exponent from base^{exp} input (for IDX-style questions)
+function parseLatexPower(raw) {
+    let s = raw.replace(/\\left|\\right|\\,|\\:|\\;|\\!/g, '').replace(/\s+/g, '').replace(/−/g, '-');
+    const m = s.match(/^(-?\d+)\^\{?(-?[\d.]+)\}?$/);
+    if (m) return { base: parseInt(m[1]), exp: parseFloat(m[2]) };
+    return null;
 }
 
 // -- Copy Calculator to Workings -----------------------------------------
@@ -233,6 +236,30 @@ function primeFactors(n) {
     let f=[], d=2;
     while(n>1){ while(n%d===0){f.push(d);n/=d;} d++; }
     return f.join(' \\times ');
+}
+
+// -- Trainer Score Persistence --------------------------------------------
+function saveTrainerStats(prefix, trainer) {
+    try {
+        const all = JSON.parse(localStorage.getItem('trainerStats') || '{}');
+        all[prefix] = {
+            score: trainer.score, total: trainer.total, streak: trainer.streak,
+            bestStreak: Math.max(trainer.streak, (all[prefix]?.bestStreak || 0)),
+            lastTs: Date.now()
+        };
+        localStorage.setItem('trainerStats', JSON.stringify(all));
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
+    } catch (e) {}
+}
+function loadTrainerStats(prefix, trainer) {
+    try {
+        const all = JSON.parse(localStorage.getItem('trainerStats') || '{}');
+        const s = all[prefix];
+        if (s) { trainer.score = s.score || 0; trainer.total = s.total || 0; trainer.streak = s.streak || 0; }
+    } catch (e) {}
+}
+function getAllTrainerStats() {
+    try { return JSON.parse(localStorage.getItem('trainerStats') || '{}'); } catch (e) { return {}; }
 }
 
 // Number keys 1-4 highlight MC option, Enter confirms

@@ -241,6 +241,7 @@ const QA = {
             this.qSolveQuad, this.qSolveQuad,
             this.qDiscriminant
         ];
+        loadTrainerStats('qa',this);
     },
     next() { const p = this.level==='all' ? this.allPool : this.pools[this.level]; return pick(p)(); },
 
@@ -249,6 +250,7 @@ const QA = {
         document.getElementById('qa-score').textContent='0 / 0';
         document.getElementById('qa-pct').textContent='\u2014';
         document.getElementById('qa-streak').textContent='0';
+        saveTrainerStats('qa',this);
     },
 
     load() {
@@ -332,6 +334,7 @@ const QA = {
         document.getElementById('qa-score').textContent=`${this.score} / ${this.total}`;
         document.getElementById('qa-pct').textContent=this.total?Math.round(this.score/this.total*100)+'%':'\u2014';
         document.getElementById('qa-streak').textContent=this.streak;
+        saveTrainerStats('qa',this);
         if (window.markAnswered) window.markAnswered();
     },
 

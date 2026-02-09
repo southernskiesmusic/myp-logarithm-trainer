@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'crit-matchstick') { showView('crit-matchstick'); MATCH.reset(); MATCH.load(); }
             else if (topic === 'crit-number') { showView('crit-number'); NUMSUM.reset(); NUMSUM.load(); }
             else if (topic === 'crit-dots') { showView('crit-dots'); DOTS.reset(); DOTS.load(); }
+            else if (topic === 'dashboard') { showView('dashboard'); DASHBOARD.render(); }
+            else if (topic === 'feedback') { showView('feedback'); }
         });
     });
 
@@ -49,7 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
         'log-expand': LESSON_LOG_EXPAND,
         'log-equations': LESSON_LOG_EQUATIONS,
         'indices': LESSON_INDICES,
-        'surds': LESSON_SURDS
+        'surds': LESSON_SURDS,
+        'expressions': LESSON_EXPRESSIONS,
+        'linear-eq': LESSON_LINEAR_EQ,
+        'sequences': LESSON_SEQUENCES,
+        'linear-func': LESSON_LINEAR_FUNC,
+        'quadratic-func': LESSON_QUADRATIC_FUNC,
+        'transformations': LESSON_TRANSFORMATIONS
     };
     document.querySelectorAll('[data-lesson]').forEach(card => {
         card.addEventListener('click', () => {
@@ -559,6 +567,75 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('dots-hint-btn').textContent = 'Hint Shown';
     });
     document.getElementById('dots-next').addEventListener('click', () => DOTS.load());
+
+    // Feedback submit
+    document.getElementById('fb-submit').addEventListener('click', () => FEEDBACK.submit());
+
+    // ==================== SETTINGS (custom background) ====================
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsDrop = document.getElementById('settings-dropdown');
+    const bgOverlay = document.getElementById('bg-overlay');
+    const bgUpload = document.getElementById('bg-upload');
+    const bgChoose = document.getElementById('bg-choose');
+    const bgClear = document.getElementById('bg-clear');
+    const bgOpacity = document.getElementById('bg-opacity');
+    const bgOpacityVal = document.getElementById('bg-opacity-val');
+
+    settingsBtn.addEventListener('click', () => settingsDrop.classList.toggle('show'));
+
+    // Apply saved background on load
+    function applyBg() {
+        const data = localStorage.getItem('customBg');
+        const opacity = parseInt(localStorage.getItem('customBgOpacity') || '15') / 100;
+        if (data) {
+            bgOverlay.style.backgroundImage = 'url(' + data + ')';
+            bgOverlay.style.opacity = opacity;
+            bgClear.style.display = '';
+        } else {
+            bgOverlay.style.backgroundImage = '';
+            bgClear.style.display = 'none';
+        }
+        bgOpacity.value = Math.round(opacity * 100);
+        bgOpacityVal.textContent = Math.round(opacity * 100) + '%';
+    }
+    applyBg();
+
+    bgChoose.addEventListener('click', () => bgUpload.click());
+    bgUpload.addEventListener('change', () => {
+        const file = bgUpload.files[0];
+        if (!file) return;
+        const img = new Image();
+        img.onload = () => {
+            // Resize to max 1920px wide for localStorage friendliness
+            const maxW = 1920;
+            let w = img.width, h = img.height;
+            if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+            try {
+                localStorage.setItem('customBg', dataUrl);
+                applyBg();
+            } catch (e) {
+                alert('Image too large for localStorage. Try a smaller image.');
+            }
+        };
+        img.src = URL.createObjectURL(file);
+        bgUpload.value = '';
+    });
+
+    bgClear.addEventListener('click', () => {
+        localStorage.removeItem('customBg');
+        applyBg();
+    });
+
+    bgOpacity.addEventListener('input', () => {
+        const v = bgOpacity.value;
+        bgOpacityVal.textContent = v + '%';
+        bgOverlay.style.opacity = v / 100;
+        localStorage.setItem('customBgOpacity', v);
+    });
 
     // Calculator setup with Desmos Graphing Calculator API (supports getExpressions)
     window.desmosCalc = null;
