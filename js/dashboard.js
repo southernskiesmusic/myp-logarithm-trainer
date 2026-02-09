@@ -28,7 +28,7 @@ const DASHBOARD = {
         ], lessonIds: ['linear-func','quadratic-func','transformations'] },
         { name: 'Quadratics', trainers: [
             { prefix: 'qa', label: 'Expressions & Areas' }
-        ], lessonIds: [] }
+        ], lessonIds: ['factorising-quad','completing-square'] }
     ],
 
     render() {
@@ -91,6 +91,9 @@ const DASHBOARD = {
 
             h += '</div>';
         });
+
+        // Achievements gallery
+        if (typeof ACHIEVEMENTS !== 'undefined') h += ACHIEVEMENTS.renderGallery();
 
         document.getElementById('dash-content').innerHTML = h;
     },

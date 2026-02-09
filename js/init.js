@@ -57,7 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'sequences': LESSON_SEQUENCES,
         'linear-func': LESSON_LINEAR_FUNC,
         'quadratic-func': LESSON_QUADRATIC_FUNC,
-        'transformations': LESSON_TRANSFORMATIONS
+        'transformations': LESSON_TRANSFORMATIONS,
+        'factorising-quad': LESSON_FACTORISING_QUAD,
+        'completing-square': LESSON_COMPLETING_SQUARE
     };
     document.querySelectorAll('[data-lesson]').forEach(card => {
         card.addEventListener('click', () => {
@@ -87,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             showView(btn.dataset.back || 'hub');
             updateLessonBadges();
+            if ((btn.dataset.back || 'hub') === 'hub') showContinuePrompt();
         });
     });
 
@@ -805,6 +808,124 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // Track when answers are submitted
     window.markAnswered = () => { lastAnswerTime = Date.now(); };
+
+    // ==================== CONTINUE PROMPT ====================
+    const CONTINUE_MAP = {
+        lr: { topic: 'log-rules', name: 'Log Rules' },
+        se: { topic: 'log-simul', name: 'Simultaneous Equations' },
+        qa: { topic: 'quad-areas', name: 'Quadratic Areas' },
+        fdp: { topic: 'num-fdp', name: 'FDP' },
+        hcflcm: { topic: 'num-hcflcm', name: 'HCF & LCM' },
+        idx: { topic: 'num-indices', name: 'Indices' },
+        sf: { topic: 'num-stdform', name: 'Standard Form' },
+        surd: { topic: 'num-surds', name: 'Surds' },
+        ratio: { topic: 'num-ratio', name: 'Ratios' },
+        expr: { topic: 'alg-expr', name: 'Expressions' },
+        linear: { topic: 'alg-linear', name: 'Linear Equations' },
+        seq: { topic: 'alg-seq', name: 'Sequences' },
+        ineq: { topic: 'alg-ineq', name: 'Inequalities' },
+        linf: { topic: 'func-linear', name: 'Linear Functions' },
+        quadf: { topic: 'func-quadratic', name: 'Quadratic Functions' },
+        trans: { topic: 'func-transform', name: 'Transformations' }
+    };
+
+    function showContinuePrompt() {
+        const container = document.getElementById('continue-prompt');
+        if (!container) return;
+        const stats = getAllTrainerStats();
+        let best = null, bestTs = 0;
+        for (const prefix in stats) {
+            const s = stats[prefix];
+            if (s.lastTs && s.lastTs > bestTs && CONTINUE_MAP[prefix]) {
+                bestTs = s.lastTs;
+                best = prefix;
+            }
+        }
+        if (!best) { container.innerHTML = ''; return; }
+        const info = CONTINUE_MAP[best];
+        const s = stats[best];
+        const ago = _timeAgo(bestTs);
+        container.innerHTML = '<div class="continue-card" id="continue-card">' +
+            '<div class="continue-left">' +
+            '<div class="continue-label">Continue where you left off</div>' +
+            '<div class="continue-name">' + info.name + '</div>' +
+            '<div class="continue-meta">' + s.score + '/' + s.total + ' correct \u00B7 ' + ago + '</div>' +
+            '</div>' +
+            '<button class="btn btn-primary continue-go" data-topic="' + info.topic + '">Continue</button>' +
+            '<button class="continue-dismiss" title="Dismiss">&times;</button>' +
+            '</div>';
+        container.querySelector('.continue-go').addEventListener('click', () => {
+            const card = document.querySelector('[data-topic="' + info.topic + '"]');
+            if (card) card.click();
+            container.innerHTML = '';
+        });
+        container.querySelector('.continue-dismiss').addEventListener('click', e => {
+            e.stopPropagation();
+            container.innerHTML = '';
+        });
+    }
+
+    function _timeAgo(ts) {
+        const diff = Date.now() - ts;
+        const mins = Math.floor(diff / 60000);
+        if (mins < 1) return 'just now';
+        if (mins < 60) return mins + 'm ago';
+        const hrs = Math.floor(mins / 60);
+        if (hrs < 24) return hrs + 'h ago';
+        const days = Math.floor(hrs / 24);
+        return days + 'd ago';
+    }
+
+    showContinuePrompt();
+
+    // Dismiss continue prompt when any hub topic card is clicked
+    document.querySelectorAll('#view-hub .topic-card[data-topic]').forEach(card => {
+        card.addEventListener('click', () => {
+            const cp = document.getElementById('continue-prompt');
+            if (cp) cp.innerHTML = '';
+        });
+    });
+
+    // ==================== TIMED CHALLENGE BUTTONS ====================
+    // Inject a "Timed Challenge" button next to each trainer's level-select
+    const TIMED_TRAINERS = {
+        'lr': { obj: LR, name: 'Log Rules' },
+        'se': { obj: SE, name: 'Simultaneous Eq.' },
+        'qa': { obj: QA, name: 'Quad Areas' },
+        'fdp': { obj: FDP, name: 'FDP' },
+        'hcflcm': { obj: HCFLCM, name: 'HCF & LCM' },
+        'idx': { obj: IDX, name: 'Indices' },
+        'sf': { obj: SF, name: 'Standard Form' },
+        'surd': { obj: SURD, name: 'Surds' },
+        'ratio': { obj: RATIO, name: 'Ratios' },
+        'expr': { obj: EXPR, name: 'Expressions' },
+        'linear': { obj: LINEAR, name: 'Linear Eq.' },
+        'seq': { obj: SEQ, name: 'Sequences' },
+        'ineq': { obj: INEQ, name: 'Inequalities' },
+        'linf': { obj: LINF, name: 'Linear Functions' },
+        'quadf': { obj: QUADF, name: 'Quadratic Functions' },
+        'trans': { obj: TRANS, name: 'Transformations' }
+    };
+    for (const prefix in TIMED_TRAINERS) {
+        const levelSel = document.getElementById(prefix + '-levels') ||
+            document.getElementById(prefix.replace('f', 'f-') + 'levels');
+        // Find the trainer view by looking for the score bar
+        const scoreEl = document.getElementById(prefix + '-score');
+        if (!scoreEl) continue;
+        const view = scoreEl.closest('.view');
+        if (!view) continue;
+        const ls = view.querySelector('.level-select');
+        const insertAfter = ls || view.querySelector('header');
+        if (!insertAfter) continue;
+        const btn = document.createElement('button');
+        btn.className = 'timed-btn';
+        btn.textContent = '\u23F1 Timed Challenge';
+        btn.style.cssText = 'display:block;margin:0 auto 16px;';
+        btn.addEventListener('click', ((p, t) => () => {
+            TIMED.start(p, t);
+        })(prefix, TIMED_TRAINERS[prefix].obj));
+        insertAfter.after(btn);
+    }
 
     // Fetch last commit date from GitHub API
     fetch('https://api.github.com/repos/southernskiesmusic/myp-extended-maths-trainer/commits?per_page=1')

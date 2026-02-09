@@ -238,6 +238,155 @@ function primeFactors(n) {
     return f.join(' \\times ');
 }
 
+// -- Timed Challenge Mode -------------------------------------------------
+const TIMED = {
+    active: false,
+    prefix: null,
+    trainer: null,
+    score: 0, total: 0,
+    _startScore: 0, _startTotal: 0,
+    timeLeft: 60,
+    interval: null,
+    best: {},
+
+    start(prefix, trainer) {
+        this.active = true;
+        this.prefix = prefix;
+        this.trainer = trainer;
+        this._startScore = trainer.score;
+        this._startTotal = trainer.total;
+        this.score = 0;
+        this.total = 0;
+        this.timeLeft = 60;
+        this.loadBest();
+
+        // Hide score bar, show timer bar
+        const view = document.querySelector('.view.active');
+        const scoreBar = view ? view.querySelector('.score-bar') : null;
+        if (scoreBar) scoreBar.style.display = 'none';
+
+        // Insert timer bar
+        let timerBar = document.getElementById('timed-timer');
+        if (!timerBar) {
+            timerBar = document.createElement('div');
+            timerBar.id = 'timed-timer';
+            timerBar.className = 'timed-timer';
+            timerBar.innerHTML = '<div class="timed-timer-fill" id="timed-timer-fill"></div>' +
+                '<span class="timed-timer-text" id="timed-timer-text">60s</span>';
+            document.getElementById('app').prepend(timerBar);
+        }
+        timerBar.style.display = '';
+        document.getElementById('timed-timer-fill').style.width = '100%';
+        document.getElementById('timed-timer-text').textContent = '60s';
+
+        // Start countdown
+        this.interval = setInterval(() => this.tick(), 1000);
+
+        // Load first question
+        trainer.load();
+    },
+
+    tick() {
+        this.timeLeft--;
+        const pct = Math.max(0, (this.timeLeft / 60) * 100);
+        document.getElementById('timed-timer-fill').style.width = pct + '%';
+        document.getElementById('timed-timer-text').textContent = this.timeLeft + 's';
+        if (this.timeLeft <= 10) {
+            document.getElementById('timed-timer-fill').style.background = 'var(--error)';
+        }
+        if (this.timeLeft <= 0) this.end();
+    },
+
+    recordAnswer() {
+        // Compute from trainer delta
+        this.score = this.trainer.score - this._startScore;
+        this.total = this.trainer.total - this._startTotal;
+
+        // Auto-load next question after short delay
+        if (this.active) {
+            setTimeout(() => {
+                if (this.active && this.trainer) this.trainer.load();
+            }, 800);
+        }
+    },
+
+    end() {
+        this.active = false;
+        clearInterval(this.interval);
+        this.interval = null;
+
+        // Final delta
+        this.score = this.trainer.score - this._startScore;
+        this.total = this.trainer.total - this._startTotal;
+
+        // Hide timer
+        const timerBar = document.getElementById('timed-timer');
+        if (timerBar) timerBar.style.display = 'none';
+
+        // Restore score bar
+        const view = document.querySelector('.view.active');
+        const scoreBar = view ? view.querySelector('.score-bar') : null;
+        if (scoreBar) scoreBar.style.display = '';
+
+        // Save personal best
+        this.saveBest();
+
+        // Show results overlay
+        const accuracy = this.total > 0 ? Math.round(this.score / this.total * 100) : 0;
+        const bestKey = this.prefix;
+        const pb = this.best[bestKey];
+        const pbText = pb ? pb.score + '/' + pb.total + ' (' + Math.round(pb.score / pb.total * 100) + '%)' : '\u2014';
+
+        let overlay = document.getElementById('timed-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'timed-overlay';
+            overlay.className = 'timed-overlay';
+            document.body.appendChild(overlay);
+        }
+        overlay.innerHTML = '<div class="timed-results">' +
+            '<h2>Time\'s Up!</h2>' +
+            '<div class="timed-stat-grid">' +
+            '<div class="timed-stat"><div class="timed-stat-val">' + this.score + '/' + this.total + '</div><div class="timed-stat-lbl">Correct</div></div>' +
+            '<div class="timed-stat"><div class="timed-stat-val">' + accuracy + '%</div><div class="timed-stat-lbl">Accuracy</div></div>' +
+            '<div class="timed-stat"><div class="timed-stat-val">' + pbText + '</div><div class="timed-stat-lbl">Personal Best</div></div>' +
+            '</div>' +
+            '<div class="timed-btn-row">' +
+            '<button class="btn btn-hint" onclick="TIMED.close()">Back</button>' +
+            '<button class="btn btn-primary" onclick="TIMED.retry()">Try Again</button>' +
+            '</div></div>';
+        overlay.style.display = 'flex';
+
+        // Check achievements
+        if (typeof ACHIEVEMENTS !== 'undefined') ACHIEVEMENTS.check();
+    },
+
+    close() {
+        const overlay = document.getElementById('timed-overlay');
+        if (overlay) overlay.style.display = 'none';
+    },
+
+    retry() {
+        this.close();
+        this.start(this.prefix, this.trainer);
+    },
+
+    loadBest() {
+        try { this.best = JSON.parse(localStorage.getItem('timedChallenges') || '{}'); } catch (e) { this.best = {}; }
+    },
+
+    saveBest() {
+        this.loadBest();
+        const k = this.prefix;
+        const prev = this.best[k];
+        if (!prev || this.score > prev.score || (this.score === prev.score && this.total < prev.total)) {
+            this.best[k] = { score: this.score, total: this.total, ts: Date.now() };
+        }
+        localStorage.setItem('timedChallenges', JSON.stringify(this.best));
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
+    }
+};
+
 // -- Trainer Score Persistence --------------------------------------------
 function saveTrainerStats(prefix, trainer) {
     try {
@@ -250,6 +399,10 @@ function saveTrainerStats(prefix, trainer) {
         localStorage.setItem('trainerStats', JSON.stringify(all));
         updateDailyStreak();
         if (typeof Auth !== 'undefined') Auth.saveAndSync();
+        // Timed challenge hook
+        if (TIMED.active) TIMED.recordAnswer();
+        // Achievements hook
+        if (typeof ACHIEVEMENTS !== 'undefined') ACHIEVEMENTS.check();
     } catch (e) {}
 }
 function loadTrainerStats(prefix, trainer) {

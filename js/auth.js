@@ -101,6 +101,14 @@ const Auth = {
                     localStorage.setItem('dailyStreak', JSON.stringify(cloud.dailyStreak));
                     updateDailyStreakUI();
                 }
+                // Achievements
+                if (cloud.achievements) {
+                    localStorage.setItem('achievements', JSON.stringify(cloud.achievements));
+                }
+                // Timed challenges
+                if (cloud.timedChallenges) {
+                    localStorage.setItem('timedChallenges', JSON.stringify(cloud.timedChallenges));
+                }
                 // Custom background — only reload if bg is new
                 if (cloud.customBg && !localStorage.getItem('customBg')) {
                     localStorage.setItem('customBg', cloud.customBg);
@@ -137,6 +145,12 @@ const Auth = {
             // Daily streak
             const ds = localStorage.getItem('dailyStreak');
             if (ds) data.dailyStreak = JSON.parse(ds);
+            // Achievements
+            const ach = localStorage.getItem('achievements');
+            if (ach) data.achievements = JSON.parse(ach);
+            // Timed challenges
+            const tch = localStorage.getItem('timedChallenges');
+            if (tch) data.timedChallenges = JSON.parse(tch);
             // Custom background
             const bg = localStorage.getItem('customBg');
             if (bg) {

@@ -45,5 +45,7 @@ const FEEDBACK = {
         document.getElementById('fb-submit').textContent = 'Send Feedback';
         document.getElementById('fb-confirmation').classList.add('show');
         setTimeout(() => document.getElementById('fb-confirmation').classList.remove('show'), 3000);
+        localStorage.setItem('feedbackSent', '1');
+        if (typeof ACHIEVEMENTS !== 'undefined') ACHIEVEMENTS.check();
     }
 };

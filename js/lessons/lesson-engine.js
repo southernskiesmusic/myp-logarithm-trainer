@@ -179,13 +179,26 @@ const LessonEngine = {
         const mf = document.getElementById('lesson-mf');
         if (!mf) return;
         const raw = mf.value || '';
-        const parsed = parseLatex(raw);
-        if (parsed === null || raw.trim() === '') return;
+        if (raw.trim() === '') return;
+
+        const q = this.practiceQ;
+        let correct = false;
+
+        // Delegate to EXPR's custom checkers for factorisation types
+        if (q.type === 'factor' && typeof EXPR !== 'undefined') {
+            correct = EXPR.checkFactorisation(raw, q.factors);
+        } else if (q.type === 'factorDiff' && typeof EXPR !== 'undefined') {
+            correct = EXPR.checkDiffSquares(raw, q.factorNum);
+        } else if (q.type === 'factorCommon' && typeof EXPR !== 'undefined') {
+            correct = EXPR.checkCommonFactor(raw, q.commonFactor, q.coeffA, q.coeffB);
+        } else {
+            const parsed = parseLatex(raw);
+            if (parsed === null) return;
+            correct = (Math.abs(parsed - q.answer) < 0.01);
+        }
 
         this.practiceAnswered = true;
         this.practiceTotal++;
-        const q = this.practiceQ;
-        const correct = (Math.abs(parsed - q.answer) < 0.01);
         if (correct) this.practiceCorrect++;
 
         this.showPracticeFeedback(correct, q);
@@ -214,6 +227,7 @@ const LessonEngine = {
             };
             localStorage.setItem('lessonProgress', JSON.stringify(lp));
             if (typeof Auth !== 'undefined') Auth.saveAndSync();
+            if (typeof ACHIEVEMENTS !== 'undefined') ACHIEVEMENTS.check();
         } catch (e) {}
     },
 
