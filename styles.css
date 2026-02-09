@@ -436,16 +436,21 @@ details.workout-section .copy-calc-btn { margin-bottom: 8px; }
     .dash-row { grid-template-columns: 90px 1fr 50px 36px; }
 }
 
-/* ---- Feedback ---- */
-.fb-form { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; }
-.fb-form label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
-.fb-form select, .fb-form textarea { width: 100%; border: 2px solid #e0e0e0; border-radius: 10px; padding: 10px 14px; font-size: 0.95rem; font-family: inherit; margin-bottom: 16px; transition: border-color 0.2s; }
-.fb-form select:focus, .fb-form textarea:focus { border-color: var(--primary); outline: none; }
-.fb-form textarea { min-height: 120px; resize: vertical; }
-.fb-confirmation { background: var(--success-light); color: var(--success); border-radius: 10px; padding: 12px 20px; text-align: center; font-weight: 600; margin-top: 12px; display: none; }
+/* ---- Floating Feedback Widget ---- */
+.fb-float-btn { position: fixed; bottom: 24px; right: 24px; z-index: 900; width: 50px; height: 50px; border-radius: 50%; border: none; background: var(--primary); color: #fff; font-size: 1.4rem; cursor: pointer; box-shadow: 0 4px 16px rgba(67,97,238,0.35); transition: transform 0.2s, box-shadow 0.2s; display: flex; align-items: center; justify-content: center; }
+.fb-float-btn:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(67,97,238,0.45); }
+.fb-float-btn.hidden { display: none; }
+.fb-float-panel { position: fixed; bottom: 84px; right: 24px; z-index: 901; width: 300px; background: var(--card); border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); display: none; overflow: hidden; }
+.fb-float-panel.show { display: block; }
+.fb-float-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--primary); color: #fff; font-weight: 700; font-size: 0.95rem; }
+.fb-float-close { background: none; border: none; color: #fff; font-size: 1.3rem; cursor: pointer; padding: 0; line-height: 1; }
+.fb-float-body { padding: 16px; }
+.fb-float-body select, .fb-float-body textarea { width: 100%; border: 2px solid #e0e0e0; border-radius: 10px; padding: 8px 12px; font-size: 0.9rem; font-family: inherit; margin-bottom: 12px; transition: border-color 0.2s; }
+.fb-float-body select:focus, .fb-float-body textarea:focus { border-color: var(--primary); outline: none; }
+.fb-float-body textarea { min-height: 80px; resize: vertical; }
+.fb-confirmation { background: var(--success-light); color: var(--success); border-radius: 10px; padding: 10px 16px; text-align: center; font-weight: 600; margin-top: 8px; display: none; font-size: 0.85rem; }
 .fb-confirmation.show { display: block; }
 .topic-tag.dash { background: #eef0ff; color: var(--primary); }
-.topic-tag.fb { background: #fff3e0; color: #e65100; }
 
 /* ---- Settings ---- */
 .settings-dropdown { display: none; background: var(--card); border-radius: 12px; box-shadow: var(--shadow); padding: 14px 18px; margin-top: 10px; text-align: left; }
@@ -468,5 +473,6 @@ body.has-bg .dash-topic,
 body.has-bg .dash-stat,
 body.has-bg .fb-form,
 body.has-bg .settings-dropdown,
-body.has-bg .calc-modal { background: rgba(255,255,255,0.35); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+body.has-bg .calc-modal,
+body.has-bg .fb-float-panel { background: rgba(255,255,255,0.35); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 body.has-bg .hub-header { background: rgba(255,255,255,0.25); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }

@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'crit-number') { showView('crit-number'); NUMSUM.reset(); NUMSUM.load(); }
             else if (topic === 'crit-dots') { showView('crit-dots'); DOTS.reset(); DOTS.load(); }
             else if (topic === 'dashboard') { showView('dashboard'); DASHBOARD.render(); }
-            else if (topic === 'feedback') { showView('feedback'); }
         });
     });
 
@@ -568,7 +567,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.getElementById('dots-next').addEventListener('click', () => DOTS.load());
 
-    // Feedback submit
+    // Floating feedback widget
+    const fbBtn = document.getElementById('fb-float-btn');
+    const fbPanel = document.getElementById('fb-float-panel');
+    fbBtn.addEventListener('click', () => { fbPanel.classList.toggle('show'); fbBtn.classList.toggle('hidden'); });
+    document.getElementById('fb-float-close').addEventListener('click', () => { fbPanel.classList.remove('show'); fbBtn.classList.remove('hidden'); });
     document.getElementById('fb-submit').addEventListener('click', () => FEEDBACK.submit());
 
     // ==================== SETTINGS (custom background) ====================

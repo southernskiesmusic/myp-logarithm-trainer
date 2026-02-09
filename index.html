@@ -78,11 +78,6 @@
             <p>View your stats across all topics and trainers.</p>
             <span class="topic-tag dash">Your Progress</span>
         </div>
-        <div class="topic-card" data-topic="feedback">
-            <h2>Feedback</h2>
-            <p>Report a bug, suggest a feature, or leave a comment.</p>
-            <span class="topic-tag fb">Send Feedback</span>
-        </div>
     </div>
 </div>
 
@@ -939,23 +934,21 @@
     <div id="dash-content"></div>
 </div>
 
-<!-- ==================== FEEDBACK VIEW ==================== -->
-<div id="view-feedback" class="view">
-    <button class="back-btn" data-back="hub">All Topics</button>
-    <header>
-        <h1>Feedback</h1>
-        <p>Help us improve the trainer</p>
-    </header>
-    <div class="fb-form">
-        <label for="fb-type">Type</label>
+<!-- ==================== FLOATING FEEDBACK WIDGET ==================== -->
+<button class="fb-float-btn" id="fb-float-btn" title="Send Feedback">&#128172;</button>
+<div class="fb-float-panel" id="fb-float-panel">
+    <div class="fb-float-header">
+        <span>Feedback</span>
+        <button class="fb-float-close" id="fb-float-close">&times;</button>
+    </div>
+    <div class="fb-float-body">
         <select id="fb-type">
             <option value="bug">Bug Report</option>
             <option value="feature">Feature Request</option>
             <option value="comment">General Comment</option>
         </select>
-        <label for="fb-message">Message</label>
         <textarea id="fb-message" placeholder="Describe the issue, idea, or comment..."></textarea>
-        <button class="btn btn-primary" id="fb-submit" style="width:100%">Send Feedback</button>
+        <button class="btn btn-primary" id="fb-submit" style="width:100%">Send</button>
         <div class="fb-confirmation" id="fb-confirmation">Thanks for your feedback!</div>
     </div>
 </div>
