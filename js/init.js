@@ -975,7 +975,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
         .catch(() => {
-            document.getElementById('last-updated').textContent = 'Last updated: recently';
+            const now = new Date();
+            const options = { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+            document.getElementById('last-updated').textContent = 'Last updated: ' + now.toLocaleDateString('en-AU', options);
         });
 
     // Auto-count hub card tags from folder contents
