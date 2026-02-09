@@ -28,6 +28,10 @@ body {
 .hub-header { text-align: center; margin-bottom: 32px; }
 .hub-header h1 { font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
 .hub-header p { color: var(--text-light); font-size: 0.95rem; }
+.auth-bar { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; }
+.auth-avatar { width: 28px; height: 28px; border-radius: 50%; vertical-align: middle; }
+.auth-name { font-size: 0.85rem; color: var(--text); font-weight: 600; vertical-align: middle; margin-left: 4px; }
+.btn-sm { padding: 6px 14px; font-size: 0.8rem; border-radius: 8px; }
 .last-updated { font-size: 0.8rem; color: var(--text-light); margin-top: 12px; opacity: 0.7; }
 
 .topic-grid {
@@ -406,3 +410,4 @@ details.workout-section .copy-calc-btn { margin-bottom: 8px; }
 .section-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); margin: 24px 0 12px; padding-left: 4px; }
 .topic-card.lesson-card { border-left: 4px solid var(--primary); }
 .topic-tag.lesson { background: var(--primary-light); color: var(--primary); }
+.topic-tag.lesson-done { background: var(--success-light); color: var(--success); font-weight: 700; }

@@ -41,6 +41,7 @@ const LA = {
             if(a.length>MAX_ATT) this.data.skills[sid].attempts=a.slice(0,MAX_ATT);
         }
         localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
     },
     resetData() { this.initData(); localStorage.removeItem(STORAGE_KEY); },
 

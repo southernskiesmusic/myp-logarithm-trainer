@@ -203,7 +203,30 @@ const LessonEngine = {
         document.getElementById('lesson-nav').innerHTML = this.navButtons('Continue', 'LessonEngine.advance()');
     },
 
+    markComplete() {
+        try {
+            const lp = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
+            lp[this.lesson.id] = {
+                completed: true,
+                score: this.practiceCorrect,
+                total: this.practiceTotal,
+                ts: Date.now()
+            };
+            localStorage.setItem('lessonProgress', JSON.stringify(lp));
+            if (typeof Auth !== 'undefined') Auth.saveAndSync();
+        } catch (e) {}
+    },
+
+    isComplete(lessonId) {
+        try {
+            const lp = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
+            return lp[lessonId] && lp[lessonId].completed;
+        } catch (e) { return false; }
+    },
+
     renderSummary(screen, content, nav) {
+        this.markComplete();
+
         let h = '<h3>' + screen.title + '</h3>';
         if (this.practiceTotal > 0) {
             h += '<div class="lesson-score">Practice score: <strong>' +

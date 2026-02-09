@@ -2,6 +2,7 @@
    INIT
    ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+    Auth.init();
     LR.init(); SE.init(); LA.init(); QA.init();
     FDP.init(); HCFLCM.init(); IDX.init(); SF.init(); SURD.init(); RATIO.init();
     EXPR.init(); LINEAR.init(); SEQ.init(); INEQ.init();
@@ -57,10 +58,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Update lesson card checkmarks
+    function updateLessonBadges() {
+        document.querySelectorAll('[data-lesson]').forEach(card => {
+            const id = card.dataset.lesson;
+            const lessonObj = LESSONS[id];
+            if (lessonObj && LessonEngine.isComplete(lessonObj.id)) {
+                if (!card.querySelector('.lesson-done')) {
+                    const badge = document.createElement('span');
+                    badge.className = 'topic-tag lesson-done';
+                    badge.textContent = 'Done';
+                    card.appendChild(badge);
+                }
+            }
+        });
+    }
+
     // Back buttons
     document.querySelectorAll('[data-back]').forEach(btn => {
-        btn.addEventListener('click', () => showView(btn.dataset.back || 'hub'));
+        btn.addEventListener('click', () => {
+            showView(btn.dataset.back || 'hub');
+            updateLessonBadges();
+        });
     });
+
+    // Initial badge check
+    updateLessonBadges();
 
     // Lesson back button
     document.getElementById('lesson-back-btn').addEventListener('click', () => {
