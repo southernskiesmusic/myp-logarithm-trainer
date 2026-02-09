@@ -41,16 +41,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Lesson cards
+    const LESSONS = {
+        'log-intro': LESSON_LOG_INTRO,
+        'log-rules-lesson': LESSON_LOG_RULES,
+        'log-natural': LESSON_LOG_NATURAL,
+        'log-expand': LESSON_LOG_EXPAND,
+        'log-equations': LESSON_LOG_EQUATIONS,
+        'indices': LESSON_INDICES,
+        'surds': LESSON_SURDS
+    };
     document.querySelectorAll('[data-lesson]').forEach(card => {
         card.addEventListener('click', () => {
-            const id = card.dataset.lesson;
-            if (id === 'log-intro') LessonEngine.start(LESSON_LOG_INTRO);
-            else if (id === 'log-rules-lesson') LessonEngine.start(LESSON_LOG_RULES);
-            else if (id === 'log-natural') LessonEngine.start(LESSON_LOG_NATURAL);
-            else if (id === 'log-expand') LessonEngine.start(LESSON_LOG_EXPAND);
-            else if (id === 'log-equations') LessonEngine.start(LESSON_LOG_EQUATIONS);
-            else if (id === 'indices') LessonEngine.start(LESSON_INDICES);
-            else if (id === 'surds') LessonEngine.start(LESSON_SURDS);
+            const lesson = LESSONS[card.dataset.lesson];
+            if (lesson) LessonEngine.start(lesson);
         });
     });
 
