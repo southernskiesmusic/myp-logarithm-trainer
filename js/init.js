@@ -978,5 +978,18 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('last-updated').textContent = 'Last updated: recently';
         });
 
+    // Auto-count hub card tags from folder contents
+    document.querySelectorAll('[data-auto-count]').forEach(tag => {
+        const folder = tag.dataset.autoCount;
+        const view = document.getElementById('view-' + folder);
+        if (!view) return;
+        const lessons = view.querySelectorAll('.lesson-card').length;
+        const activities = view.querySelectorAll('.topic-card[data-topic]').length;
+        const parts = [];
+        if (lessons) parts.push(lessons + (lessons === 1 ? ' lesson' : ' lessons'));
+        if (activities) parts.push(activities + (activities === 1 ? ' activity' : ' activities'));
+        tag.textContent = parts.join(' + ') || 'Coming soon';
+    });
+
     renderMath();
 });
