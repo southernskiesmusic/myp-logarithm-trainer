@@ -116,9 +116,21 @@ header p  { color: var(--text-light); font-size: 0.95rem; }
 }
 .option-btn {
     background: var(--card); border: 2px solid #e0e0e0; border-radius: 12px;
-    padding: 16px 8px; cursor: pointer; font-size: 1.05rem;
+    padding: 16px 8px 16px 40px; cursor: pointer; font-size: 1.05rem;
     transition: all 0.2s ease; font-family: inherit; line-height: 1.6;
+    position: relative; text-align: center;
 }
+.option-btn::before {
+    content: attr(data-i);
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 22px; height: 22px; border-radius: 6px;
+    background: #e8e8e8; color: #666; font-size: 0.75rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+}
+.option-btn[data-i="0"]::before { content: "1"; }
+.option-btn[data-i="1"]::before { content: "2"; }
+.option-btn[data-i="2"]::before { content: "3"; }
+.option-btn[data-i="3"]::before { content: "4"; }
 .option-btn:hover:not(:disabled) {
     border-color: var(--primary); background: var(--primary-light);
     transform: translateY(-2px);
