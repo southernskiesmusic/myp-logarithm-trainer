@@ -468,5 +468,5 @@ body.has-bg .dash-topic,
 body.has-bg .dash-stat,
 body.has-bg .fb-form,
 body.has-bg .settings-dropdown,
-body.has-bg .calc-modal { background: rgba(255,255,255,0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-body.has-bg .hub-header { background: rgba(255,255,255,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
+body.has-bg .calc-modal { background: rgba(255,255,255,0.35); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+body.has-bg .hub-header { background: rgba(255,255,255,0.25); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
