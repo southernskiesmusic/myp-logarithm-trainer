@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     FDP.init(); HCFLCM.init(); IDX.init(); SF.init(); SURD.init(); RATIO.init();
     EXPR.init(); LINEAR.init(); SEQ.init(); INEQ.init();
     LINF.init(); QUADF.init(); TRANS.init();
+    updateDailyStreakUI();
 
     // Topic cards (hub + folder) — skip lesson cards
     document.querySelectorAll('.topic-card[data-topic]').forEach(card => {

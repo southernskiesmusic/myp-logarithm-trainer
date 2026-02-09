@@ -248,6 +248,7 @@ function saveTrainerStats(prefix, trainer) {
             lastTs: Date.now()
         };
         localStorage.setItem('trainerStats', JSON.stringify(all));
+        updateDailyStreak();
         if (typeof Auth !== 'undefined') Auth.saveAndSync();
     } catch (e) {}
 }
@@ -260,6 +261,42 @@ function loadTrainerStats(prefix, trainer) {
 }
 function getAllTrainerStats() {
     try { return JSON.parse(localStorage.getItem('trainerStats') || '{}'); } catch (e) { return {}; }
+}
+
+// -- Daily Streak -------------------------------------------------------------
+function updateDailyStreak() {
+    try {
+        const today = new Date().toISOString().slice(0, 10);
+        const ds = JSON.parse(localStorage.getItem('dailyStreak') || '{}');
+        if (ds.lastDate === today) return; // already counted today
+        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        if (ds.lastDate === yesterday) {
+            ds.current = (ds.current || 0) + 1;
+        } else {
+            ds.current = 1;
+        }
+        ds.lastDate = today;
+        ds.best = Math.max(ds.current, ds.best || 0);
+        localStorage.setItem('dailyStreak', JSON.stringify(ds));
+        updateDailyStreakUI();
+    } catch (e) {}
+}
+function getDailyStreak() {
+    try {
+        const ds = JSON.parse(localStorage.getItem('dailyStreak') || '{}');
+        const today = new Date().toISOString().slice(0, 10);
+        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        if (ds.lastDate === today || ds.lastDate === yesterday) return ds;
+        return { current: 0, best: ds.best || 0, lastDate: ds.lastDate };
+    } catch (e) { return { current: 0, best: 0 }; }
+}
+function updateDailyStreakUI() {
+    const el = document.getElementById('daily-streak');
+    if (!el) return;
+    const ds = getDailyStreak();
+    el.textContent = ds.current || 0;
+    const bestEl = document.getElementById('daily-streak-best');
+    if (bestEl) bestEl.textContent = ds.best || 0;
 }
 
 // Number keys 1-4 highlight MC option, Enter confirms

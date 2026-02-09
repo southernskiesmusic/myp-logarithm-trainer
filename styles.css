@@ -33,6 +33,10 @@ body {
 .auth-avatar { width: 28px; height: 28px; border-radius: 50%; vertical-align: middle; }
 .auth-name { font-size: 0.85rem; color: var(--text); font-weight: 600; vertical-align: middle; margin-left: 4px; }
 .btn-sm { padding: 6px 14px; font-size: 0.8rem; border-radius: 8px; }
+.daily-streak-bar { display: flex; justify-content: center; gap: 24px; margin-top: 14px; }
+.daily-streak-item { display: flex; align-items: baseline; gap: 5px; }
+.daily-streak-val { font-size: 1.5rem; font-weight: 800; color: #ffc107; }
+.daily-streak-label { font-size: 0.78rem; color: var(--text-light); }
 .last-updated { font-size: 0.8rem; color: var(--text-light); margin-top: 12px; opacity: 0.7; }
 
 .topic-grid {

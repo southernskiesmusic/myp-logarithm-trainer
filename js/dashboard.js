@@ -55,12 +55,13 @@ const DASHBOARD = {
         });
 
         const accuracy = totalQ > 0 ? Math.round(totalCorrect / totalQ * 100) : 0;
+        const ds = getDailyStreak();
 
         let h = '<div class="dash-overview">';
+        h += this._statCard('Day Streak', ds.current || 0, '#ffc107');
         h += this._statCard('Questions', totalQ, 'var(--primary)');
         h += this._statCard('Accuracy', totalQ > 0 ? accuracy + '%' : '\u2014', 'var(--success)');
         h += this._statCard('Lessons', lessonsComplete + ' / ' + allLessonIds.length, 'var(--primary)');
-        h += this._statCard('Best Streak', bestStreak, '#ffc107');
         h += '</div>';
 
         this.topics.forEach(t => {

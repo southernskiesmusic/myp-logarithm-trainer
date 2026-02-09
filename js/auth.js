@@ -96,6 +96,11 @@ const Auth = {
                 if (cloud.trainerStats) {
                     localStorage.setItem('trainerStats', JSON.stringify(cloud.trainerStats));
                 }
+                // Daily streak
+                if (cloud.dailyStreak) {
+                    localStorage.setItem('dailyStreak', JSON.stringify(cloud.dailyStreak));
+                    updateDailyStreakUI();
+                }
                 // Custom background — only reload if bg is new
                 if (cloud.customBg && !localStorage.getItem('customBg')) {
                     localStorage.setItem('customBg', cloud.customBg);
@@ -129,6 +134,9 @@ const Auth = {
             // Trainer stats
             const ts = localStorage.getItem('trainerStats');
             if (ts) data.trainerStats = JSON.parse(ts);
+            // Daily streak
+            const ds = localStorage.getItem('dailyStreak');
+            if (ds) data.dailyStreak = JSON.parse(ds);
             // Custom background
             const bg = localStorage.getItem('customBg');
             if (bg) {
