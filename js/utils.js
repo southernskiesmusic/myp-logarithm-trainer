@@ -24,15 +24,23 @@ function renderMath() {
 }
 
 function parseLatex(raw) {
-    let s = raw.replace(/\\left|\\right|\\,|\\:|\\;|\\!/g, '').replace(/\s+/g, '');
-    s = s.replace(/^−/, '-');
-    const fm = s.match(/\\frac\{(-?[\d.]+)\}\{(-?[\d.]+)\}/);
-    if (fm) return parseFloat(fm[1]) / parseFloat(fm[2]);
-    const dm = s.match(/\\dfrac\{(-?[\d.]+)\}\{(-?[\d.]+)\}/);
-    if (dm) return parseFloat(dm[1]) / parseFloat(dm[2]);
+    console.log('[parseLatex] raw:', JSON.stringify(raw));
+    // Strip MathLive formatting, spacing commands
+    let s = raw.replace(/\\left|\\right|\\,|\\:|\\;|\\!|\\placeholder\{[^}]*\}/g, '').replace(/\s+/g, '');
+    s = s.replace(/−/g, '-');
+    console.log('[parseLatex] cleaned:', JSON.stringify(s));
+    // \frac or \dfrac or \tfrac (single or multi char numerator/denominator)
+    const fm = s.match(/\\[dt]?frac\{(-?[\d.]+)\}\{(-?[\d.]+)\}/);
+    if (fm) { console.log('[parseLatex] frac match:', fm[1], '/', fm[2]); return parseFloat(fm[1]) / parseFloat(fm[2]); }
+    // \over style: 1\over 3
+    const ov = s.match(/^(-?[\d.]+)\\over(-?[\d.]+)$/);
+    if (ov) return parseFloat(ov[1]) / parseFloat(ov[2]);
+    // Slash division: 1/3
     const dv = s.match(/^(-?[\d.]+)\/(-?[\d.]+)$/);
     if (dv) return parseFloat(dv[1]) / parseFloat(dv[2]);
-    return parseFloat(s);
+    const val = parseFloat(s);
+    console.log('[parseLatex] parseFloat result:', val, 'from', JSON.stringify(s));
+    return val;
 }
 
 // -- Copy Calculator to Workings -----------------------------------------
