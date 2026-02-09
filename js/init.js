@@ -652,6 +652,7 @@ document.addEventListener('DOMContentLoaded', () => {
             bgClear.style.display = '';
             document.body.classList.add('has-bg');
             applyAccentColor();
+            updateCardStyle(Math.round(opacity * 100));
         } else {
             bgOverlay.style.backgroundImage = '';
             bgClear.style.display = 'none';
@@ -700,11 +701,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof Auth !== 'undefined') Auth.saveAndSync();
     });
 
+    function updateCardStyle(v) {
+        const t = v / 100; // 0–1
+        // Cards get more opaque as bg gets more visible
+        const cardAlpha = 0.65 + 0.3 * t; // 0.65 → 0.95
+        const blurPx = 8 + 12 * t; // 8px → 20px
+        document.documentElement.style.setProperty('--bg-card-alpha', cardAlpha);
+        document.documentElement.style.setProperty('--bg-blur', blurPx + 'px');
+        // Text gets darker/bolder at high opacity
+        const textDark = Math.round(20 - 10 * t); // rgb ~20 → ~10
+        document.documentElement.style.setProperty('--bg-text', 'rgb(' + textDark + ',' + textDark + ',' + (textDark + 8) + ')');
+        document.documentElement.style.setProperty('--bg-text-weight', t > 0.4 ? '700' : '600');
+    }
+
     bgOpacity.addEventListener('input', () => {
         const v = bgOpacity.value;
         bgOpacityVal.textContent = v + '%';
         bgOverlay.style.opacity = v / 100;
         localStorage.setItem('customBgOpacity', v);
+        updateCardStyle(parseInt(v));
     });
 
     // Calculator setup with Desmos Graphing Calculator API (supports getExpressions)

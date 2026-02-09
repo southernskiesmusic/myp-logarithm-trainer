@@ -460,7 +460,7 @@ details.workout-section .copy-calc-btn { margin-bottom: 8px; }
 #bg-opacity { accent-color: var(--primary); }
 .bg-overlay { position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center; background-attachment: fixed; pointer-events: none; }
 
-/* When custom bg is active, make cards translucent */
+/* When custom bg is active, make cards translucent — values driven by JS vars */
 body.has-bg .topic-card,
 body.has-bg .question-card,
 body.has-bg .score-bar,
@@ -474,5 +474,10 @@ body.has-bg .dash-stat,
 body.has-bg .fb-float-body,
 body.has-bg .settings-dropdown,
 body.has-bg .calc-modal,
-body.has-bg .fb-float-panel { background: rgba(255,255,255,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-body.has-bg .hub-header { background: rgba(255,255,255,0.82); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
+body.has-bg .fb-float-panel { background: rgba(255,255,255,var(--bg-card-alpha,0.85)); backdrop-filter: blur(var(--bg-blur,16px)); -webkit-backdrop-filter: blur(var(--bg-blur,16px)); }
+body.has-bg .hub-header { background: rgba(255,255,255,calc(var(--bg-card-alpha,0.85) - 0.05)); backdrop-filter: blur(var(--bg-blur,16px)); -webkit-backdrop-filter: blur(var(--bg-blur,16px)); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
+body.has-bg .topic-card h2,
+body.has-bg .hub-header h1,
+body.has-bg header h1 { color: var(--bg-text, var(--primary)); font-weight: var(--bg-text-weight, 700); }
+body.has-bg .topic-card p,
+body.has-bg .hub-header p { color: var(--bg-text, var(--text-light)); }
