@@ -742,8 +742,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 trace: false,
                 border: false,
                 lockViewport: true,
-                xAxisNumbers: false,
-                yAxisNumbers: false,
+                xAxisNumbers: true,
+                yAxisNumbers: true,
                 showGrid: false
             });
         }
