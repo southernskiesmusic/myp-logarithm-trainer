@@ -25,13 +25,27 @@ function renderMath() {
 
 function parseLatex(raw) {
     console.log('[parseLatex] raw:', JSON.stringify(raw));
-    // Strip MathLive formatting, spacing commands
-    let s = raw.replace(/\\left|\\right|\\,|\\:|\\;|\\!|\\placeholder\{[^}]*\}/g, '').replace(/\s+/g, '');
+    // Strip MathLive formatting, spacing/display commands
+    let s = raw.replace(/\\left|\\right|\\,|\\:|\\;|\\!|\\displaystyle|\\textstyle|\\placeholder\{[^}]*\}/g, '').replace(/\s+/g, '');
     s = s.replace(/−/g, '-');
+    // Strip wrapping braces if they surround the entire expression
+    if (/^\{.+\}$/.test(s)) {
+        let depth = 0, outerOnly = true;
+        for (let i = 0; i < s.length; i++) {
+            if (s[i] === '{') depth++;
+            else if (s[i] === '}') depth--;
+            if (depth === 0 && i < s.length - 1) { outerOnly = false; break; }
+        }
+        if (outerOnly) s = s.slice(1, -1);
+    }
     console.log('[parseLatex] cleaned:', JSON.stringify(s));
-    // \frac or \dfrac or \tfrac (single or multi char numerator/denominator)
-    const fm = s.match(/\\[dt]?frac\{(-?[\d.]+)\}\{(-?[\d.]+)\}/);
-    if (fm) { console.log('[parseLatex] frac match:', fm[1], '/', fm[2]); return parseFloat(fm[1]) / parseFloat(fm[2]); }
+    // \frac, \dfrac, \tfrac, \cfrac (with optional leading negative)
+    const fm = s.match(/(-?)\\[cdt]?frac\{(-?[\d.]+)\}\{(-?[\d.]+)\}/);
+    if (fm) {
+        const sign = fm[1] === '-' ? -1 : 1;
+        console.log('[parseLatex] frac match:', fm[2], '/', fm[3], 'sign:', sign);
+        return sign * parseFloat(fm[2]) / parseFloat(fm[3]);
+    }
     // \over style: 1\over 3
     const ov = s.match(/^(-?[\d.]+)\\over(-?[\d.]+)$/);
     if (ov) return parseFloat(ov[1]) / parseFloat(ov[2]);
