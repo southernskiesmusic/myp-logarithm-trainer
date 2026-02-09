@@ -235,7 +235,8 @@ function primeFactors(n) {
     return f.join(' \\times ');
 }
 
-// Number keys 1-4 click MC option buttons
+// Number keys 1-4 highlight MC option, Enter confirms
+let _selectedMC = null;
 document.addEventListener('keydown', e => {
     if (document.activeElement && (document.activeElement.tagName === 'MATH-FIELD' ||
         document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA' ||
@@ -243,6 +244,16 @@ document.addEventListener('keydown', e => {
     const k = parseInt(e.key);
     if (k >= 1 && k <= 4) {
         const btn = document.querySelector('.option-btn[data-i="' + (k - 1) + '"]:not(:disabled)');
-        if (btn) { e.preventDefault(); btn.click(); }
+        if (btn) {
+            e.preventDefault();
+            document.querySelectorAll('.option-btn.selected').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            _selectedMC = btn;
+        }
+    } else if (e.key === 'Enter' && _selectedMC && document.body.contains(_selectedMC) && !_selectedMC.disabled) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        _selectedMC.click();
+        _selectedMC = null;
     }
 });

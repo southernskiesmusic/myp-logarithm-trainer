@@ -139,6 +139,10 @@ header p  { color: var(--text-light); font-size: 0.95rem; }
     border-color: var(--primary); background: var(--primary-light);
     transform: translateY(-2px);
 }
+.option-btn.selected:not(:disabled) {
+    border-color: var(--primary); background: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+}
 .option-btn.correct { border-color: var(--success); background: var(--success-light); }
 .option-btn.incorrect { border-color: var(--error); background: var(--error-light); }
 .option-btn:disabled { cursor: default; opacity: 0.7; }
