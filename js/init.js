@@ -629,7 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = dataUrl;
     }
 
-    function applyAccentColor() {
+    window.applyAccentColor = function() {
         const color = localStorage.getItem('customBgColor');
         if (color) {
             document.documentElement.style.setProperty('--primary', color);
@@ -643,7 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Apply saved background on load
-    function applyBg() {
+    window.applyBg = function() {
         const data = localStorage.getItem('customBg');
         const opacity = parseInt(localStorage.getItem('customBgOpacity') || '15') / 100;
         if (data) {
@@ -682,6 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 extractColor(dataUrl, (color) => {
                     localStorage.setItem('customBgColor', color);
                     applyAccentColor();
+                    if (typeof Auth !== 'undefined') Auth.saveAndSync();
                 });
                 applyBg();
             } catch (e) {
@@ -696,6 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('customBg');
         localStorage.removeItem('customBgColor');
         applyBg();
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
     });
 
     bgOpacity.addEventListener('input', () => {

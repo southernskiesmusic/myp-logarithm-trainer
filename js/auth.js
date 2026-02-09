@@ -40,7 +40,11 @@ const Auth = {
 
     signOut() {
         if (!this.db) return;
-        firebase.auth().signOut();
+        // Clear personal bg before reload
+        localStorage.removeItem('customBg');
+        localStorage.removeItem('customBgColor');
+        localStorage.removeItem('customBgOpacity');
+        firebase.auth().signOut().then(() => location.reload());
     },
 
     // ── UI ──────────────────────────────────────────────────────
@@ -90,6 +94,15 @@ const Auth = {
                 if (cloud.trainerStats) {
                     localStorage.setItem('trainerStats', JSON.stringify(cloud.trainerStats));
                 }
+                // Custom background
+                if (cloud.customBg) {
+                    localStorage.setItem('customBg', cloud.customBg);
+                    if (cloud.customBgColor) localStorage.setItem('customBgColor', cloud.customBgColor);
+                    if (cloud.customBgOpacity) localStorage.setItem('customBgOpacity', cloud.customBgOpacity);
+                    // Re-apply background after restoring
+                    if (typeof applyBg === 'function') applyBg();
+                    else location.reload();
+                }
                 console.log('Synced from cloud');
             } else {
                 // First sign-in: push local data up
@@ -115,6 +128,20 @@ const Auth = {
             // Trainer stats
             const ts = localStorage.getItem('trainerStats');
             if (ts) data.trainerStats = JSON.parse(ts);
+            // Custom background
+            const bg = localStorage.getItem('customBg');
+            if (bg) {
+                data.customBg = bg;
+                const bgc = localStorage.getItem('customBgColor');
+                if (bgc) data.customBgColor = bgc;
+                const bgo = localStorage.getItem('customBgOpacity');
+                if (bgo) data.customBgOpacity = bgo;
+            } else {
+                // Clear from cloud if removed locally
+                data.customBg = firebase.firestore.FieldValue.delete();
+                data.customBgColor = firebase.firestore.FieldValue.delete();
+                data.customBgOpacity = firebase.firestore.FieldValue.delete();
+            }
 
             data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
             await ref.set(data, { merge: true });
