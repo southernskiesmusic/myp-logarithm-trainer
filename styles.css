@@ -40,7 +40,10 @@ body {
 .last-updated { font-size: 0.8rem; color: var(--text-light); margin-top: 12px; opacity: 0.7; }
 
 .topic-grid {
-    display: grid; grid-template-columns: 1fr; gap: 16px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+}
+@media (max-width: 600px) {
+    .topic-grid { grid-template-columns: 1fr; }
 }
 .topic-card {
     background: var(--card); border-radius: var(--radius);
@@ -418,7 +421,7 @@ details.workout-section .copy-calc-btn { margin-bottom: 8px; }
 .lesson-btn-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .lesson-score { text-align: center; font-size: 1.1rem; margin: 16px 0; }
 .lesson-score strong { color: var(--primary); }
-.section-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); margin: 24px 0 12px; padding-left: 4px; }
+.section-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); margin: 24px 0 12px; padding-left: 4px; grid-column: 1 / -1; }
 .topic-card.lesson-card { border-left: 4px solid var(--primary); }
 .topic-tag.lesson { background: var(--primary-light); color: var(--primary); }
 .topic-tag.lesson-done { background: var(--success-light); color: var(--success); font-weight: 700; }
